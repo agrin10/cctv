@@ -17,3 +17,5 @@ def create_app():
 
 app = create_app()
 
+# from .cctv import models
+from src.cctv import models
