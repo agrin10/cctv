@@ -9,30 +9,33 @@ from src import app
 
 
 
-@app.route('/register' , methods=['POST' , 'GET'])
-def registration():
+@app.route('/register-api' , methods=['POST'])
+def register_api():
     if request.method == 'POST':
         if request.is_json:
-            username = request.form['username']
-            password = request.form['password']
+            data = request.get_json()
+            username = data.get('username')
+            password = data.get('password')
             existing_user = Users.query.filter_by(username=username)
             if existing_user == username:
                 return jsonify(message="user already exist")
-                
+            if not password:
+                return jsonify(message="empty password")
         
             new_user = Users(username= username)
             new_user.set_password(password)
             db.session.add(new_user)
             db.session.commit()
-            db.session.rollback()
             return jsonify(message="registeration successfuly. please log in ")
-        return render_template('register.html')
-@app.route('/login' , methods=['POST' , 'GET'])
-def log_in():
+    return jsonify(message="invalid request")
+
+@app.route('/login-api' , methods=['POST'])
+def login_api():
     if request.method == 'POST':
         if request.is_json:
-            Username = request.form['username']
-            password = request.form['password']
+            data = request.get_json()
+            Username = data.get('username')
+            password = data.get('password')
 
             user = Users.query.filter_by(username = Username).first()
             if user is None:
@@ -45,7 +48,7 @@ def log_in():
             else: 
                 return jsonify(message='invaild password and username')
             
-    return render_template('login.html')
+    return jsonify(message="invalid request")
 
 
 

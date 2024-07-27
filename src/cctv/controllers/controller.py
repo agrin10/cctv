@@ -26,24 +26,23 @@ def registeration():
         db.session.rollback()
         flash('Registration successful. Please log in.')
         return redirect(url_for('index'))
-
-
 def log_in():
     if request.method == 'POST':
-        Username = request.form['username']
+        username = request.form['username']
         password = request.form['password']
 
-        user = Users.query.filter_by(username = Username).first()
+        user = Users.query.filter_by(username=username).first()
         if user is None:
             flash('Username does not exist')
-
-        if user and user.check_password(password):
+        elif user.check_password(password):
             login_user(user)
-            flash('loged in successfuly')
+            flash('Logged in successfully')
             return redirect(url_for('index'))
-        else: 
-            flash('invaild password and username')
-        
+        else:
+            flash('Invalid password')
+
+
+    return render_template('login.html')
 
 
 def logedout():

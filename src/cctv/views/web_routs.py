@@ -6,7 +6,6 @@ from src.cctv.controllers.controller import registeration , log_in , logedout
 
 @app.route('/register' , methods=['POST' , 'GET'])
 def register():
-
     if request.method == 'POST':
         return registeration()
     else:
@@ -19,7 +18,9 @@ def login():
         return log_in()
     return render_template('login.html')
 
-
+@app.route('/logout')
+def logout():
+    return logedout()
 
 
 
