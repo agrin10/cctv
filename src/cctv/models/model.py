@@ -11,9 +11,8 @@ class Users(UserMixin, db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.String(225), primary_key=True, nullable=False, unique=True, default=lambda: str(uuid.uuid4()))
-
+    username = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(150), nullable=False)
-    email = db.Column(db.String(150), unique=True, nullable=True)
 
     def __repr__(self) -> str:
         return f"User(id={self.id}, username={self.username})"

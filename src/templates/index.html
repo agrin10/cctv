@@ -4,13 +4,13 @@
 
     <div class="links">
         <a href="{{url_for('register')}}" class="header-links">register</a>
-        <a href="#" class="header-links">login</a>
+        <a href="{{url_for('login')}}" class="header-links">login </a>
+        
 
     </div>
     
     <div class="main">
         <h1>Welcome to your dashboard, {{ current_user.username }}!</h1>
-        <a href="#">Logout</a>
     </div>
 </div>
 

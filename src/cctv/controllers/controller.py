@@ -14,10 +14,10 @@ def registeration():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        existing_user = Users.query.filter_by(username=username)
+        existing_user = Users.query.filter_by(username=username).first()
         if existing_user:
             flash('Username already exists')
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
     
         new_user = Users(username= username)
         new_user.set_password(password)
@@ -27,7 +27,31 @@ def registeration():
         flash('Registration successful. Please log in.')
         return redirect(url_for('index'))
 
-    return render_template('register.html')
+
+def log_in():
+    if request.method == 'POST':
+        Username = request.form['username']
+        password = request.form['password']
+
+        user = Users.query.filter_by(username = Username).first()
+        if user is None:
+            flash('Username does not exist')
+
+        if user and user.check_password(password):
+            login_user(user)
+            flash('loged in successfuly')
+            return redirect(url_for('index'))
+        else: 
+            flash('invaild password and username')
+        
+
+
+def logedout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+
 
 
 

@@ -20,3 +20,4 @@ def create_app():
 app = create_app()
 
 from src.cctv import models
+from src.cctv import views
