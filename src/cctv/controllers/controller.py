@@ -14,6 +14,7 @@ def registeration():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        email = request.form['email']
         existing_user = Users.query.filter_by(username=username).first()
         if existing_user:
             flash('Username already exists')
