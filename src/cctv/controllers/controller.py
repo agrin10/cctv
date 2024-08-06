@@ -12,16 +12,25 @@ def load_user(user_id):
 def handle_registration(username , password , email):
     
     existing_user = Users.query.filter_by(username = username).first()
+    existing_email = Users.query.filter_by(email = email).first()
     if existing_user:
         return False , 'username already exists' 
     if password is None:
         return False , 'password is required' 
+    if existing_email:
+        return False , 'email already exists'
+    if len(password) > 8 :
+        return False , 'Password must be at least 8 characters long'
+    
     new_user = Users(username = username , email = email)
     new_user.set_password(password)
-
-    db.session.add(new_user)
-    db.session.commit()
-    return True , 'registration successful, please login'         
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+        return True , 'registration successful, please login'
+    except Exception as e:
+            db.session.rollback()
+            return False, f'An error occurred: {str(e)}'         
         
 
 def handle_login(username , password):
