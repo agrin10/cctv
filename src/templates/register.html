@@ -1,30 +1,43 @@
-{% extends "base.html" %}
-{% block title %}login{% endblock title %}
-{% block content %}
-<div class="login_container">
+{% extends "base.html" %} {% block title %}ثبت نام{% endblock title %} {% block
+  content %}
+  <div class="login_container">
     <div class="logo_container">
-        <img src="{{url_for('static' , filename = 'images/netixlogo.png')}}" alt="Logo">
+      
     </div>
     <div class="form_container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                            {{ message }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
-        <form action="{{url_for('register')}}" method="post">
-            <input type="text" name="username" id="username" />
-            <label for="password">رمز عبور</label>
-            <input type="password" name="password" id="password"/>
-            <button type="submit">ثبت نام</button>
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="alert alert-{{ category }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="close"
+          data-dismiss="alert"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+  
+      <div class="login wrap">
+        <div class="h1">ثبت نام</div>
+        <form action="{{ url_for('register') }}" method="post">
+            
+            <input placeholder="نام کاربری" id="username" name="username" type="text" required>
+            <input placeholder="رمز عبور" id="password" name="password" type="password" required>
+            <input placeholder="ایمیل" id="email" name="email" type="email" required>
+    
+            <input value="ثبت نام" class="btn" type="submit">
         </form>
+        <div class="already-account">
+            <span>اکانت دارید؟<a href="{{ url_for('login') }}"> ورود</a></span>
+        </div>
     </div>
-</div>
-
-{% endblock %}
+    
+  </div>
+  
+  {% endblock %}

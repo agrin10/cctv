@@ -3,9 +3,11 @@ from flask_bcrypt import Bcrypt
 import uuid
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash , generate_password_hash
-
+import datetime
 
 bcrypt = Bcrypt()
+
+
 
 class Users(UserMixin, db.Model):
     __tablename__ = "users"
@@ -16,7 +18,7 @@ class Users(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
 
     def __repr__(self) -> str:
-        return f"User(id={self.id}, username={self.username})"
+        return f"User(id={self.user_id}, username={self.username})"
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
@@ -26,3 +28,6 @@ class Users(UserMixin, db.Model):
     
     def get_id(self):
         return self.user_id
+
+
+

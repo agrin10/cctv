@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}login{% endblock title %}
+{% block title %}ورود{% endblock title %}
 {% block content %}
 <div class="login_container">
-    <div class="logo_container">
-        <img src="{{url_for('static' , filename = 'images/netixlogo.png')}}" alt="Logo">
+    <div class='img-container'>
+
     </div>
     <div class="form_container">
         {% with messages = get_flashed_messages(with_categories=true) %}
@@ -18,13 +18,17 @@
                     {% endfor %}
                 {% endif %}
             {% endwith %}
-        <form action="{{url_for('login')}}" method="post">
-            <label for="username">نام کاربری</label>
-            <input type="text" name="username" id="username"/>
-            <label for="password">رمز عبور</label>
-            <input type="password" name="password" id="password"/>
-            <button type="submit">ورود</button>
-        </form>
+            <div class="login wrap">
+                <div class="h1">ورود</div>
+                <form action="{{url_for('login')}}" method="post">
+                    <input  placeholder="نام کاربری" id="username" name="username" type="text">
+                    <input placeholder="رمز عبور" id="password" name="password" type="password">
+                    <input value="Login" class="btn" type="submit">
+                </form>
+                 <div class="already-account">
+                        <span>اکانت ندارید؟<a href="{{url_for('register')}}"> ثبت نام</a></span>
+                </div>
     </div>
+          
 </div>
 {% endblock content %}
