@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-zone">
+    <div class="main-zone-list">
+        <h1>لیست مناطق </h1>
+        <div class="zone-list-container">
+            {%if error%}
+            <p>error : {{error}}</p>
+            {% else %} 
+
+            {% for zone in zones %}
+            <div class="single-zone-container">
+                <div class="zone-image-container">
+                    <img src="#" alt="zone Image"> <!-- Placeholder Image -->
+                </div>
+                <div class="single-zone-list">
+                    <div class="single-zone">
+                        <p>نام منطقه:    {{zone.zone_name}}</p>
+                    </div>
+                    <div class="single-zone">
+                        <p> توضیحات:    {{zone.zone_desc}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <div class='add-zone'><a href="{{url_for('add_zone')}}"><button class='btn'>افزودن منطقه</button></div></a>
+            
+        </div>
+
+    </div>
+    {% endif %}
+
+
+{% endblock content %}

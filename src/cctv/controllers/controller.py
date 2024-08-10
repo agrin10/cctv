@@ -1,6 +1,4 @@
-from flask import render_template, request, redirect, url_for, flash , jsonify
-from src.cctv.models.model import Users, db
-from flask_login import login_user , logout_user , login_required , current_user
+from src.cctv.models.model import Users, db , Zone
 from src import login_manager
 
 @login_manager.user_loader
@@ -42,10 +40,25 @@ def handle_login(username , password):
     return user,  False,'invalid password' 
 
 
+
+def handle_add_zone(zone_name , zone_desc):
+    existing_zone = Zone.query.filter_by(zone_name = zone_name).first()
+    if existing_zone:
+        return False , "entered location already exists"
+    new_zone = Zone(zone_name = zone_name , zone_desc = zone_desc)
+    db.session.add(new_zone)
+    db.session.commit()
+    return True , 'zone added successfully'
+
     
-
-
-
-
-
-
+def handle_retrieves_zone():
+    try:
+        zones = Zone.query.all()
+        zone_list = []
+        for zone in zones:
+            zone_list.append(zone.toDict())
+        return zone_list
+    except Exception as e:
+        db.session.rollback()
+        return False, f'An error occurred: {str(e)}'
+    
