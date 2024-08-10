@@ -32,3 +32,24 @@ def login():
             flash(message=message)  
             return redirect(url_for('register')) 
     return render_template('login.html')
+
+@app.route('/camera-list' , methods=['POST' , 'GET'])
+def camera_list():
+    return render_template('list-cam.html')
+
+
+@app.route('/add-camera' , methods=['POST' , 'GET'])
+def add_camera():
+    return render_template('add-cam.html')
+
+
+
+@app.route('/zone-list' , methods=['POST' , 'GET'])
+def zone_list():
+    return render_template('zone-list.html')
+
+
+@app.route('/add-zone' , methods=['POST' , 'GET'])
+def add_zone():
+    return render_template('add-zone.html')
+

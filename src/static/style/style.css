@@ -10,7 +10,7 @@
 
 @font-face {
   font-family: "vazir";
-  src: url("../fonts/Vazir.woff") format("woff");
+  src: url("./assets/fonts/Vazir.woff") format("woff");
 }
 
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
@@ -18,17 +18,25 @@
 :root {
   /* theme */
   --clr-main-dark: #161616;
-  --clr-sec-dark: #575757;
+  --clr-sec-dark: #777777;
   --clr-main-light: #f5f3f3;
   --clr-sec-light: #cefdd3;
 
-  --clr-lightGray: #a4a4a4;
+  --clr-lightGray: #c2c1c1;
   /* text */
   --clr-font-dark: #000;
   --clr-font-light: #fff;
   /* font */
   --font-family-fa: "vazir";
   --font-family-en: "Rubik", sans-serif;
+
+  --clr-font-dark: #000;
+  --clr-font-light: #fff; /* This is the white color for dark mode */
+  
+  /* Margins */
+  --content-margin: 20px; /* Margin for content */
+  --content-padding: 10px; /* Padding for the container */
+
 }
 
 html {
@@ -40,13 +48,22 @@ body {
   direction: rtl;
   font-family: var(--font-family-fa);
   position: relative;
-  transition: all .3s;
-  direction: rtl;
+  transition: all 0.3s;
+  background-color: var(--clr-main-light); 
+  color: var(--clr-font-dark); 
+  
+  padding: var(--content-padding);
+  margin: var(--content-margin);
+
+}
+h1, h2, h3, h4, h5, h6, p {
+  color: var(--clr-font-dark);
 }
 
 .container {
   max-width: 1300px;
   margin: 0 auto;
+  padding: 0 var(--content-margin); /* Add horizontal margins */
 
 }
 
@@ -62,7 +79,7 @@ header nav {
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  box-shadow:  0 4px 2px -2px #6b6b6b;
+  box-shadow:0px 2px 4px 0 #969595;
 }
 
 .nav-logo {
@@ -84,10 +101,15 @@ header nav {
 .menu-btns button:nth-child(1),
 .menu-btns button:nth-child(2) {
   background-color: var(--clr-lightGray);
-  color: var(--clr-font-dark);
   border-radius: 10px;
   transition: all 0.3s;
 }
+
+.menu-btns button:nth-child(1) a,
+.menu-btns button:nth-child(2) a {
+  color: var(--clr-font-dark);
+}
+
 .menu-btns button:nth-child(1):hover,
 .menu-btns button:nth-child(2):hover {
   background-color: var(--clr-sec-dark);
@@ -102,6 +124,336 @@ header nav {
     padding-inline: 30px;
   }
 }
+/* login/ */
+.login {
+  width: 340px;
+  height: 400px;
+  background: #2c2c2c;
+  padding: 47px;
+  padding-bottom: 57px;
+  color: #fff;
+  border-radius: 17px;
+  padding-bottom: 50px;
+  font-size: 1.3em;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin: auto;
+  margin-top: 120px;
+}
+
+.login input[type="text"],
+.login input[type="password"], 
+.login input[type="email"] {
+  opacity: 1;
+  display: block;
+  border: none;
+  outline: none;
+  width: 100%;
+  padding: 13px 18px;
+  margin: 20px 0 0 0;
+  font-size: 0.8em;
+  border-radius: 100px;
+  background: #3c3c3c;
+  color: #fff;
+}
+
+.login input:focus {
+  animation: bounce 1s;
+  -webkit-appearance: none;
+}
+
+.login input[type=submit],
+.login input[type=button],
+.h1 {
+  border: 0;
+  outline: 0;
+  width: 100%;
+  padding: 13px;
+  margin: 40px 0 0 0;
+  border-radius: 500px;
+  font-weight: 600;
+  animation: bounce2 1.6s;
+}
+
+.h1 {
+  padding: 0;
+  position: relative;
+  top: -35px;
+  display: block;
+  margin-bottom: -0px;
+  font-size: 1.3em;
+}
+
+.btn {
+  background: linear-gradient(144deg, #8b1bdb, #5b42f3 50%, #2dc1d1);
+  color: #fff;
+  padding: 16px !important;
+  border-radius: 10px;
+}
+
+.btn:hover {
+  background: linear-gradient(144deg, #1e1e1e , 20%,#1e1e1e 50%,#1e1e1e );  
+  color: rgb(255, 255, 255);
+  padding: 16px !important;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  border-radius: 10px;
+}
+
+.login input[type=text] {
+  animation: bounce 1s;
+  -webkit-appearance: none;
+}
+
+.login input[type=password] {
+  animation: bounce1 1.3s;
+}
+
+.login input[type=email] {
+  animation: bounce1 1.6s;
+}
+
+.ui {
+  font-weight: bolder;
+  background: -webkit-linear-gradient(#B563FF, #535EFC, #0EC8EE);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  border-bottom: 4px solid transparent;
+  border-image: linear-gradient(0.25turn, #535EFC, #0EC8EE, #0EC8EE);
+  border-image-slice: 1;
+  display: inline;
+}
+
+.already-account{
+  color: #575757;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+}
+.already-account a{
+  color: #fffefe;
+
+}
+/* camera list */
+
+
+
+.main-cam-list {
+  display: flex;               
+  flex-direction: column;      
+  margin: 50px 0 0 50px;     /* 50px margin at top and right */
+  padding: 20px;               /* 20px padding */
+  gap: 20px;                  
+  border-radius: 10px;     
+    
+
+}
+
+
+.cam-list-container {
+  display: flex;              
+  flex-direction: column;      
+  gap: 15px;                   
+  padding: 10px;               
+  border-radius: 10px;
+  margin-bottom: 20px;  
+  padding: 10px;       
+}
+
+.cam-list-container h1{
+  padding-bottom: 20px;
+}
+
+.single-cam-container {
+  display: flex;               
+  flex-direction: row-reverse; 
+  align-items: center;         
+  gap: 20px;                   
+  background-color: var(--clr-sec-dark);            
+  border-radius: 10px;        
+  padding: 10px;               
+}
+.single-cam-list {
+  display: flex;               
+  flex-direction: column;      
+  gap: 10px;                   
+  flex-grow: 1;       
+}
+
+.single-cam {
+  padding: 10px;               
+  border-radius: 5px;
+       
+}
+
+.single-cam p {
+  margin: 0;                  
+}
+
+.camera-image-container img {
+  width: 200px;                
+  height: 200px; 
+  background-color: var(--clr-sec-dark);               
+  border-radius: 10px;         
+}
+
+.add-cam .btn{
+  display: flex;               /* This creates a flex container */
+  justify-content: flex-end;   /* Aligns the button to the right */
+  margin-top: 20px; 
+  
+}
+/* add camera form */
+
+
+
+
+.add-zone-frm {
+  background: var(--clr-sec-dark); /* Light mode background */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  transition: background 0.3s, color 0.3s; /* Smooth transition for dark mode */
+}
+
+.add-zone-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-zone-frm {
+  display: flex;
+  flex-direction: column;
+  margin: 5% auto;
+  padding: 20px;
+  gap: 20px;
+  border-radius: 10px;
+  background-color: var(--clr-sec-dark);
+  max-width: 500px; /* Limit the width for better readability */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
+}
+
+.add-zone-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.add-zone-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-zone-container input,
+.add-zone-container select {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--clr-sec-dark);
+  border-bottom: 1px solid darkgray;
+  color: rgb(255, 255, 255);
+  font-size: 14px; 
+}
+
+.add-zone-container input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+
+
+/* Submit button styling */
+.add-zone-container button[type="submit"] {
+  align-self: flex-start;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: var(--clr-primary); /* Default button color */
+  color: white; /* Button text color */
+  font-size: 16px; /* Increased font size */
+}
+
+.add-zone-container button[type="submit"]:hover {
+  background-color: var(--clr-primary-dark);
+}
+
+/* zone lists */ 
+
+
+
+.main-zone-list {
+  display: flex;               
+  flex-direction: column;      
+  margin: 50px 0 0 50px;     /* 50px margin at top and right */
+  padding: 20px;               /* 20px padding */
+  gap: 20px;                  
+  border-radius: 10px;     
+    
+
+}
+
+
+.zone-list-container {
+  display: flex;              
+  flex-direction: column;      
+  gap: 15px;                   
+  padding: 10px;               
+  border-radius: 10px;
+  margin-bottom: 20px;  
+  padding: 10px;       
+}
+
+.zone-list-container h1{
+  padding-bottom: 20px;
+}
+
+.single-zone-container {
+  display: flex;               
+  flex-direction: row-reverse; 
+  align-items: center;         
+  gap: 20px;                   
+  background-color: var(--clr-sec-dark);            
+  border-radius: 10px;        
+  padding: 10px;               
+}
+.single-zone-list {
+  display: flex;               
+  flex-direction: column;      
+  gap: 10px;                   
+  flex-grow: 1;       
+}
+
+.single-zone {
+  padding: 10px;               
+  border-radius: 5px;
+       
+}
+
+.single-zone p {
+  margin: 0;                  
+}
+
+.zone-image-container img {
+  width: 200px;                
+  height: 200px; 
+  background-color: var(--clr-sec-dark);               
+  border-radius: 10px;         
+}
+
+.add-zone .btn{
+  display: flex;               /* This creates a flex container */
+  justify-content: flex-end;   /* Aligns the button to the right */
+  margin-top: 20px; 
+  
+}
+
+
 
 /* side menu */
 
@@ -119,6 +471,98 @@ header nav {
 
 .show-menu {
   transform: translateX(0);
+}
+
+
+/* add zone  */
+
+
+
+.add-camera-frm {
+  background: var(--clr-sec-dark); /* Light mode background */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  transition: background 0.3s, color 0.3s; /* Smooth transition for dark mode */
+}
+
+.add-cam-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-camera-frm {
+  display: flex;
+  flex-direction: column;
+  margin: 5% auto;
+  padding: 20px;
+  gap: 20px;
+  border-radius: 10px;
+  background-color: var(--clr-sec-dark);
+  max-width: 500px; /* Limit the width for better readability */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
+}
+
+.add-cam-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.add-cam-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.add-cam-container input,
+.add-cam-container select {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--clr-sec-dark);
+  border-bottom: 1px solid darkgray;
+  color: rgb(255, 255, 255);
+  font-size: 14px; 
+}
+
+.add-cam-container input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.add-cam-container select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="white" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center; 
+  padding-right: 30px;
+}
+
+.add-cam-container select option {
+  background-color: var(--clr-sec-dark);
+}
+
+/* Submit button styling */
+.add-cam-container button[type="submit"] {
+  align-self: flex-start;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: var(--clr-primary); /* Default button color */
+  color: white; /* Button text color */
+  font-size: 16px; /* Increased font size */
+}
+
+.add-cam-container button[type="submit"]:hover {
+  background-color: var(--clr-primary-dark);
 }
 
 /* dashboard */
@@ -243,17 +687,6 @@ header nav {
   margin-top: 20px;
   padding: 25px 15px;
   width: 90%;
-  color: var(--clr-font-light);
-}
-.main-cam{
-  padding: 20px;
-
-}
-
-.panel{
-  display: flex;
-  justify-content: space-between;
-
 }
 
 @media screen and (min-width: 768px) {
@@ -272,6 +705,14 @@ header nav {
   .box-botton .box {
     width: 93%;
   }
+}
+
+.title-main-page {
+  color: var(--clr-font-dark);
+}
+
+.desc-main-page {
+  color: var(--clr-main-dark);
 }
 
 /* dark mode */
@@ -296,7 +737,20 @@ header nav {
     padding: 4px 5px;
   }
 }
+.theme-dark body {
+  background-color: var(--clr-main-dark); /* Dark mode background */
+  color: var(--clr-font-light); /* Dark mode text color for body */
+}
 
+.theme-dark h1, 
+.theme-dark h2, 
+.theme-dark h3, 
+.theme-dark h4, 
+.theme-dark h5, 
+.theme-dark h6,
+.theme-dark p {
+  color: var(--clr-font-light); /* White text in dark mode */
+}
 .theme-dark p {
   color: #eee;
 }
@@ -339,6 +793,11 @@ header nav {
   background-color: var(--clr-sec-dark);
 }
 
+.theme-dark .menu-btns button:nth-child(1) a,
+.theme-dark .menu-btns button:nth-child(2) a {
+ color: var(--clr-font-light);
+}
+
 .theme-dark .menu-btns button:nth-child(1):hover,
 .theme-dark .menu-btns button:nth-child(2):hover {
   background-color: var(--clr-lightGray);
@@ -352,147 +811,7 @@ header nav {
   background-color: var(--clr-lightGray);
 }
 
-.login {
-    width: 340px;
-    height: 400px;
-    background: #2c2c2c;
-    padding: 47px;
-    padding-bottom: 57px;
-    color: #fff;
-    border-radius: 17px;
-    padding-bottom: 50px;
-    font-size: 1.3em;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: auto;
-    margin-top: 120px;
-}
-  
-  .login input[type="text"],
-  .login input[type="password"], 
-  .login input[type="email"] {
-    opacity: 1;
-    display: block;
-    border: none;
-    outline: none;
-    width: 100%;
-    padding: 13px 18px;
-    margin: 20px 0 0 0;
-    font-size: 0.8em;
-    border-radius: 100px;
-    background: #3c3c3c;
-    color: #fff;
-  }
-  
-  .login input:focus {
-    animation: bounce 1s;
-    -webkit-appearance: none;
-  }
-  
-  .login input[type=submit],
-  .login input[type=button],
-  .h1 {
-    border: 0;
-    outline: 0;
-    width: 100%;
-    padding: 13px;
-    margin: 40px 0 0 0;
-    border-radius: 500px;
-    font-weight: 600;
-    animation: bounce2 1.6s;
-  }
-  
-  .h1 {
-    padding: 0;
-    position: relative;
-    top: -35px;
-    display: block;
-    margin-bottom: -0px;
-    font-size: 1.3em;
-  }
-  
-  .btn {
-    background: linear-gradient(144deg, #af40ff, #5b42f3 50%, #00ddeb);
-    color: #fff;
-    padding: 16px !important;
-  }
-  
-  .btn:hover {
-    background: linear-gradient(144deg, #1e1e1e , 20%,#1e1e1e 50%,#1e1e1e );
-    color: rgb(255, 255, 255);
-    padding: 16px !important;
-    cursor: pointer;
-    transition: all 0.4s ease;
-  }
-  
-  .login input[type=text] {
-    animation: bounce 1s;
-    -webkit-appearance: none;
-  }
-  
-  .login input[type=password] {
-    animation: bounce1 1.3s;
-  }
-  
-  .login input[type=email] {
-    animation: bounce1 1.6s;
-  }
 
-  .ui {
-    font-weight: bolder;
-    background: -webkit-linear-gradient(#B563FF, #535EFC, #0EC8EE);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    border-bottom: 4px solid transparent;
-    border-image: linear-gradient(0.25turn, #535EFC, #0EC8EE, #0EC8EE);
-    border-image-slice: 1;
-    display: inline;
-  }
+/* add cmera */
 
-.already-account{
-    color: #575757;
-    font-size: 12px;
-    display: flex;
-    justify-content: center;
-    margin: 20px;
-}
-.already-account a{
-    color: #fffefe;
 
-}
-
-  
-  @media only screen and (max-width: 600px) {
-    .login {
-      width: 70%;
-      padding: 3em;
-    }
-  }
-  
-  @keyframes bounce {
-    0% {
-      transform: translateY(-250px);
-      opacity: 0;
-    }
-  }
-  
-  @keyframes bounce1 {
-    0% {
-      opacity: 0;
-    }
-  
-    40% {
-      transform: translateY(-100px);
-      opacity: 0;
-    }
-  }
-  
-  @keyframes bounce2 {
-    0% {
-      opacity: 0;
-    }
-  
-    70% {
-      transform: translateY(-20px);
-      opacity: 0;
-    }
-}
