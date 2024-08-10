@@ -60,36 +60,34 @@ class Zone(db.Model , SoftDeleteMixin):
     zone_name = db.Column(db.String(225), nullable=False , unique= True)
     zone_desc = db.Column(db.Text() , nullable=True)
 
-    # cameras= relationship("Camera", back_populates="zone")
+    cameras= relationship("Camera", back_populates="zone")
 
     def toDict(self):
         return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
 
 
-# class Camra(db.Model , SoftDeleteMixin):
-#     __tablename__ = 'cameras'
+class Camera(db.Model, SoftDeleteMixin):
+    __tablename__ = 'cameras'
 
-#     camera_id = db.Column(db.String(225), primary_key=True, nullable=False, unique=True, default=lambda: str(uuid.uuid4()))
-#     camera_name = db.Column(db.String(150) , nullable=False)
-#     camera_ip = db.Column(db.String(150), nullable=False, unique=True)
-#     cameera_type = db.Column(db.String(150) , nullable=False)
-#     camera_zone = db.Column(db.String(225), db.ForeignKey("zones.name"), nullable=False)
-#     camera_password_hash = db.Column(db.String(150), nullable=False)
-
-#     deleted_at = db.Column(db.DateTime, nullable=True)
-#     is_deleted = db.Column(db.Boolean, default=False, nullable=False)
-
-#     zone = relationship("Zone", back_populates="cameras")
-
-#     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
-#     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    camera_id = db.Column(db.String(225), primary_key=True, nullable=False, unique=True, default=lambda: str(uuid.uuid4()))
+    camera_name = db.Column(db.String(150) , nullable=False)
+    camera_ip = db.Column(db.String(150), nullable=False, unique=True)
+    cameera_type = db.Column(db.String(150) , nullable=False)
+    camera_zone = db.Column(db.String(225), db.ForeignKey("zones.zone_id"), nullable=False)
+    camera_password_hash = db.Column(db.String(150), nullable=False)
 
 
-#     def set_password(self, password):
-#         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+    zone = relationship("Zone", back_populates="cameras")
 
-#     def check_password(self, password):
-#         return bcrypt.check_password_hash(self.password_hash, password)
+    created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+
+
+    def set_password(self, password):
+        self.camera_password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    def check_password(self, password):
+        return bcrypt.check_password_hash(self.password_hash, password)
     
-#     def get_id(self):
-#         return self.camera_id
+    def get_id(self):
+        return self.camera_id
