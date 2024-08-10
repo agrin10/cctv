@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-zone">
+    <div class="main-zone-list">
+        <h1>لیست مناطق </h1>
+        <div class="zone-list-container">
+            <h3>نمایش مناطق</h3>
+
+            <div class="single-zone-container">
+                <div class="zone-image-container">
+                    <img src="#" alt="zone Image"> <!-- Placeholder Image -->
+                </div>
+                <div class="single-zone-list">
+                    <div class="single-zone">
+                        <p>نام منطقه:</p>
+                    </div>
+                    <div class="single-zone">
+                        <p> توضیحات:</p>
+                    </div>
+                </div>
+            </div>
+            <div class="single-zone-container">
+                <div class="zone-image-container">
+                    <img src="#" alt="zone Image"> <!-- Placeholder Image -->
+                </div>
+                <div class="single-zone-list">
+                    <div class="single-zone">
+                        <p>نام منطقه :</p>
+                    </div>
+                    <div class="single-zone">
+                        <p> توضیحات :</p>
+                    </div>
+                </div>
+            </div>
+            <div class="single-zone-container">
+                <div class="zone-image-container">
+                    <img src="{{url_for('static' , filename= 'static/images/netixlogo.png')}}" alt="zone Image"> <!-- Placeholder Image -->
+                </div>
+                <div class="single-zone-list">
+                    <div class="single-zone">
+                        <p>نام منطقه:</p>
+                    </div>
+                    <div class="single-zone">
+                        <p>توضیحات :</p>    
+                    </div>
+                </div>
+            </div>
+            <div class='add-zone'><a href="{{url_for('add_zone')}}"><button class='btn'>افزودن منطقه</button></div></a>
+            
+        </div>
+
+    </div>
+
+
+{% endblock content %}

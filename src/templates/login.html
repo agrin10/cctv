@@ -1,18 +1,46 @@
-{% extends "base.html" %}
-{% block title %}login{% endblock title %}
-{% block content %}
+{% extends "base.html" %} {% block title %}ورود{% endblock title %} {% block
+content %}
 <div class="login_container">
-    <div class="logo_container">
-        <img src="{{url_for('static' , filename = 'images/netixlogo.png')}}" alt="Logo">
+  <div class="img-container"></div>
+  <div class="form_container">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div
+      class="alert alert-{{ category }} alert-dismissible fade show"
+      role="alert"
+    >
+      {{ message }}
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    <div class="form_container">
-        <form action="#" method="post">
-            <label for="username">نام کاربری</label>
-            <input type="text" name="username" id="username"/>
-            <label for="password">رمز عبور</label>
-            <input type="password" name="password" id="password"/>
-            <button type="submit">ورود</button>
-        </form>
+    {% endfor %} {% endif %} {% endwith %}
+    <div class="login wrap">
+      <div class="h1">ورود</div>
+      <form action="{{url_for('login')}}" method="post">
+        <input
+          placeholder="نام کاربری"
+          id="username"
+          name="username"
+          type="text"
+        />
+        <input
+          placeholder="رمز عبور"
+          id="password"
+          name="password"
+          type="password"
+        />
+        <input value="ورود" class="btn" type="submit" />
+      </form>
+      <div class="already-account">
+        <span>اکانت ندارید؟<a href="{{url_for('register')}}"> ثبت نام</a></span>
+      </div>
     </div>
+  </div>
+  {% endblock content %}
 </div>
-{% endblock content %}
