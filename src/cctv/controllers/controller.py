@@ -1,4 +1,4 @@
-from src.cctv.models.model import Users, db , Zone
+from src.cctv.models.model import Users, db , Zone , Camera
 from src import login_manager
 
 @login_manager.user_loader
@@ -39,7 +39,15 @@ def handle_login(username , password):
         return user ,  True , 'login successfully' 
     return user,  False,'invalid password' 
 
-
+def user_list():
+    try:
+        users = Users.query.all()
+        list_users = []
+        list_users=[Users.toDict(user) for user in users]
+        return list_users
+    except Exception as e:
+        db.session.rollback()
+        return False, f"An error occurred: {str(e)}"
 
 def handle_add_zone(zone_name , zone_desc):
     existing_zone = Zone.query.filter_by(zone_name = zone_name).first()
@@ -54,11 +62,46 @@ def handle_add_zone(zone_name , zone_desc):
 def handle_retrieves_zone():
     try:
         zones = Zone.query.all()
-        zone_list = []
-        for zone in zones:
-            zone_list.append(zone.toDict())
-        return zone_list
+        zones = [Zone.toDict(zones) for zones in zones]
+        return zones
     except Exception as e:
         db.session.rollback()
         return False, f'An error occurred: {str(e)}'
     
+
+def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name):
+    existing_camera = Camera.query.filter_by(camera_ip=camera_ip).first()
+    if existing_camera:
+        return False, "Camera already exists."
+
+    zone = Zone.query.filter_by(zone_name=zone_name).first()
+    if zone is None:
+        return False, f"Zone '{zone_name}' not found."
+
+    new_camera = Camera(
+        camera_ip=camera_ip,
+        camera_name=camera_name,
+        camera_username=camera_username,
+        camera_type=camera_type,
+        camera_zone=zone_name
+    )
+    new_camera.set_password(camera_password)
+
+    try:
+        db.session.add(new_camera)
+        db.session.commit()
+        return True, "Camera added successfully."
+    except Exception as e:
+        db.session.rollback()
+        return False, f"An error occurred: {str(e)}"
+
+
+
+def handle_retrieves_camera():
+    try:
+        cameras = Camera.query.all()
+        cameras = [Camera.toDict(camera) for camera in cameras]
+        return cameras
+    except Exception as e:
+        db.session.rollback()
+        return False, f'An error occurred: {str(e)}'
