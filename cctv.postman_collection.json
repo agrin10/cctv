@@ -1,0 +1,194 @@
+{
+	"info": {
+		"_postman_id": "07826572-37df-4a0b-8abb-42852fef94f6",
+		"name": "cctv",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "36792000"
+	},
+	"item": [
+		{
+			"name": "registeration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"username\": \"admin11\",\r\n    \"password\": \"admi\",\r\n    \"email\": \"admin111\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/register"
+			},
+			"response": [
+				{
+					"name": "user already exists",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"username\": \"admin2\",\r\n    \"password\": \"admn2\",\r\n    \"email\": \"admin2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:5000/api/register"
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"admin2\",\r\n    \"password\":\"admin2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/login"
+			},
+			"response": [
+				{
+					"name": "invaild password",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/login"
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "add zone",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"zone_name\": \"living room\",\r\n    \"zone_desc\": \"This is a living room zone\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/zones"
+			},
+			"response": [
+				{
+					"name": "zone already exists",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"zone_name\": \"New Zone\",\r\n    \"zone_desc\": \"This is a new zone\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/add-zone"
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "zone list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/api/zones"
+			},
+			"response": []
+		},
+		{
+			"name": "add new camera ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"camera_ip\": \"192.168.1.101\",\r\n  \"camera_name\": \"Living Room Camera\",\r\n  \"camera_username\": \"admin\",\r\n  \"camera_password\": \"securepassword\",\r\n  \"camera_type\": \"IP\",\r\n  \"zone\": \"living room\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://127.0.0.1:8000/api/cameras"
+			},
+			"response": [
+				{
+					"name": "zone doesnt exists",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"camera_ip\": \"192.168.1.101\",\r\n  \"camera_name\": \"Living Room Camera\",\r\n  \"camera_username\": \"admin\",\r\n  \"camera_password\": \"securepassword\",\r\n  \"camera_type\": \"IP\",\r\n  \"zone\": \"living room\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://127.0.0.1:8000/api/cameras"
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "camera list",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://127.0.0.1:8000/api/cameras"
+			},
+			"response": []
+		}
+	]
+}
