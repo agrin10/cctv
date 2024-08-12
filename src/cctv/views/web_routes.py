@@ -1,8 +1,9 @@
 from src import app
 from src.cctv.models.model import Zone , Camera
-from flask import render_template, request, redirect, url_for, flash
-from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera , handle_retrieves_camera
-from flask_login import login_user, logout_user, login_required 
+from flask import render_template, request, redirect, url_for, flash , Response
+from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera 
+from flask_login import login_user
+
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -63,9 +64,9 @@ def add_camera():
         camera_username = request.form.get('cam-username')
         camera_password = request.form.get('cam-password')
         camera_type = request.form.get('cam-type')
-        zone_name = request.form.get('cam-zone')  # Get the zone name from the form
-
-        success, message = handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name)
+        zone_name = request.form.get('cam-zone')  
+       
+        success, message = handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name )
         
         if success:
             flash(message=message)
@@ -85,4 +86,7 @@ def cameras():
 
 @app.route('/camera-view')
 def camera_view():
-    return render_template('camera-view.html')
+    return render_template('camera-view.html' )
+
+
+

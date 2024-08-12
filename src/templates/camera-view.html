@@ -1,25 +1,23 @@
 {%extends "base.html"%}
 {% block title %}camera view{% endblock title %}
 {% block content %}
-<div class="main-camera-view">
-    
-    <div class="video-container">
-        <video id="videoPlayer" width="600" controls>
-            <source src="your-video-file.mp4" type="video/mp4">
+<div class="video_container">
+    <div class="video-player">
+        <video id="video" autoplay muted>
+            <source src="{{ url_for('static', filename='images/one.mp4') }}" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-    </div>
-    
-    <div class="nav-bar">
-        <button class="video-nav-btn" id="prevButton">Previous</button>
-        <button class="video-nav-btn" id="playButton">Play</button>
-        <button class="video-nav-btn" id="pauseButton">Pause</button>
-        <button class="video-nav-btn" id="resumeButton">Resume</button>
-        <button class="video-nav-btn" id="nextButton">Next</button>
+        <input type="range" id="progress" value="0" min="0" step="1" />
+        <div class="controls">
+            <button class="view-btn" id="play-pause-btn" ><i class="fa-solid fa-play"></i></button>
+            <button class="view-btn" id="stop-btn"><i class="fa-solid fa-stop"></i></button>
+            <button class="view-btn" id="prev-btn"><i class="fa-solid fa-backward"></i></button>
+            <button class="view-btn" id="next-btn"><i class="fa-solid fa-forward"></i></button>
+            <label for="volume"><i class="fa-solid fa-volume-high"></i></label>
+            <input type="range" id="volume" min="0" max="1" step="0.1" value="1"/>
+        </div>
     </div>
 </div>
-
-
 {% endblock content %}
 
 

@@ -5,6 +5,9 @@ class Config:
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATION = False
     SECRET_KEY = os.environ.get('SECRET_KEY', 'mysecretkey')
+    UPLOAD_FOLDER=  os.path.join(os.getcwd(), 'src/cctv/static/uploads')
+
+
     if not SECRET_KEY:
         if os.environ.get('FLASK_ENV') == 'production':
             raise ValueError("No SECRET_KEY set for Flask application")

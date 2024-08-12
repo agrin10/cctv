@@ -39,28 +39,65 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 })
 
+const video = document.getElementById('video');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const stopBtn = document.getElementById('stop-btn');
+const prevBtn = document.getElementById('prev-btn');
+const nextBtn = document.getElementById('next-btn');
+const volumeControl = document.getElementById('volume');
+const progressBar = document.getElementById('progress');
 
-const videoPlayer = document.getElementById('videoPlayer');
+// let videoList = ['assets/videos/sample-video.mp4', 'assets/videos/another-video.mp4']; // Add your video paths
+let currentIndex = 0;
 
-document.getElementById('playButton').addEventListener('click', () => {
-    videoPlayer.play();
-});
+playPauseBtn.onclick = function () {
+    if (video.paused) {
+        video.play();
+        playPauseBtn.innerText = 'Pause';
+    } else {
+        video.pause();
+        playPauseBtn.innerText = 'Play';
+    }
+};
 
-document.getElementById('pauseButton').addEventListener('click', () => {
-    videoPlayer.pause();
-});
+stopBtn.onclick = function () {
+    video.pause();
+    video.currentTime = 0;
+    playPauseBtn.innerText = 'Play';
+};
 
-document.getElementById('resumeButton').addEventListener('click', () => {
-    videoPlayer.play();
-});
+nextBtn.onclick = function () {
+    currentIndex = (currentIndex + 1) % videoList.length;
+    video.src = videoList[currentIndex];
+    video.play();
+    playPauseBtn.innerText = 'Pause';
+};
 
-// Add functionality for Previous and Next buttons
-document.getElementById('prevButton').addEventListener('click', () => {
-    // Logic to go to the previous video
-    alert('Previous video functionality not implemented.');
-});
+prevBtn.onclick = function () {
+    currentIndex = (currentIndex - 1 + videoList.length) % videoList.length;
+    video.src = videoList[currentIndex];
+    video.play();
+    playPauseBtn.innerText = 'Pause';
+};
 
-document.getElementById('nextButton').addEventListener('click', () => {
-    // Logic to go to the next video
-    alert('Next video functionality not implemented.');
-});
+volumeControl.oninput = function () {
+    video.volume = this.value;
+};
+
+// Update progress bar as video plays
+video.ontimeupdate = function () {
+    progressBar.value = (video.currentTime / video.duration) * 100; // Update progress bar
+};
+
+// Seek video when progress bar is changed
+progressBar.oninput = function () {
+    video.currentTime = (progressBar.value / 100) * video.duration; // Seek to new position
+};
+
+// Handle video end
+video.onended = function () {
+    currentIndex = (currentIndex + 1) % videoList.length;
+    video.src = videoList[currentIndex];
+    video.play();
+    playPauseBtn.innerText = 'Pause';
+};
