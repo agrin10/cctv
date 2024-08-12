@@ -1,0 +1,25 @@
+{%extends "base.html"%}
+{% block title %}camera view{% endblock title %}
+{% block content %}
+<div class="main-camera-view">
+    
+    <div class="video-container">
+        <video id="videoPlayer" width="600" controls>
+            <source src="your-video-file.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <div class="nav-bar">
+        <button class="video-nav-btn" id="prevButton">Previous</button>
+        <button class="video-nav-btn" id="playButton">Play</button>
+        <button class="video-nav-btn" id="pauseButton">Pause</button>
+        <button class="video-nav-btn" id="resumeButton">Resume</button>
+        <button class="video-nav-btn" id="nextButton">Next</button>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+

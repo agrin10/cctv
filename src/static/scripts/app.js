@@ -38,3 +38,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('theme-dark')
   }
 })
+
+
+const videoPlayer = document.getElementById('videoPlayer');
+
+document.getElementById('playButton').addEventListener('click', () => {
+    videoPlayer.play();
+});
+
+document.getElementById('pauseButton').addEventListener('click', () => {
+    videoPlayer.pause();
+});
+
+document.getElementById('resumeButton').addEventListener('click', () => {
+    videoPlayer.play();
+});
+
+// Add functionality for Previous and Next buttons
+document.getElementById('prevButton').addEventListener('click', () => {
+    // Logic to go to the previous video
+    alert('Previous video functionality not implemented.');
+});
+
+document.getElementById('nextButton').addEventListener('click', () => {
+    // Logic to go to the next video
+    alert('Next video functionality not implemented.');
+});
