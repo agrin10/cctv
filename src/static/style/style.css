@@ -44,14 +44,13 @@ html {
 }
 
 body {
-  font-size: 1.4rem;
+  font-size: 1.7rem;
   direction: rtl;
   font-family: var(--font-family-fa);
   position: relative;
   transition: all 0.3s;
   background-color: var(--clr-main-light); 
   color: var(--clr-font-dark); 
-  
   padding: var(--content-padding);
   margin: var(--content-margin);
 
@@ -63,13 +62,14 @@ h1, h2, h3, h4, h5, h6, p {
 .container {
   max-width: 1300px;
   margin: 0 auto;
-  padding: 0 var(--content-margin); /* Add horizontal margins */
+  padding: 0 var(--content-margin);                   
 
 }
 
 button {
   all: unset;
   cursor: pointer;
+
 }
 /* header */
 
@@ -77,24 +77,24 @@ header nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  /* box-shadow:0px 2px 4px 0 #969595; */
+  padding: 20px;
   border-bottom: 1px solid #969595;
 }
 
 .nav-logo {
   font-family: var(--font-family-en);
-  font-size: 1.7rem;
+  font-size: 2rem;
   font-weight: 900;
 }
 
 .menu-btns {
   display: flex;
   align-items: center;
+  padding: 5px;
 }
 
 .menu-btns button {
-  padding: 3px 8px;
+  padding: 3px 5px;
   margin-inline: 3px;
 }
 
@@ -134,7 +134,7 @@ header nav {
   color: #fff;
   border-radius: 17px;
   padding-bottom: 50px;
-  font-size: 1.3em;
+  font-size: 1.7em;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   margin: auto;
   margin-top: 120px;
@@ -150,7 +150,7 @@ header nav {
   width: 100%;
   padding: 13px 18px;
   margin: 20px 0 0 0;
-  font-size: 0.8em;
+  font-size: 1rem;
   border-radius: 100px;
   background: #3c3c3c;
   color: #fff;
@@ -244,7 +244,8 @@ header nav {
   margin: 50px 0 0 50px;     /* 50px margin at top and right */
   padding: 20px;               /* 20px padding */
   gap: 20px;                  
-  border-radius: 10px;     
+  border-radius: 10px;  
+  font-size: 2rem;   
     
 
 }
@@ -331,8 +332,8 @@ header nav {
   gap: 20px;
   border-radius: 10px;
   background-color: var(--clr-sec-dark);
-  max-width: 500px; /* Limit the width for better readability */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow for depth */
+  max-width: 500px; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .add-zone-container {
@@ -366,7 +367,7 @@ header nav {
 
 
 
-/* Submit button styling */
+
 .add-zone-container button[type="submit"] {
   align-self: flex-start;
   padding: 10px 20px;
@@ -374,9 +375,9 @@ header nav {
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  background-color: var(--clr-primary); /* Default button color */
-  color: white; /* Button text color */
-  font-size: 16px; /* Increased font size */
+  background-color: var(--clr-primary); 
+  color: white;
+  font-size: 16px; 
 }
 
 .add-zone-container button[type="submit"]:hover {
@@ -394,6 +395,7 @@ header nav {
   padding: 20px;               /* 20px padding */
   gap: 20px;                  
   border-radius: 10px;     
+  font-size: 2rem;
     
 
 }
@@ -467,6 +469,7 @@ header nav {
   z-index: 200;
   transform: translateX(800px);
   transition: all 0.8s;
+  font-size: 2rem;
 }
 
 .show-menu {
@@ -479,13 +482,14 @@ header nav {
 
 
 .add-camera-frm {
-  background: var(--clr-sec-dark); /* Light mode background */
+  background: var(--clr-sec-dark);
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  transition: background 0.3s, color 0.3s; /* Smooth transition for dark mode */
+  transition: background 0.3s, color 0.3s; 
+  font-size: 2rem;
 }
 
 .add-cam-container {
@@ -527,7 +531,7 @@ header nav {
   background-color: var(--clr-sec-dark);
   border-bottom: 1px solid darkgray;
   color: rgb(255, 255, 255);
-  font-size: 14px; 
+  font-size: 1.5rem; 
 }
 
 .add-cam-container input::placeholder {
@@ -557,7 +561,7 @@ header nav {
   transition: background-color 0.3s ease;
   background-color: var(--clr-primary); 
   color: white; 
-  font-size: 16px;
+  font-size: 2rem;
 }
 
 .add-cam-container button[type="submit"]:hover {
@@ -566,6 +570,7 @@ header nav {
 
 /* camera view  */
 .video_container {
+  position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -574,6 +579,7 @@ header nav {
   justify-content: center;
   align-items: center;
   margin-top: 30px;
+
   
 
 }
@@ -585,15 +591,16 @@ header nav {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   background-color:var(--clr-lightGray);
   padding-right: 30px;
   border-radius: 30px;
 }
 
-video {
+img {
   object-fit: cover;
   width: 100%; 
-  height: auto; 
+  height: 95%; 
   max-height: 100%; 
   border-radius: 30px; 
   object-fit: contain;
@@ -612,7 +619,7 @@ video {
   align-items: center;
   width: 100%;
   border-radius:5px;
-
+  margin-top: 0;
 }
 
 .view-btn {
@@ -657,11 +664,12 @@ input[type="range"]::-moz-range-thumb {
 
 #progress {
   width: 100%;
-  margin-bottom: 100px; 
+  margin-bottom:56px; 
   background: rgb(255, 255, 255);
   cursor: pointer;
   z-index: 1;
 }
+
 
 
 /* dashboard */
@@ -767,6 +775,7 @@ input[type="range"]::-moz-range-thumb {
 
 .boxs {
   margin-top: 50px;
+  padding: 5px;
 }
 
 .box-top,
@@ -778,14 +787,16 @@ input[type="range"]::-moz-range-thumb {
   align-items: stretch;
   gap: 20px;
   margin-top: 15px;
+  padding: 5px;
 }
 
 .box {
   background-color: var(--clr-lightGray);
   border-radius: 30px;
   margin-top: 20px;
-  padding: 25px 15px;
+  padding: 35px 35px;
   width: 90%;
+  border:1px solid var(--clr-sec-dark);
 }
 
 @media screen and (min-width: 768px) {

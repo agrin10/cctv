@@ -5,7 +5,7 @@
 <div class="add-camera-frm">
     <div class="add-cam-container">
         <h1>افزودن دوربین</h1>
-        <form action="{{ url_for('add_camera') }}" method="post">
+        <form action="{{ url_for('add_camera') }}" method="post" enctype="multipart/form-data">
             <input type="text" name='cam-ip' id="cam-ip" placeholder='دوربین ip' required>
             <input type="text" name='cam-name' id='cam-name' placeholder='نام دستگاه ' required>
             <input type="text" name='cam-username' id='cam-username' placeholder='نام کاربری' required>
@@ -17,6 +17,7 @@
                     <option value="{{ zone.zone_name }}">{{ zone.zone_name }}</option>  <!-- Use zone_name for display -->
                 {% endfor %}
             </select>
+            <input type="file" name="file" id="file" placeholder="uplod an image">
             <button type="submit" class="btn">افزودن دوربین</button>
         </form>
     </div>
