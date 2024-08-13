@@ -1,7 +1,7 @@
 from src import app
 from src.cctv.models.model import Zone , Camera
 from flask import render_template, request, redirect, url_for, flash , Response
-from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera 
+from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera  , generate_frames
 from flask_login import login_user
 
 
@@ -90,3 +90,6 @@ def camera_view():
 
 
 
+@app.route('/video_feed')
+def video_feed():
+    return Response(generate_frames(),mimetype='multipart/x-mixed-replace; boundary=frame')

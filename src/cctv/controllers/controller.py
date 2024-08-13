@@ -1,5 +1,7 @@
 from src.cctv.models.model import Users, db , Zone , Camera
-from src import login_manager
+from src import login_manager , app
+import cv2
+from flask import current_app
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -69,21 +71,23 @@ def handle_retrieves_zone():
         return False, f'An error occurred: {str(e)}'
     
 
-def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name):
+def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, file):
     existing_camera = Camera.query.filter_by(camera_ip=camera_ip).first()
     if existing_camera:
         return False, "Camera already exists."
-
+    
     zone = Zone.query.filter_by(zone_name=zone_name).first()
     if zone is None:
         return False, f"Zone '{zone_name}' not found."
+    
+
 
     new_camera = Camera(
         camera_ip=camera_ip,
         camera_name=camera_name,
         camera_username=camera_username,
         camera_type=camera_type,
-        camera_zone=zone_name
+        camera_zone=zone_name, 
     )
     new_camera.set_password(camera_password)
 
@@ -105,3 +109,21 @@ def handle_retrieves_camera():
     except Exception as e:
         db.session.rollback()
         return False, f'An error occurred: {str(e)}'
+    
+
+def generate_frames():
+    rtsl_url = app.config['RTSP_URL']
+    cap = cv2.VideoCapture(rtsl_url)
+    while True:
+        success, frame = cap.read()  # Read a frame from the camera
+        if not success:
+            break
+        else:
+            # Encode the frame in JPEG format
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()  # Convert to bytes
+
+            # Yield the frame as a byte-stream
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            
