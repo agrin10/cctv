@@ -90,7 +90,7 @@ def add_camera():
 
 @app.route('/cameras')
 def cameras():
-    cameras = Camera.query.all()
+    cameras = handle_retrieves_camera()
     return render_template('cameras.html' , cameras=cameras)
 
 

@@ -104,9 +104,12 @@ def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, came
 
 def handle_retrieves_camera():
     try:
+        camera_list = []
         cameras = Camera.query.all()
-        cameras = [Camera.toDict(camera) for camera in cameras]
-        return cameras
+        for camera in cameras:
+            camera_list.append(camera.toDict())
+        return  camera_list
+
     except Exception as e:
         db.session.rollback()
         return False, f'An error occurred: {str(e)}'

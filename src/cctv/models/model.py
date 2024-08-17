@@ -69,7 +69,11 @@ class Zone(db.Model, SoftDeleteMixin):
     cameras = db.relationship("Camera", back_populates="zone")
     
     def toDict(self):
-        return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+        zone_dict = {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+        
+        zone_dict['cameras'] = [camera.toDict() for camera in self.cameras]
+        
+        return zone_dict
 
 class Camera(db.Model, SoftDeleteMixin):
     __tablename__ = 'cameras'
@@ -95,6 +99,15 @@ class Camera(db.Model, SoftDeleteMixin):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.camera_password_hash, password)
     
-    
     def toDict(self):
-        return {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+        camera_dict = {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
+        
+        if self.zone:
+            camera_dict['zone'] = {
+                'zone_id': self.zone.zone_id,
+                'zone_name': self.zone.zone_name
+            }
+        else:
+            camera_dict['zone'] = None  
+        
+        return camera_dict
