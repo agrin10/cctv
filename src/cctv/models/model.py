@@ -39,6 +39,7 @@ class Users(UserMixin, db.Model):
     email = db.Column(db.String(150), unique=True, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
+    
 
     
     def __repr__(self) -> str:

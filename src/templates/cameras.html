@@ -8,7 +8,11 @@
             {% for camera in cameras %}
             <div class="single-cam-container">
                 <div class="camera-image-container">
-                    <img src="{{ url_for('static', filename='image/placeholder.jpg') }}" alt="Camera Image"> <!-- Placeholder Image -->
+                    {% if camera.camera_image_path %}
+                <img src="{{ url_for('static', filename='uploads/' + camera.camera_image_path) }}" alt="{{ camera.camera_name }}">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
                 </div>
                 <div class="single-cam-list">
                     <div class="single-cam">

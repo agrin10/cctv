@@ -71,7 +71,7 @@ def handle_retrieves_zone():
         return False, f'An error occurred: {str(e)}'
     
 
-def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, file):
+def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, camera_image):
     existing_camera = Camera.query.filter_by(camera_ip=camera_ip).first()
     if existing_camera:
         return False, "Camera already exists."
@@ -88,6 +88,7 @@ def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, came
         camera_username=camera_username,
         camera_type=camera_type,
         camera_zone=zone_name, 
+        camera_image_path=camera_image
     )
     new_camera.set_password(camera_password)
 

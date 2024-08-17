@@ -13,6 +13,8 @@ def create_app():
     app = Flask(__name__ , template_folder='templates' , static_folder='static')
     app.config.from_object('config.DevelopmentConfig')
 
+    app.config["UPLOAD_EXTENSIONS"] = [".jpg", ".png"]
+
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)

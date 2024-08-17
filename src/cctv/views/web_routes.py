@@ -1,8 +1,10 @@
 from src import app
 from src.cctv.models.model import Zone , Camera
 from flask import render_template, request, redirect, url_for, flash , Response
-from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera  , generate_frames
+from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera  , generate_frames , handle_retrieves_camera
 from flask_login import login_user
+from werkzeug.utils import secure_filename
+import os
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -65,8 +67,16 @@ def add_camera():
         camera_password = request.form.get('cam-password')
         camera_type = request.form.get('cam-type')
         zone_name = request.form.get('cam-zone')  
-       
-        success, message = handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name )
+        camera_image = None  
+
+        if 'file' in request.files:
+            file = request.files['file']
+            if file.filename != '':
+                filename = secure_filename(file.filename)
+                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file.save(file_path)
+                camera_image = filename
+        success, message = handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, camera_image )
         
         if success:
             flash(message=message)
