@@ -1,11 +1,16 @@
 from src.cctv.models.model import Users, db , Zone , Camera
-from src import login_manager , app
+from src import login_manager ,app
+from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, get_jwt_identity, get_csrf_token
+from flask import jsonify , make_response
 import cv2
-from flask import current_app
+import datetime
+
 
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(user_id)
+
+
 
 
 
@@ -19,7 +24,7 @@ def handle_registration(username , password , email):
         return False , 'password is required' 
     if existing_email:
         return False , 'email already exists'
-    if len(password) > 8 :
+    if len(password) < 8 :
         return False , 'Password must be at least 8 characters long'
     
     new_user = Users(username = username , email = email)
@@ -31,15 +36,40 @@ def handle_registration(username , password , email):
     except Exception as e:
             db.session.rollback()
             return False, f'An error occurred: {str(e)}'         
-        
 
-def handle_login(username , password):
-    user = Users.query.filter_by(username = username).first()
-    if user is None:
-        return user , False , 'username not found' 
-    if user.check_password(password):
-        return user ,  True , 'login successfully' 
-    return user,  False,'invalid password' 
+
+
+
+def handle_login(username, password):
+    user = Users.query.filter_by(username=username).first()
+    if user and user.check_password(password):
+        access_token = create_access_token(identity=user.user_id)
+        refresh_token = create_refresh_token(identity=user.user_id, expires_delta=datetime.timedelta(days=1))
+        
+        response = make_response(jsonify({
+            "msg": "Login successful"
+        }))
+
+        response.set_cookie('access_token_cookie', access_token, httponly=True, samesite='Strict')
+        set_refresh_cookies(response, refresh_token)
+
+        
+        return user, True, 'Login successful', response 
+    return None, False, 'Invalid username or password', None
+
+def handle_logout():
+    response = make_response(jsonify({"msg": "Logout successful"}))
+    response.delete_cookie('access_token_cookie')
+    response.delete_cookie('refresh_token_cookie') 
+    return response
+
+def handle_refresh_token():
+    user_id = get_jwt_identity()
+    access_token = create_access_token(identity=user_id)
+    resp = 'refresh : true'
+    set_access_cookies(resp, access_token)
+    return resp, 200
+
 
 def user_list():
     try:
@@ -119,15 +149,15 @@ def generate_frames():
     rtsl_url = app.config['RTSP_URL']
     cap = cv2.VideoCapture(rtsl_url)
     while True:
-        success, frame = cap.read()  # Read a frame from the camera
+        success, frame = cap.read() 
         if not success:
             break
         else:
-            # Encode the frame in JPEG format
             ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()  # Convert to bytes
-
-            # Yield the frame as a byte-stream
+            frame = buffer.tobytes()  
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            
+
+
             

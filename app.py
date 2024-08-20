@@ -1,11 +1,7 @@
 from src import app, db
-from flask import render_template, request, Response
+from flask import render_template
+from flask_jwt_extended import jwt_required
 
-
-@app.route('/')
-@app.route('/home-page')
-def index():
-    return render_template('index.html')
     
 
 from src.cctv.views.web_routes import * 
