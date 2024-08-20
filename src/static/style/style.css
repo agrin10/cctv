@@ -586,8 +586,8 @@ header nav {
 
 .video-player {
   position: relative;
-  width: 90vw;
-  height: 90vh;
+  width: 85vw;
+  height: 85vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -30,7 +30,7 @@
         <p class="nav-logo">Netix system</p>
         </a>
         <div class="menu-btns">
-          <button>ورود</button>
+          <a href="{{url_for('login')}}"><button>ورود</button></a>
           <button>تنظیمات</button>
           <i class="bx bxs-moon"></i>
           <button class="dashboard-moblie">
@@ -47,7 +47,7 @@
         
         <ul class="dashboard-list">
           <li class="dashboard-item">
-            <a href="#">
+            <a href="{{url_for('camera_view')}}">
               <i class="fa-sharp fa-solid fa-expand"></i>
               <p>نمای کلی</p>
             </a>
@@ -95,7 +95,7 @@
           </li>
 
           <li>
-            <a href="#">
+            <a href="{{url_for('logout')}}">
               <i class="fa-duotone fa-solid fa-user-large"></i>
 
               <p>خروج</p>
@@ -124,7 +124,9 @@
       {% endfor %} {% endif %} {% endwith %}
   
     <div class="main-style">{% block content %}{% endblock content %}</div>
-    <script src="{{url_for('static' ,filename='scripts/app.js')}}"></script>
+    <script src="{{url_for('static' ,filename='scripts/app.js')}}">
+
+    </script>
     {% block scripts %}{% endblock scripts %}
   </body>
 </html>
