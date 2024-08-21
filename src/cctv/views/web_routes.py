@@ -1,19 +1,19 @@
 from src import app
 from src.cctv.models.model import Zone , Camera
 from flask import render_template, request, redirect, url_for, flash , Response , session
-from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera  , generate_frames , handle_retrieves_camera , handle_logout
+from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera  , generate_frames , handle_retrieves_camera , handle_logout , build_rtsp_url , get_online_cameras , get_camera_and_neighbors 
 from flask_login import login_user , logout_user
 from werkzeug.utils import secure_filename
 import os
 from flask_jwt_extended import get_jwt_identity , jwt_required  , verify_jwt_in_request
-from src.cctv.models.model import Users
 
 
 @app.route('/home-page')
 @jwt_required()
 def home_page():
+    camera_id = request.args.get('camera_id', 1, type=int)
     current_user = get_jwt_identity()
-    return render_template('index.html')
+    return render_template('index.html', camera_id=camera_id)
 
 @app.route('/', methods=['GET'])
 def index():
@@ -134,15 +134,79 @@ def cameras():
     cameras = handle_retrieves_camera()
     return render_template('cameras.html' , cameras=cameras)
 
-
 @app.route('/camera-view')
-@jwt_required()
 def camera_view():
-    return render_template('camera-view.html' )
+    layout = request.args.get('layout', default=1, type=int)
+    
+    camera_ip = request.args.get('camera_ip')
+
+    if not camera_ip:
+        first_camera = Camera.query.order_by(Camera.camera_id).first()
+        if not first_camera:
+            return render_template('camera-view.html', cameras=[], camera=None, message="No cameras are currently online", layout=layout)
+        camera_ip = first_camera.camera_ip
+    
+    camera = Camera.query.filter_by(camera_ip=camera_ip).first()
+    if not camera:
+        return render_template('camera-view.html', cameras=[], camera=None, message="Camera not found", layout=layout)
+    
+    _, prev_camera_id, next_camera_id = get_camera_and_neighbors(camera.camera_id)
+
+    cameras_in_zone = Camera.query.filter_by(camera_zone=camera.camera_zone).order_by(Camera.camera_id).all()
+    
+    online_cameras = [get_online_cameras(cameras_in_zone)[0], get_online_cameras(cameras_in_zone)[0], get_online_cameras(cameras_in_zone)[0]]
+
+    cameras_to_display = [online_cameras[i] if i < len(online_cameras) else None for i in range(layout)]
+
+    return render_template(
+        'camera-view.html',
+        camera=camera,
+        cameras=cameras_to_display,
+        prev_camera_ip=Camera.query.get(prev_camera_id).camera_ip if prev_camera_id else None,
+        next_camera_ip=Camera.query.get(next_camera_id).camera_ip if next_camera_id else None,
+        message=None,
+        layout=layout
+    )
 
 
+
+@app.route('/navigate_camera', methods=['POST'])
+def navigate_camera():
+    # Handle navigation through next or previous buttons
+    action = request.form.get('action')
+    camera_ip = request.args.get('camera_ip')
+
+    camera = Camera.query.filter_by(camera_ip=camera_ip).first()
+    if not camera:
+        return redirect(url_for('camera_view'))
+
+    prev_camera_id, next_camera_id = get_camera_and_neighbors(camera.camera_id)
+    
+    if action == 'next':
+        next_camera = Camera.query.get(next_camera_id)
+        return redirect(url_for('camera_view', camera_ip=next_camera.camera_ip))
+    elif action == 'prev':
+        prev_camera = Camera.query.get(prev_camera_id)
+        return redirect(url_for('camera_view', camera_ip=prev_camera.camera_ip))
+
+    return redirect(url_for('camera_view'))
 
 @app.route('/video_feed')
-@jwt_required()
 def video_feed():
-    return Response(generate_frames(),mimetype='multipart/x-mixed-replace; boundary=frame')
+    camera_ip = request.args.get('camera_ip')
+    if not camera_ip:
+        return "Camera not found", 404
+
+    camera = Camera.query.filter_by(camera_ip=camera_ip).first()
+    if not camera:
+        return "Camera not found", 404
+
+    rtsp_url = build_rtsp_url(
+        camera_ip=camera.camera_ip,
+        camera_username=camera.camera_username,
+        camera_password=camera.camera_password,
+    )
+
+    return Response(generate_frames(rtsp_url),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+

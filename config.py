@@ -9,8 +9,7 @@ class Config:
     UPLOAD_FOLDER = 'src/static/uploads'
     UPLOAD_EXTENSIONS = [".jpg", ".png"]
 
-    RTSP_URL = os.getenv(
-        'RTSP_URL', 'rtsp://admin:admin123@192.168.10.247:554/cam/realmonitor?channel=1&subtype=1')
+
 
     if not SECRET_KEY:
         if os.environ.get('FLASK_ENV') == 'production':

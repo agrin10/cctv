@@ -5,7 +5,6 @@ from flask_login import login_user , logout_user
 from flask_jwt_extended import jwt_required
 
 
-
 @app.route('/api/register', methods=['POST', 'GET'])
 def api_register():
     if request.method == 'POST':
@@ -85,3 +84,4 @@ def api_add_camera():
 def api_cameras():
     cameras = handle_retrieves_camera()
     return jsonify(cameras = cameras)
+

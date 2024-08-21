@@ -85,7 +85,7 @@ class Camera(db.Model, SoftDeleteMixin):
     camera_zone = db.Column(db.String(225), db.ForeignKey("zones.zone_name"), nullable=False)  
     camera_image_path = db.Column(db.String(255), nullable=True)
     
-    camera_password_hash = db.Column(db.String(150), nullable=False)
+    camera_password = db.Column(db.String(150), nullable=False)
     camera_username = db.Column(db.String(150), nullable=False)
 
     zone = db.relationship("Zone", back_populates="cameras") 
@@ -93,11 +93,6 @@ class Camera(db.Model, SoftDeleteMixin):
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
 
-    def set_password(self, password):
-        self.camera_password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
-
-    def check_password(self, password):
-        return bcrypt.check_password_hash(self.camera_password_hash, password)
     
     def toDict(self):
         camera_dict = {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}

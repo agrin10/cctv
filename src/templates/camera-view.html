@@ -1,20 +1,42 @@
-{%extends "base.html"%}
-{% block title %}camera view{% endblock title %}
+{% extends "base.html" %}
+{% block title %}Camera View{% endblock title %}
+
 {% block content %}
 <div class="video_container">
-    <div class="video-player">
-        <img src="{{url_for('video_feed')}}" alt="">
-        <input type="range" id="progress" value="0" min="0" step="1" />
-        <div class="controls">
-            <button class="view-btn" id="play-pause-btn" ><i class="fa-solid fa-play"></i></button>
-            <button class="view-btn" id="stop-btn"><i class="fa-solid fa-stop"></i></button>
-            <button class="view-btn" id="prev-btn"><i class="fa-solid fa-backward"></i></button>
-            <button class="view-btn" id="next-btn"><i class="fa-solid fa-forward"></i></button>
-            <label for="volume"><i class="fa-solid fa-volume-high"></i></label>
-            <input type="range" id="volume" min="0" max="1" step="0.1" value="1"/>
+    <div class="video-player {% if layout == 1 %}layout-1{% elif layout == 4 %}layout-4{% elif layout == 9 %}layout-9{% elif layout == 16 %}layout-16{% endif %}">
+        {% if message %}
+        <h2>{{ message }}</h2>
+        {% else %}
+        <div class="grid-container">
+            {% for camera in cameras %}
+            <div class="grid-item">
+                {% if camera %}
+                <img src="{{ url_for('video_feed', camera_ip=camera.camera_ip) }}" alt="{{ camera.camera_name }}">
+                {% else %}
+                <div class="placeholder">
+                    <img src="{{ url_for('static', filename='placeholder.png') }}" alt="No Camera Connected">
+                    <p>There is no connected camera.</p>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
         </div>
+        {% endif %}
     </div>
+
+    {% if not message %}
 </div>
-{% endblock content %}
+<div class="controls">
+    <a href="{{ url_for('camera_view', camera_ip=prev_camera_ip) }}" class="view-btn">Previous</a>
+    <a href="{{ url_for('camera_view', camera_ip=next_camera_ip) }}" class="view-btn">Next</a>
+    <label for="volume"></label>
+    <input type="range" id="volume" min="0" max="1" step="0.1" value="1"/>
 
-
+    <!-- Additional buttons within the controls section -->
+    <button onclick="window.location.href='{{ url_for('camera_view', layout=1) }}'" class="control-btn">1 Camera</button>
+    <button onclick="window.location.href='{{ url_for('camera_view', layout=4) }}'" class="control-btn">4 Cameras</button>
+    <button onclick="window.location.href='{{ url_for('camera_view', layout=9) }}'" class="control-btn">9 Cameras</button>
+    <button onclick="window.location.href='{{ url_for('camera_view', layout=16) }}'" class="control-btn">16 Cameras</button>
+</div>
+{% endif %}
+{% endblock %}

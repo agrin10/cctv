@@ -5,7 +5,6 @@ from flask import jsonify , make_response
 import cv2
 import datetime
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(user_id)
@@ -27,8 +26,8 @@ def handle_registration(username , password , email):
     if len(password) < 8 :
         return False , 'Password must be at least 8 characters long'
     
-    new_user = Users(username = username , email = email)
-    new_user.set_password(password)
+    new_user = Users(username = username , email = email , password = password)
+    
     try:
         db.session.add(new_user)
         db.session.commit()
@@ -42,7 +41,7 @@ def handle_registration(username , password , email):
 
 def handle_login(username, password):
     user = Users.query.filter_by(username=username).first()
-    if user and user.check_password(password):
+    if user :
         access_token = create_access_token(identity=user.user_id)
         refresh_token = create_refresh_token(identity=user.user_id, expires_delta=datetime.timedelta(days=1))
         
@@ -118,9 +117,10 @@ def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, came
         camera_username=camera_username,
         camera_type=camera_type,
         camera_zone=zone_name, 
-        camera_image_path=camera_image
+        camera_image_path=camera_image, 
+        camera_password = camera_password
     )
-    new_camera.set_password(camera_password)
+    
 
     try:
         db.session.add(new_camera)
@@ -145,19 +145,62 @@ def handle_retrieves_camera():
         return False, f'An error occurred: {str(e)}'
     
 
-def generate_frames():
-    rtsl_url = app.config['RTSP_URL']
-    cap = cv2.VideoCapture(rtsl_url)
+
+def build_rtsp_url(camera_ip, camera_username, camera_password):
+    return f"rtsp://{camera_username}:{camera_password}@{camera_ip}:554/cam/realmonitor?channel=1&subtype=1"
+
+def generate_frames(rtsp_url):
+    cap = cv2.VideoCapture(rtsp_url)
+    if not cap.isOpened():
+        print(f"Cannot open camera with URL: {rtsp_url}")
+        return 
+    
     while True:
-        success, frame = cap.read() 
+        success, frame = cap.read()
         if not success:
             break
         else:
             ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()  
+            frame = buffer.tobytes()
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
             
 
 
             
+def get_online_cameras(cameras):
+
+    online_cameras = []
+
+    for camera in cameras:
+        rtsp_url = build_rtsp_url(
+            camera_ip=camera.camera_ip,
+            camera_username=camera.camera_username,
+            camera_password=camera.camera_password,
+        )
+        
+        cap = cv2.VideoCapture(rtsp_url)
+        if cap.isOpened():
+            online_cameras.append(camera)
+        cap.release()
+    
+    return online_cameras
+
+
+def get_camera_and_neighbors(camera_ip):
+    camera = Camera.query.get(camera_ip)
+    if not camera:
+        return None, None, None
+
+    zone_name = camera.camera_zone  
+    cameras_in_zone = Camera.query.filter_by(camera_zone=zone_name).order_by(Camera.camera_ip).all()
+    
+    current_camera_index = next((index for index, c in enumerate(cameras_in_zone) if c.camera_ip == camera_ip), None)
+    
+    if current_camera_index is None:
+        return None, None, None
+
+    prev_camera_id = cameras_in_zone[current_camera_index - 1].camera_ip if current_camera_index > 0 else cameras_in_zone[-1].camera_ip
+    next_camera_id = cameras_in_zone[(current_camera_index + 1) % len(cameras_in_zone)].camera_ip
+
+    return camera, prev_camera_id, next_camera_id   
