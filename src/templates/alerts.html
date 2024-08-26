@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Alerts{% endblock title %}
+{% block content %}
+
+<div class="main-alerts">
+    <div class="main-alert-list">
+        <h1>هشدار ها</h1>
+        <div class="alert_list_container">
+            {% for item in data %}
+            <div class="single-alert-container">
+                <div class="alert-image-container">
+                    <img src="http://192.168.10.107{{ item.image_url }}" alt="Alert Image" onclick="openModal(this.src)">
+                </div>
+                <div class="single-alert-list">
+                    <div class="single-alert">
+                        <p><strong>Title:</strong> {{ item.title }}</p>
+                    </div>
+                    <div class="single-alert">
+                        <p><strong>Description:</strong> {{ item.description }}</p>
+                    </div>
+                    <div class="single-alert">
+                        <p><strong>Date:</strong> {{ item.updated }}</p>
+                    </div>
+                    <div class="single-alert">
+                        <p><strong>Type:</strong> {{ item.type }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            <div id="imageModal" class="modal">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img class="modal-content" id="modalImage">
+            </div>
+            <div class="pagination">
+
+                {% if page < total_pages %}
+                    <a href="{{ url_for('alerts', page=page+1) }}">Next</a>
+                {% else %}
+                    <a class="disabled">Next</a>
+                {% endif %}
+                <span>Page {{ page }} of {{ total_pages }}</span>
+                {% if page > 1 %}
+                    <a href="{{ url_for('alerts', page=page-1) }}">Previous</a>
+                {% else %}
+                    <a class="disabled">Previous</a>
+                {% endif %}
+            
+                
+                
+            
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

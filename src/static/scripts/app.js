@@ -38,3 +38,18 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('theme-dark')
   }
 })
+
+// Open the Modal
+function openModal(src) {
+  var modal = document.getElementById("imageModal");
+  var modalImg = document.getElementById("modalImage");
+  modal.style.display = "block";
+  modalImg.src = src;
+}
+
+// Close the Modal
+function closeModal() {
+  var modal = document.getElementById("imageModal");
+  modal.style.display = "none";
+}
+

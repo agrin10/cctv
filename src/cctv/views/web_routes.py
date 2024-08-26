@@ -1,11 +1,14 @@
 from src import app
 from src.cctv.models.model import Zone , Camera
-from flask import render_template, request, redirect, url_for, flash , Response , session
-from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera  , generate_frames , handle_retrieves_camera , handle_logout , build_rtsp_url , get_online_cameras , get_camera_and_neighbors 
+from flask import render_template, request, redirect, url_for, flash , Response , jsonify
+from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera  , generate_frames , handle_retrieves_camera , handle_logout , build_rtsp_url , get_online_cameras , get_camera_and_neighbors ,get_alerts_from_api
 from flask_login import login_user , logout_user
 from werkzeug.utils import secure_filename
 import os
 from flask_jwt_extended import get_jwt_identity , jwt_required  , verify_jwt_in_request
+import datetime
+
+
 
 
 @app.route('/home-page')
@@ -209,4 +212,26 @@ def video_feed():
 
     return Response(generate_frames(rtsp_url),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+
+@app.route('/alerts')
+def alerts():
+    response = get_alerts_from_api()
+    data = response['data']
+
+    items_per_page = 5
+    page = request.args.get('page', 1, type=int)
+    start = (page - 1) * items_per_page
+    end = start + items_per_page
+
+    # Paginate the data
+    paginated_data = data[start:end]
+    total_pages = (len(data) + items_per_page - 1) // items_per_page
+
+    return render_template(
+        'alerts.html' , 
+        data=paginated_data, 
+        page=page, 
+        total_pages=total_pages
+        )
 

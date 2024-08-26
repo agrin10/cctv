@@ -4,6 +4,7 @@ from flask_jwt_extended import create_access_token, create_refresh_token, set_ac
 from flask import jsonify , make_response
 import cv2
 import datetime
+import requests
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -204,3 +205,15 @@ def get_camera_and_neighbors(camera_ip):
     next_camera_id = cameras_in_zone[(current_camera_index + 1) % len(cameras_in_zone)].camera_ip
 
     return camera, prev_camera_id, next_camera_id   
+
+
+def get_alerts_from_api():
+    alert_url = "http://192.168.10.107/alerts/"
+    response = requests.get(alert_url)
+
+    response.raise_for_status()
+    data = response.json()
+
+    return data
+
+
