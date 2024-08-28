@@ -1,6 +1,6 @@
 from src import app
 from src.cctv.models.model import Zone , Camera
-from flask import render_template, request, redirect, url_for, flash , Response , jsonify
+from flask import render_template, request, redirect, url_for, flash , Response , session
 from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera  , generate_frames , handle_retrieves_camera , handle_logout , build_rtsp_url , get_online_cameras , get_camera_and_neighbors ,get_alerts_from_api
 from flask_login import login_user , logout_user
 from werkzeug.utils import secure_filename
@@ -213,7 +213,6 @@ def video_feed():
     return Response(generate_frames(rtsp_url),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-
 @app.route('/alerts')
 def alerts():
     response = get_alerts_from_api()
@@ -234,4 +233,18 @@ def alerts():
         page=page, 
         total_pages=total_pages
         )
+@app.route('/records' , methods=['POST' , 'GET'])
+def records():
+    if request.method == 'POST':
+        start_time = request.form.get('start-time')
+        end_time = request.form.get('end-time')
+        session['start_time'] = start_time
+        session['end_time'] =end_time
+        
+        return redirect(url_for('records'))
+        
+    else:
 
+        start_time= session.get('start_time')
+        end_time= session.get('end_time')
+        return render_template('records.html', start_time=start_time , end_time=end_time)

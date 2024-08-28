@@ -1,5 +1,5 @@
 from src import app
-from src.cctv.controllers.controller import handle_login, handle_registration , handle_add_zone , handle_retrieves_zone , handle_add_camera , handle_retrieves_camera, handle_logout , get_alerts_from_api
+from src.cctv.controllers.controller import handle_login, handle_registration , handle_add_zone , handle_retrieves_zone , handle_add_camera , handle_retrieves_camera, handle_logout , get_alerts_from_api , get_records_from_api
 from flask import request, jsonify 
 from flask_login import login_user , logout_user
 from flask_jwt_extended import jwt_required
@@ -90,4 +90,12 @@ def api_cameras():
 def api_alerts():
     data = get_alerts_from_api()
     return jsonify(data)
+
+@app.route('/api/search-files')
+def search_files():
+    start_time = request.args.get('from')
+    end_time = request.args.get('to')
+    
+    data = get_records_from_api(start_time , end_time)
+    return jsonify(data=data)
 

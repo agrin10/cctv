@@ -31,14 +31,12 @@ themeSwitch.addEventListener('click',()=>{
   }
 })
 
-
 document.addEventListener('DOMContentLoaded', () => {
   let result = localStorage.getItem('theme')  
   if (result === 'dark') {
     document.body.classList.add('theme-dark')
   }
 })
-
 // Open the Modal
 function openModal(src) {
   var modal = document.getElementById("imageModal");
@@ -53,3 +51,12 @@ function closeModal() {
   modal.style.display = "none";
 }
 
+// pop up form 
+
+function showPopup(){
+  document.getElementById("timePopup").style.display = "block";
+
+}
+function closePopup(){
+  document.getElementById("timePopup").style.display = "none";
+}

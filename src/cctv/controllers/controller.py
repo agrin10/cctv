@@ -1,15 +1,15 @@
 from src.cctv.models.model import Users, db , Zone , Camera
-from src import login_manager ,app
+from src import login_manager
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, get_jwt_identity, get_csrf_token
 from flask import jsonify , make_response
 import cv2
-import datetime
+from datetime import datetime ,timedelta
+from pytz import timezone 
+import pytz
 import requests
-
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.get(user_id)
-
 
 
 
@@ -39,12 +39,11 @@ def handle_registration(username , password , email):
 
 
 
-
 def handle_login(username, password):
     user = Users.query.filter_by(username=username).first()
-    if user :
+    if user and user.check_password(password) :
         access_token = create_access_token(identity=user.user_id)
-        refresh_token = create_refresh_token(identity=user.user_id, expires_delta=datetime.timedelta(days=1))
+        refresh_token = create_refresh_token(identity=user.user_id, expires_delta=timedelta(days=1))
         
         response = make_response(jsonify({
             "msg": "Login successful"
@@ -69,7 +68,6 @@ def handle_refresh_token():
     resp = 'refresh : true'
     set_access_cookies(resp, access_token)
     return resp, 200
-
 
 def user_list():
     try:
@@ -111,7 +109,6 @@ def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, came
         return False, f"Zone '{zone_name}' not found."
     
 
-
     new_camera = Camera(
         camera_ip=camera_ip,
         camera_name=camera_name,
@@ -132,7 +129,6 @@ def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, came
         return False, f"An error occurred: {str(e)}"
 
 
-
 def handle_retrieves_camera():
     try:
         camera_list = []
@@ -145,7 +141,6 @@ def handle_retrieves_camera():
         db.session.rollback()
         return False, f'An error occurred: {str(e)}'
     
-
 
 def build_rtsp_url(camera_ip, camera_username, camera_password):
     return f"rtsp://{camera_username}:{camera_password}@{camera_ip}:554/cam/realmonitor?channel=1&subtype=1"
@@ -167,7 +162,6 @@ def generate_frames(rtsp_url):
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
             
 
-
             
 def get_online_cameras(cameras):
 
@@ -187,7 +181,6 @@ def get_online_cameras(cameras):
     
     return online_cameras
 
-
 def get_camera_and_neighbors(camera_ip):
     camera = Camera.query.get(camera_ip)
     if not camera:
@@ -205,8 +198,6 @@ def get_camera_and_neighbors(camera_ip):
     next_camera_id = cameras_in_zone[(current_camera_index + 1) % len(cameras_in_zone)].camera_ip
 
     return camera, prev_camera_id, next_camera_id   
-
-
 def get_alerts_from_api():
     alert_url = "http://192.168.10.107/alerts/"
     response = requests.get(alert_url)
@@ -216,4 +207,52 @@ def get_alerts_from_api():
 
     return data
 
+def get_records_from_api(start_time , end_time):
+    records_url = "http://192.168.10.108/devices/192.168.10.247-test/search_files"
 
+    if not start_time and end_time:
+        return "error: Start time or end time is missing"
+    try:
+        start_time_gmt , end_time_gmt = make_time_gmt(start_time, end_time)
+
+        params={
+            'from':start_time_gmt,
+            'to':end_time_gmt
+        }
+        print(f"Request params: {params}")
+
+        response = requests.get(records_url , params=params)
+
+        response.raise_for_status()
+        data= response.json()
+        return data
+    
+
+    except requests.exceptions.HTTPError as http_err:
+        return {"error": f"HTTP error occurred: {http_err}"}
+    except Exception as err:
+        return {"error": f"An error occurred: {err}"}
+
+
+def make_time_gmt(start_time , end_time):
+    if not start_time and end_time :
+        return "error: Start time or end time is missing" , 400
+    
+    input_format = "%Y-%m-%dT%H:%M:%S.%fZ"
+    start_datetime = datetime.strptime(start_time, input_format)
+    end_datetime = datetime.strptime(end_time, input_format)
+
+    local_tz =  timezone('Asia/Tehran')
+
+    start_datetime_local  = local_tz.localize(start_datetime)
+    end_datetime_local = local_tz.localize(end_datetime)
+
+    # Convert to UTC
+    start_datetime_utc = start_datetime_local.astimezone(pytz.utc)
+    end_datetime_utc = end_datetime_local.astimezone(pytz.utc)
+
+    start_time_iso = start_datetime_utc.strftime('%Y-%m-%dT%H:%M:%S.%fZ')[:-3]
+    end_time_iso = end_datetime_utc.strftime('%Y-%m-%dT%H:%M:%S.%fZ')[:-3] 
+
+
+    return start_time_iso , end_time_iso

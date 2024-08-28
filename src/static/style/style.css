@@ -237,7 +237,6 @@ header nav {
 /* camera list */
 
 
-
 .main-cam-list {
   display: flex;               
   flex-direction: column;      
@@ -249,7 +248,6 @@ header nav {
     
 
 }
-
 
 .cam-list-container {
   display: flex;              
@@ -305,7 +303,6 @@ header nav {
   
 }
 /* add camera form */
-
 
 
 
@@ -367,7 +364,6 @@ header nav {
 
 
 
-
 .add-zone-container button[type="submit"] {
   align-self: flex-start;
   padding: 10px 20px;
@@ -387,7 +383,6 @@ header nav {
 /* zone lists */ 
 
 
-
 .main-zone-list {
   display: flex;               
   flex-direction: column;      
@@ -399,7 +394,6 @@ header nav {
     
 
 }
-
 
 .zone-list-container {
   display: flex;              
@@ -456,7 +450,6 @@ header nav {
 }
 
 
-
 /* side menu */
 
 .dashboard {
@@ -476,9 +469,7 @@ header nav {
   transform: translateX(0);
 }
 
-
 /* add camera */
-
 
 
 .add-camera-frm {
@@ -569,7 +560,6 @@ header nav {
 }
 
 
-
 .video_container {
   position: relative;
   width: 100%;
@@ -587,7 +577,7 @@ header nav {
 /* Default layout when 1 camera is displayed */
 .video-player {
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -595,6 +585,7 @@ header nav {
   background-color: var(--clr-lightGray);
   padding-right: 30px;
   border-radius: 30px;
+  aspect-ratio: 16 / 9;
 }
 
 .grid-container {
@@ -634,6 +625,7 @@ header nav {
   border: 2px solid #444;
   border-radius: 10px;
   position: relative;
+  aspect-ratio: 16 / 9; 
 }
 
 .grid-item img, 
@@ -646,7 +638,6 @@ header nav {
   max-height: 90%; 
   margin-bottom: auto;
 }
-
 
 .placeholder {
   text-align: center;
@@ -668,6 +659,9 @@ header nav {
   min-height: 50px;
 }
 
+.controls p {
+  color: var(--clr-font-light);
+}
 .view-btn {
   color: var(--clr-font-light); 
   padding: 10px 15px;
@@ -748,7 +742,6 @@ input[type="range"]::-moz-range-thumb {
 /* alert list */
 
 
-
 .main-alerts {
   display: flex;
   flex-direction: column;
@@ -785,7 +778,6 @@ input[type="range"]::-moz-range-thumb {
   transition: background-color 0.3s ease;
   margin-bottom: 20px;
 }
-
 
 .single-alert-list {
   display: flex;
@@ -840,6 +832,73 @@ input[type="range"]::-moz-range-thumb {
   animation-duration: 0.6s;
 }
 
+/*pop up*/
+.get-time {
+  display: none; 
+  position: fixed; 
+  z-index: 1000; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.time-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; 
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.form button{
+  padding: 10px;
+  color: var(--clr-font-light);
+  background-color: #535EFC;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+utton[type="submit"] {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+
+
+
 /* Add Animation */
 @keyframes zoom {
   from {transform: scale(0)}
@@ -887,9 +946,7 @@ input[type="range"]::-moz-range-thumb {
   cursor: not-allowed;
 }
 
-
 /* pop up */
-
 
 
 
@@ -1073,6 +1130,8 @@ input[type="range"]::-moz-range-thumb {
 .theme-dark body {
   background-color: var(--clr-main-dark); 
   color: var(--clr-font-light); 
+  background-color: var(--clr-main-dark); 
+  color: var(--clr-font-light); 
 }
 
 .theme-dark h1, 
@@ -1082,6 +1141,7 @@ input[type="range"]::-moz-range-thumb {
 .theme-dark h5, 
 .theme-dark h6,
 .theme-dark p {
+  color: var(--clr-font-light); 
   color: var(--clr-font-light); 
 }
 .theme-dark p {
@@ -1143,6 +1203,7 @@ input[type="range"]::-moz-range-thumb {
 .theme-dark .bxs-moon:hover {
   background-color: var(--clr-lightGray);
 }
+
 
 
 
