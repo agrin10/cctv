@@ -99,7 +99,7 @@ def handle_retrieves_zone():
         return False, f'An error occurred: {str(e)}'
     
 
-def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, camera_image):
+def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, camera_image , is_record):
     existing_camera = Camera.query.filter_by(camera_ip=camera_ip).first()
     if existing_camera:
         return False, "Camera already exists."
@@ -108,7 +108,10 @@ def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, came
     if zone is None:
         return False, f"Zone '{zone_name}' not found."
     
-
+    label = camera_ip+'-'+camera_name
+    
+    camera_record= True if is_record == '1' else False
+    
     new_camera = Camera(
         camera_ip=camera_ip,
         camera_name=camera_name,
@@ -116,7 +119,8 @@ def handle_add_camera(camera_ip, camera_name, camera_username, camera_type, came
         camera_type=camera_type,
         camera_zone=zone_name, 
         camera_image_path=camera_image, 
-        camera_password = camera_password
+        camera_password = camera_password,
+        camera_record = camera_record
     )
     
 

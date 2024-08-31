@@ -20,23 +20,25 @@
                 {% endif %}
             </div>
             {% endfor %}
-        </div>
+        </div v>
         {% endif %}
     </div>
 
     {% if not message %}
 </div>
 <div class="controls">
-    <a href="{{ url_for('camera_view', camera_ip=prev_camera_ip) }}" class="view-btn">Previous</a>
     <a href="{{ url_for('camera_view', camera_ip=next_camera_ip) }}" class="view-btn">Next</a>
     <label for="volume"></label>
-    <input type="range" id="volume" min="0" max="1" step="0.1" value="1"/>
-
+    
     <!-- Additional buttons within the controls section -->
-    <button onclick="window.location.href='{{ url_for('camera_view', layout=1) }}'" class="control-btn">1 Camera</button>
-    <button onclick="window.location.href='{{ url_for('camera_view', layout=4) }}'" class="control-btn">4 Cameras</button>
-    <button onclick="window.location.href='{{ url_for('camera_view', layout=9) }}'" class="control-btn">9 Cameras</button>
-    <button onclick="window.location.href='{{ url_for('camera_view', layout=16) }}'" class="control-btn">16 Cameras</button>
+    <div>
+        <button onclick="window.location.href='{{ url_for('camera_view', layout=1) }}'" class="control-btn">1 </button>
+        <button onclick="window.location.href='{{ url_for('camera_view', layout=4) }}'" class="control-btn">4 </button>
+        <button onclick="window.location.href='{{ url_for('camera_view', layout=9) }}'" class="control-btn">9 </button>
+        <button onclick="window.location.href='{{ url_for('camera_view', layout=16) }}'" class="control-btn">16</button>
+    </div>
+    <a href="{{ url_for('camera_view', camera_ip=prev_camera_ip) }}" class="view-btn">Previous</a>
+    <input type="range" id="volume" min="0" max="1" step="0.1" value="1"/>
 </div>
 {% endif %}
 {% endblock %}

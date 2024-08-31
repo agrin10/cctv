@@ -33,6 +33,12 @@ class Config:
     JWT_COOKIE_CSRF_PROTECT = False
     JWT_CSRF_IN_COOKIES = False
 
+
+    # api urls
+    AI_URL = "http://192.168.10.107/"
+    RECORDING_URL = "http://192.168.10.108/"
+
+
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:mysecretpassword@localhost:5432/cctv'

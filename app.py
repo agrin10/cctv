@@ -2,7 +2,7 @@ from src import app, db
 from flask import render_template
 from flask_jwt_extended import jwt_required
 
-    
+
 
 from src.cctv.views.web_routes import * 
 from src.cctv.views.api_routes import *
