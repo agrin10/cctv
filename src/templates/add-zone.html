@@ -4,12 +4,10 @@
 <div class="add-zone-frm">
     <div class="add-zone-container">
         <h1>افزودن منطقه</h1>
-        <form action="#" method ="post">
-            <input type="text" name='zone-name' id='zone-name' Placeholder='نام دستگاه '>
-            <input type="text" name='zone-ip' id="zone-ip" Placeholder='دوربین ip'>
+        <form action="{{ url_for('add_zone') }}" method ="post">
+            <input type="text" name='zone-name' id='zone-name' Placeholder='نام منطقه '>
+            <input type="text" name='zone-desc' id="zone-desc" Placeholder='توضیحات '>
             
-
-
             <button type="submit" class="btn">افزودن منطقه</button>
 
         </form>

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main-cam">
+    <div class="main-cam-list">
+        <h1>لیست دوربین ها </h1>
+        <div class="cam-list-container">
+            <h3>نمایش دوربین ها</h3>
+
+            {% for camera in cameras %}
+            <div class="single-cam-container">
+                <div class="camera-image-container">
+                    <img src="{{ url_for('static', filename='image/placeholder.jpg') }}" alt="Camera Image"> <!-- Placeholder Image -->
+                </div>
+                <div class="single-cam-list">
+                    <div class="single-cam">
+                        <p>IP دوربین : {{ camera.camera_ip }}</p>
+                    </div>
+                    <div class="single-cam">
+                        <p>نام دستگاه: {{ camera.camera_name }}</p>
+                    </div>
+                    <div class="single-cam">
+                        <p>نوع دستگاه: {{ camera.camera_type }}</p>
+                    </div>
+                    <div class="single-cam">
+                        <p>منطقه: {{ camera.zone.zone_name}}</p> <!-- Assuming 'zone' relationship is set up correctly -->
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div class='add-cam'>
+                <a href="{{ url_for('add_camera') }}">
+                    <button class='btn'>افزودن دوربین</button>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
