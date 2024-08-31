@@ -10,7 +10,6 @@ import datetime
 
 
 
-
 @app.route('/home-page')
 @jwt_required()
 def home_page():
@@ -110,6 +109,8 @@ def add_camera():
         camera_password = request.form.get('cam-password')
         camera_type = request.form.get('cam-type')
         zone_name = request.form.get('cam-zone')  
+        is_record = request.form.get('is_record')
+
         camera_image = None  
 
         if 'file' in request.files:
@@ -119,7 +120,7 @@ def add_camera():
                 file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
                 file.save(file_path)
                 camera_image = filename
-        success, message = handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, camera_image )
+        success, message = handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, camera_image, is_record )
         
         if success:
             flash(message=message)
@@ -129,7 +130,8 @@ def add_camera():
             return redirect(url_for('add_camera'))
     
     zones = Zone.query.all()
-    return render_template('add-cam.html', zones=zones)
+    camera= Camera.query.all()
+    return render_template('add-cam.html', zones=zones , camera=camera)
 
 @app.route('/cameras')
 @jwt_required()
@@ -153,11 +155,11 @@ def camera_view():
     if not camera:
         return render_template('camera-view.html', cameras=[], camera=None, message="Camera not found", layout=layout)
     
-    _, prev_camera_id, next_camera_id = get_camera_and_neighbors(camera.camera_id)
+    _, prev_camera_id, next_camera_id = get_camera_and_neighbors(camera_ip)
 
     cameras_in_zone = Camera.query.filter_by(camera_zone=camera.camera_zone).order_by(Camera.camera_id).all()
     
-    online_cameras = [get_online_cameras(cameras_in_zone)[0], get_online_cameras(cameras_in_zone)[0], get_online_cameras(cameras_in_zone)[0]]
+    online_cameras = [get_online_cameras(cameras_in_zone)[0],get_online_cameras(cameras_in_zone)[0],get_online_cameras(cameras_in_zone)[0]]
 
     cameras_to_display = [online_cameras[i] if i < len(online_cameras) else None for i in range(layout)]
 
@@ -172,27 +174,6 @@ def camera_view():
     )
 
 
-
-@app.route('/navigate_camera', methods=['POST'])
-def navigate_camera():
-    # Handle navigation through next or previous buttons
-    action = request.form.get('action')
-    camera_ip = request.args.get('camera_ip')
-
-    camera = Camera.query.filter_by(camera_ip=camera_ip).first()
-    if not camera:
-        return redirect(url_for('camera_view'))
-
-    prev_camera_id, next_camera_id = get_camera_and_neighbors(camera.camera_id)
-    
-    if action == 'next':
-        next_camera = Camera.query.get(next_camera_id)
-        return redirect(url_for('camera_view', camera_ip=next_camera.camera_ip))
-    elif action == 'prev':
-        prev_camera = Camera.query.get(prev_camera_id)
-        return redirect(url_for('camera_view', camera_ip=prev_camera.camera_ip))
-
-    return redirect(url_for('camera_view'))
 
 @app.route('/video_feed')
 def video_feed():

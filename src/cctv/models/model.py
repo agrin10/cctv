@@ -84,6 +84,7 @@ class Camera(db.Model, SoftDeleteMixin):
     camera_type = db.Column(db.String(150), nullable=False)
     camera_zone = db.Column(db.String(225), db.ForeignKey("zones.zone_name"), nullable=False)  
     camera_image_path = db.Column(db.String(255), nullable=True)
+    camera__record = db.Column(db.Boolean, unique=False , default= False)
     
     camera_password = db.Column(db.String(150), nullable=False)
     camera_username = db.Column(db.String(150), nullable=False)
@@ -106,3 +107,5 @@ class Camera(db.Model, SoftDeleteMixin):
             camera_dict['zone'] = None  
         
         return camera_dict
+    
+
