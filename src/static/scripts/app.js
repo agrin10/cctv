@@ -60,3 +60,37 @@ function showPopup(){
 function closePopup(){
   document.getElementById("timePopup").style.display = "none";
 }
+
+
+//ai properties
+
+
+const selectBox = document.getElementById('selectBox');
+const select = document.getElementById('ai_properties');
+const selectedItemsContainer = document.getElementById('selectedItems');
+
+selectBox.addEventListener('click', function() {
+    select.style.display = select.style.display === 'none' ? 'block' : 'none';
+});
+
+select.addEventListener('change', function() {
+    const selectedOptions = Array.from(select.selectedOptions);
+    selectedItemsContainer.innerHTML = ''; // Clear previous selections
+
+    selectedOptions.forEach(option => {
+        const item = document.createElement('div');
+        item.className = 'selected-item';
+        item.innerText = option.value;
+
+        const removeIcon = document.createElement('span');
+        removeIcon.className = 'remove-item';
+        removeIcon.innerHTML = '&times;'; // Close icon
+        removeIcon.onclick = function() {
+            option.selected = false; // Unselect the option
+            item.remove(); // Remove the item from the display
+        };
+
+        item.appendChild(removeIcon);
+        selectedItemsContainer.appendChild(item);
+    });
+});

@@ -307,13 +307,13 @@ header nav {
 
 
 .add-zone-frm {
-  background: var(--clr-sec-dark); /* Light mode background */
+  background: var(--clr-sec-dark); 
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  transition: background 0.3s, color 0.3s; /* Smooth transition for dark mode */
+  transition: background 0.3s, color 0.3s; 
 }
 
 .add-zone-container {
@@ -525,6 +525,33 @@ header nav {
   font-size: 1.5rem; 
 }
 
+/*api prperties*/
+
+select.ai_property {
+  width: 100%; 
+  padding: 0.5rem; 
+  font-size: 1rem; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  background-color: #f9f9f9; 
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.3s; 
+}
+
+select.ai_property:focus {
+  border-color: linear-gradient(144deg, #8b1bdb, #5b42f3 50%, #2dc1d1); 
+  background-color: #fff; 
+}
+
+option {
+  padding: 0.5rem; 
+  background-color: #fff; 
+}
+
+option:hover {
+  background-color:linear-gradient(144deg, #8b1bdb, #5b42f3 50%, #2dc1d1); 
+}
 .add-cam-container input::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
@@ -644,6 +671,7 @@ header nav {
   font-size: 18px;
 }
 
+
 .controls {
   position: fixed;
   bottom: 20px;
@@ -739,6 +767,44 @@ input[type="range"]::-moz-range-thumb {
   background-color: #666;
 }
 
+/*api prperties */
+
+
+.multi-select {
+  position: relative;
+  display: inline-block;
+}
+.multi-select select {
+  display: none; /* Hide the default select */
+}
+.select-box {
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  background-color: var(--clr-sec-dark);
+  border-bottom: 1px solid darkgray;
+  color: rgb(255, 255, 255);
+  font-size: 1.5rem; 
+}
+.selected-items {
+  margin: 5px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.selected-item {
+  color: var(--clr-font-light);
+  padding: 2px 5px;
+  border-radius: 4px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  font-size: 2rem ;
+}
+.selected-item .remove-item {
+  margin-left: 5px;
+  cursor: pointer;
+  color: white;
+}
+
 /* alert list */
 
 
@@ -808,16 +874,16 @@ input[type="range"]::-moz-range-thumb {
 }
 /* The Modal (background) */
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
+  display: none; 
+  position: fixed; 
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
-  padding-top: 60px; /* Some padding on top */
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgba(0, 0, 0, 0.8); 
+  padding-top: 60px;
 }
 
 /* Modal Content (image) */

@@ -10,7 +10,7 @@ login_manager= LoginManager()
 JWT = JWTManager()
 
 def create_app():
-    app = Flask(__name__ , template_folder='templates' , static_folder='static')
+    app = Flask(__name__ , template_folder='templates' , static_folder='static' , static_url_path='/')
     app.config.from_object('config.DevelopmentConfig')
 
     
@@ -20,9 +20,9 @@ def create_app():
     login_manager.init_app(app)
     JWT.init_app(app)
 
+
     return app
 
-app = create_app()
 
 from src.cctv import models
 from src.cctv import views

@@ -9,18 +9,18 @@
         {% else %}
         <div class="grid-container">
             {% for camera in cameras %}
-            <div class="grid-item">
-                {% if camera %}
-                <img src="{{ url_for('video_feed', camera_ip=camera.camera_ip) }}" alt="{{ camera.camera_name }}">
-                {% else %}
-                <div class="placeholder">
-                    <img src="{{ url_for('static', filename='placeholder.png') }}" alt="No Camera Connected">
-                    <p>There is no connected camera.</p>
+                <div class="grid-item">
+                    {% if camera %}
+                        <img src="{{ url_for('video_feed', camera_ip=camera.camera_ip) }}" alt="{{ camera.camera_name }}">
+                    {% else %}
+                        <div class="placeholder">
+                            <img src="{{ url_for('static', filename='placeholder.png') }}" alt="No Camera Connected">
+                            <p>There is no connected camera.</p>
+                        </div>
+                    {% endif %}
                 </div>
-                {% endif %}
-            </div>
             {% endfor %}
-        </div v>
+        </div>
         {% endif %}
     </div>
 

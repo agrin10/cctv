@@ -17,12 +17,29 @@
                     <option value="{{ zone.zone_name }}">{{ zone.zone_name }}</option>  <!-- Use zone_name for display -->
                 {% endfor %}
             </select>
+            <select name="is_recorded" id="record">
+                <option value="1">فعال</option>
+                <option value="0">غیر فعال</option>
+            </select>
+
+            <div class="multi-select">
+                <div class="select-box" id="selectBox">
+                    <span>تشخیص اشیا</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <select name="ai_properties[]" id="ai_properties" class="ai_propertie" multiple>
+                    {% for ai in ai_properties %}
+                    <option value="{{ ai.name }}">{{ ai.label }}</option>
+                    {% endfor %}
+                </select>
+                <div class="selected-items" id="selectedItems"></div>
+            </div>
             <input type="file" name="file" id="file" placeholder="uplod an image">
             <button type="submit" class="btn">افزودن دوربین</button>
+
         </form>
     </div>
 </div>
-
 
 {% endblock content %}
 

@@ -1,2 +1,2 @@
-from . import model
-from .model import Users
+from .model import *
+# from .model import Users
