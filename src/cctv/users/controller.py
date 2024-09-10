@@ -3,13 +3,11 @@ from src import login_manager
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, get_jwt_identity
 from flask import jsonify , make_response
 from datetime import timedelta
-from pytz import timezone 
 
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return Users.query.get(user_id)
+
+
 
 
 def handle_registration(username , password , email):

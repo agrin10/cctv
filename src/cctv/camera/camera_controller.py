@@ -1,37 +1,12 @@
-from .model import  db , Zone , Camera , AiProperties
-from flask import jsonify , make_response
-from pytz import timezone 
+from .model import  db ,  Camera , AiProperties
 from sqlalchemyseeder import ResolvingSeeder
 import json
 from datetime import datetime
-import re
-import requests
 import cv2
-import pytz
 from .api_controller import check_ai_module_api , check_modules_status , add_camera_api,check_recording_api , delete_camera_api , edit_camera , toggle_record_option_for_all , toggle_recording_specific_camera , get_all_cameras_from_record_module ,get_alerts_from_api , get_records_from_api , build_rtsp_url
+from src.cctv.zone.model import Zone
 
 
-
-
-def handle_add_zone(zone_name , zone_desc):
-    existing_zone = Zone.query.filter_by(zone_name = zone_name).first()
-    if existing_zone:
-        return False , "entered location already exists"
-    new_zone = Zone(zone_name = zone_name , zone_desc = zone_desc)
-    db.session.add(new_zone)
-    db.session.commit()
-    return True , 'zone added successfully'
-
-    
-def handle_retrieves_zone():
-    try:
-        zones = Zone.query.all()
-        zones = [Zone.toDict(zones) for zones in zones]
-        return zones
-    except Exception as e:
-        db.session.rollback()
-        return False, f'An error occurred: {str(e)}'
-    
 
 def seed_ai_properties():
     session = db.session

@@ -2,31 +2,11 @@ from flask import redirect , url_for , render_template , request , flash   ,sess
 import os
 from werkzeug.utils import secure_filename
 from flask_jwt_extended import  jwt_required 
-from .camera_controller import generate_frames , handle_add_camera , handle_retrieves_zone, handle_add_zone , handle_retrieves_camera , handle_delete_camera , handle_edit_camera , get_all_camera_record_with_time , get_camera_and_neighbors , get_online_cameras , build_rtsp_url , search_recorded_files , get_all_alerts 
-from .model import Camera , AiProperties , Zone
+from .camera_controller import generate_frames , handle_add_camera , handle_retrieves_camera ,  get_all_camera_record_with_time , get_camera_and_neighbors , get_online_cameras , build_rtsp_url , search_recorded_files , get_all_alerts 
+from .model import Camera , AiProperties 
+from src.cctv.zone.model import Zone
 from src.cctv.camera import camera_bp
 
-@camera_bp.route('/zones')
-@jwt_required()
-def zones():
-    zones= handle_retrieves_zone()
-    return render_template('zones.html' , zones=zones)
-
-
-@camera_bp.route('/add-zone' , methods=['POST' , 'GET'])
-@jwt_required()
-def add_zone():
-    if request.method == 'POST':
-        zone_name = request.form.get('zone-name')
-        zone_desc = request.form.get('zone-desc')
-        success , message = handle_add_zone(zone_name , zone_desc)
-        if success:
-            flash(message=message)
-            return redirect(url_for('camera.zones'))
-        else:
-            flash(message=message)
-            return redirect(url_for('camera.add_zone'))
-    return render_template('add-zone.html')
 
 
 
@@ -127,15 +107,14 @@ def video_feed():
 @camera_bp.route('/alerts/')
 def alerts():
     response = get_all_alerts()
-    data = response['data']
 
     items_per_page = 5
     page = request.args.get('page', 1, type=int)
     start = (page - 1) * items_per_page
     end = start + items_per_page
 
-    paginated_data = data[start:end]
-    total_pages = (len(data) + items_per_page - 1) // items_per_page
+    paginated_data = response[start:end]
+    total_pages = (len(response) + items_per_page - 1) // items_per_page
 
     return render_template(
         'alerts.html' , 

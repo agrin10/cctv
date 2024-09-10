@@ -54,6 +54,6 @@ def logout():
 
     response = handle_logout()
     
-    response.headers['Location'] = url_for('login')  
+    response.headers['Location'] = url_for('users.login')  
     response.status_code = 302  
     return response

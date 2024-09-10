@@ -1,4 +1,4 @@
-from src import db 
+from src import db , login_manager
 from flask_bcrypt import Bcrypt
 import uuid
 from flask_login import UserMixin
@@ -6,6 +6,9 @@ from werkzeug.security import check_password_hash , generate_password_hash
 from datetime import datetime , timezone
 from sqlalchemy.ext.declarative import declared_attr
 
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get(str(user_id))
 
 
 bcrypt = Bcrypt()

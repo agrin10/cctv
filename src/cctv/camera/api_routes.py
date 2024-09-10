@@ -1,30 +1,11 @@
-from .camera_controller import handle_add_zone , handle_retrieves_zone , handle_add_camera , handle_retrieves_camera , search_recorded_files , get_alerts_from_api , handle_edit_camera , handle_delete_camera , get_all_cameras_from_record_module, toggle_recording_camera , recording_status_specific_camera
-from flask import request, jsonify  ,Blueprint
+from .camera_controller import  handle_add_camera , handle_retrieves_camera , search_recorded_files , get_alerts_from_api , handle_edit_camera , handle_delete_camera , get_all_cameras_from_record_module, toggle_recording_camera , recording_status_specific_camera
+from flask import request, jsonify
 from flask_jwt_extended import jwt_required
 from src.cctv.camera import camera_bp
 
 
 
 
-@camera_bp.route('/add-zone' , methods=['POST'])
-@jwt_required()
-def api_add_zone():
-    zone_name = request.json['zone_name']
-    zone_desc = request.json['zone_desc']
-    success , message = handle_add_zone(zone_name , zone_desc)
-
-    if success:
-        return jsonify(message=message , success=success)
-    else:
-        return jsonify(message=message , success=success)
-
-    
-
-@camera_bp.route('/zones')
-@jwt_required()
-def api_zones():
-    zones = handle_retrieves_zone()    
-    return jsonify(zones = zones)
 
 @camera_bp.route('/api/add-camera', methods=['POST' ])
 @jwt_required()

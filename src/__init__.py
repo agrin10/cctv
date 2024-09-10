@@ -22,12 +22,14 @@ def create_app():
 
     from src.cctv.users import users_bp
     from src.cctv.camera import camera_bp
+    from src.cctv.zone import zones_bp
 
     app.register_blueprint(camera_bp, url_prefix='/camera')
     app.register_blueprint(users_bp, url_prefix='/users')
+    app.register_blueprint(zones_bp, url_prefix='/zones')
 
     return app
 
 
-# from src.cctv.camera import *
-# from src.cctv.users import *
+from src.cctv.camera.model import Camera
+from src.cctv.users.model import Users

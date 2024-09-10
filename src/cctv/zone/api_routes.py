@@ -1,36 +1,26 @@
 from flask import Blueprint , jsonify ,request
-from .model import Users
-from .controller import handle_login , handle_logout , handle_registration
-from flask_login import login_user , logout_user
+from .controller import handle_add_zone , handle_retrieves_zone
 from flask_jwt_extended import jwt_required
-from src.cctv.users import users_bp
+from src.cctv.zone import zones_bp
 
 
 
-@users_bp.route('/api/register', methods=['POST'])
-def api_register():
-    username = request.json['username']
-    password = request.json['password']
-    email = request.json['email']
-    success, message = handle_registration(username, password, email)
-    return jsonify(message=message, success=success)
-    
-@users_bp.route('/api/login', methods=['POST'])
-def api_login():
-    username = request.json['username']
-    password = request.json['password']
-    user, success, message,  response = handle_login(username, password)
-    if success:
-        login_user(user)
-        return response
-    else:
-        return jsonify(message=message, success=success), 401
-
-
-    
-@users_bp.route('/api/logout', methods=['POST'])
+@zones_bp.route('/api/add-zone' , methods=['POST'])
 @jwt_required()
-def api_logout():
-    logout_user()
-    response = handle_logout()
-    return response
+def api_add_zone():
+    zone_name = request.json['zone_name']
+    zone_desc = request.json['zone_desc']
+    success , message = handle_add_zone(zone_name , zone_desc)
+
+    if success:
+        return jsonify(message=message , success=success)
+    else:
+        return jsonify(message=message , success=success)
+
+    
+
+@zones_bp.route('/api/zones')
+@jwt_required()
+def api_zones():
+    zones = handle_retrieves_zone()    
+    return jsonify(zones = zones)

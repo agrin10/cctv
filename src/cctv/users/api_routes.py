@@ -1,5 +1,4 @@
-from flask import Blueprint , jsonify ,request
-from .model import Users
+from flask import  jsonify ,request
 from .controller import handle_login , handle_logout , handle_registration
 from flask_login import login_user , logout_user
 from flask_jwt_extended import jwt_required

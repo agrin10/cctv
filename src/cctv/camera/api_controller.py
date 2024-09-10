@@ -17,8 +17,8 @@ def is_iso_format(date_string: str) -> bool:
 
 # recording_url = app.config['RECORDING_URL']
 # ai_url = app.config['AI_URL']
-recording_url = '192.168.10.108/'
-ai_url = '192.168.10.107/'
+recording_url = 'http://192.168.10.108/'
+ai_url = 'http://192.168.10.107/'
 
 
 payload = {}

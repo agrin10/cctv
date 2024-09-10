@@ -25,22 +25,6 @@ class SoftDeleteMixin:
         self.is_deleted =False
 
 
-
-class Zone(db.Model, SoftDeleteMixin):
-    __tablename__ = "zones"
-    
-    zone_id = db.Column(db.String(225), primary_key=True, nullable=False, unique=True, default=lambda: str(uuid.uuid4()))
-    zone_name = db.Column(db.String(225), nullable=False, unique=True)
-    zone_desc = db.Column(db.Text(), nullable=True)
-
-    cameras = db.relationship("Camera", back_populates="zone")
-    
-    def toDict(self):
-        zone_dict = {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
-        
-        zone_dict['cameras'] = [camera.toDict() for camera in self.cameras]
-        
-        return zone_dict
     
 
 # Association Table
