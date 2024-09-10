@@ -1,89 +1,19 @@
-from app import app
-from src.cctv.models.model import Zone , Camera , AiProperties
-from flask import render_template, request, redirect, url_for, flash , Response , session , Blueprint
-from src.cctv.controllers.controller import handle_registration, handle_login , handle_retrieves_zone , handle_add_zone , handle_add_camera  , generate_frames , handle_retrieves_camera , handle_logout , build_rtsp_url , get_online_cameras , get_camera_and_neighbors ,get_alerts_from_api, recording_status_specific_camera , search_recorded_files , get_all_camera_record_with_time
-from flask_login import login_user , logout_user
-from werkzeug.utils import secure_filename
+from flask import redirect , url_for , render_template , request , flash   ,session , Response
 import os
-from flask_jwt_extended import get_jwt_identity , jwt_required  , verify_jwt_in_request
-import requests
+from werkzeug.utils import secure_filename
+from flask_jwt_extended import  jwt_required 
+from .camera_controller import generate_frames , handle_add_camera , handle_retrieves_zone, handle_add_zone , handle_retrieves_camera , handle_delete_camera , handle_edit_camera , get_all_camera_record_with_time , get_camera_and_neighbors , get_online_cameras , build_rtsp_url , search_recorded_files , get_all_alerts 
+from .model import Camera , AiProperties , Zone
+from src.cctv.camera import camera_bp
 
-# web_routes = Blueprint('web' , __name__ , template_folder='templates' , static_folder=)
-
-
-@app.route('/home-page')
-@jwt_required()
-def home_page():
-    camera_id = request.args.get('camera_id', 1, type=int)
-    current_user = get_jwt_identity()
-    return render_template('index.html', camera_id=camera_id)
-
-@app.route('/', methods=['GET'])
-def index():
-    try:
-        verify_jwt_in_request()
-        return redirect(url_for('home_page'))
-    except Exception as e:
-        return redirect(url_for('login'))
-
-@app.route('/register', methods=['POST', 'GET'])
-def register():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        email = request.form.get('email')
-        success, message = handle_registration(username, password, email)
-        if success:
-            flash(message=message)
-            return redirect(url_for('login'))
-        else:
-            flash(message=message)
-            return redirect(url_for('register'))
-    return render_template('register.html')
-
-
-
-@app.route('/login', methods=['POST', 'GET'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        user, success, message, response = handle_login(username, password)
-        
-        if success:
-            login_user(user)
-            flash(message=message)
-
-            response.headers['Location'] = url_for('home_page')
-            response.status_code = 302
-
-            return response  
-        
-        flash(message=message)
-        return redirect(url_for('login'))
-    
-    return render_template('login.html')
-
-@app.route('/logout')
-@jwt_required()
-def logout():
-    logout_user()
-
-    response = handle_logout()
-    
-    response.headers['Location'] = url_for('login')  
-    response.status_code = 302  
-    return response
-
-
-@app.route('/zones')
+@camera_bp.route('/zones')
 @jwt_required()
 def zones():
     zones= handle_retrieves_zone()
     return render_template('zones.html' , zones=zones)
 
 
-@app.route('/add-zone' , methods=['POST' , 'GET'])
+@camera_bp.route('/add-zone' , methods=['POST' , 'GET'])
 @jwt_required()
 def add_zone():
     if request.method == 'POST':
@@ -92,15 +22,15 @@ def add_zone():
         success , message = handle_add_zone(zone_name , zone_desc)
         if success:
             flash(message=message)
-            return redirect(url_for('zones'))
+            return redirect(url_for('camera.zones'))
         else:
             flash(message=message)
-            return redirect(url_for('add_zone'))
+            return redirect(url_for('camera.add_zone'))
     return render_template('add-zone.html')
 
 
 
-@app.route('/add-camera', methods=['POST', 'GET'])
+@camera_bp.route('/add-camera', methods=['POST', 'GET'])
 @jwt_required()
 def add_camera():
     if request.method == 'POST':
@@ -118,30 +48,30 @@ def add_camera():
             file = request.files['file']
             if file.filename != '':
                 filename = secure_filename(file.filename)
-                file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                file_path = os.path.join(camera.config['UPLOAD_FOLDER'], filename)
                 file.save(file_path)
                 camera_image = filename
         success, message , status_code = handle_add_camera(camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, camera_image, is_record , ai_properties_list)
         
         if success:
             flash(message=message)
-            return redirect(url_for('cameras'))
+            return redirect(url_for('camera.cameras'))
         else:
             flash(message=message)
-            return redirect(url_for('add_camera'))
+            return redirect(url_for('camera.add_camera'))
     
     zones = Zone.query.all()
     camera= Camera.query.all()  
     ai_properties = AiProperties.query.all()
     return render_template('add-cam.html', zones=zones , camera=camera , ai_properties=ai_properties)
 
-@app.route('/cameras')
+@camera_bp.route('/cameras')
 @jwt_required()
 def cameras():
     cameras = handle_retrieves_camera()
     return render_template('cameras.html' , cameras=cameras)
 
-@app.route('/camera-view')
+@camera_bp.route('/camera-view')
 def camera_view():
     layout = request.args.get('layout', default=1, type=int)
     camera_ip = request.args.get('camera_ip')
@@ -174,7 +104,7 @@ def camera_view():
         layout=layout
     )
 
-@app.route('/video_feed')
+@camera_bp.route('/video_feed')
 def video_feed():
     camera_ip = request.args.get('camera_ip')
     if not camera_ip:
@@ -194,9 +124,9 @@ def video_feed():
     return Response(generate_frames(rtsp_url),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route('/alerts/')
+@camera_bp.route('/alerts/')
 def alerts():
-    response = get_alerts_from_api()
+    response = get_all_alerts()
     data = response['data']
 
     items_per_page = 5
@@ -214,7 +144,7 @@ def alerts():
         total_pages=total_pages
         )
 
-@app.route('/records', methods=['POST', 'GET'])
+@camera_bp.route('/records', methods=['POST', 'GET'])
 def records():
     if request.method == 'POST':
         start_time = request.form.get('start-time')
@@ -229,7 +159,7 @@ def records():
         data = get_all_camera_record_with_time()
 
         if status == 200:
-            return redirect(url_for('records', ip=camera_ip, name=camera_name))
+            return redirect(url_for('camera.records', ip=camera_ip, name=camera_name))
         else:
             return render_template('records.html', videos=[], start_time=start_time, end_time=end_time)
 

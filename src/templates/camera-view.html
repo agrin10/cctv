@@ -11,7 +11,7 @@
             {% for camera in cameras %}
                 <div class="grid-item">
                     {% if camera %}
-                        <img src="{{ url_for('video_feed', camera_ip=camera.camera_ip) }}" alt="{{ camera.camera_name }}">
+                        <img src="{{ url_for('camera.video_feed', camera_ip=camera.camera_ip) }}" alt="{{ camera.camera_name }}">
                     {% else %}
                         <div class="placeholder">
                             <img src="{{ url_for('static', filename='placeholder.png') }}" alt="No Camera Connected">
@@ -27,17 +27,17 @@
     {% if not message %}
 </div>
 <div class="controls">
-    <a href="{{ url_for('camera_view', camera_ip=next_camera_ip) }}" class="view-btn">Next</a>
+    <a href="{{ url_for('camera.camera_view', camera_ip=next_camera_ip) }}" class="view-btn">Next</a>
     <label for="volume"></label>
     
     <!-- Additional buttons within the controls section -->
     <div>
-        <button onclick="window.location.href='{{ url_for('camera_view', layout=1) }}'" class="control-btn">1 </button>
-        <button onclick="window.location.href='{{ url_for('camera_view', layout=4) }}'" class="control-btn">4 </button>
-        <button onclick="window.location.href='{{ url_for('camera_view', layout=9) }}'" class="control-btn">9 </button>
-        <button onclick="window.location.href='{{ url_for('camera_view', layout=16) }}'" class="control-btn">16</button>
+        <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=1) }}'" class="control-btn">1 </button>
+        <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=4) }}'" class="control-btn">4 </button>
+        <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=9) }}'" class="control-btn">9 </button>
+        <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=16) }}'" class="control-btn">16</button>
     </div>
-    <a href="{{ url_for('camera_view', camera_ip=prev_camera_ip) }}" class="view-btn">Previous</a>
+    <a href="{{ url_for('camera.camera_view', camera_ip=prev_camera_ip) }}" class="view-btn">Previous</a>
     <input type="range" id="volume" min="0" max="1" step="0.1" value="1"/>
 </div>
 {% endif %}

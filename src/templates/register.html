@@ -8,7 +8,7 @@
       
       <div class="login wrap">
         <div class="h1">ثبت نام</div>
-        <form action="{{ url_for('register') }}" method="post">
+        <form action="{{ url_for('users.register') }}" method="post">
             
             <input placeholder="نام کاربری" id="username" name="username" type="text" required>
             <input placeholder="رمز عبور" id="password" name="password" type="password" required>
@@ -17,7 +17,7 @@
             <input value="ثبت نام" class="btn" type="submit">
         </form>
         <div class="already-account">
-            <span>اکانت دارید؟<a href="{{ url_for('login') }}"> ورود</a></span>
+            <span>اکانت دارید؟<a href="{{ url_for('users.login') }}"> ورود</a></span>
         </div>
     </div>
     

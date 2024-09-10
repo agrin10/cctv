@@ -1,15 +1,29 @@
 from src import  db ,create_app
-from src.cctv.controllers.controller import seed_ai_properties 
+from flask_jwt_extended import jwt_required , get_jwt_identity ,verify_jwt_in_request 
+from flask import request , url_for , render_template ,redirect
 
 app = create_app()
 
+@app.route('/home-page')
+@jwt_required()
+def home_page():
+    camera_id = request.args.get('camera_id', 1, type=int)
+    current_user = get_jwt_identity()
+    if current_user is None:
+        return redirect(url_for('users.login'))  # Redirect if user identity is None
+    
+    return render_template('index.html', camera_id=camera_id)
 
-
-from src.cctv.views.web_routes import * 
-from src.cctv.views.api_routes import *
+@app.route('/', methods=['GET'])
+def index():
+    try:
+        verify_jwt_in_request()
+        return redirect(url_for('home_page'))
+    except Exception as e:
+        return redirect(url_for('users.login'))
 
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-        seed_ai_properties()
+    print(app.config['SECRET_KEY'])
     app.run(debug=True , port=8080 , host='0.0.0.0')

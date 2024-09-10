@@ -34,13 +34,13 @@
             <div class="pagination">
 
                 {% if page < total_pages %}
-                    <a href="{{ url_for('alerts', page=page+1) }}">Next</a>
+                    <a href="{{ url_for('camera.alerts', page=page+1) }}">Next</a>
                 {% else %}
                     <a class="disabled">Next</a>
                 {% endif %}
                 <span>Page {{ page }} of {{ total_pages }}</span>
                 {% if page > 1 %}
-                    <a href="{{ url_for('alerts', page=page-1) }}">Previous</a>
+                    <a href="{{ url_for('camera.alerts', page=page-1) }}">Previous</a>
                 {% else %}
                     <a class="disabled">Previous</a>
                 {% endif %}

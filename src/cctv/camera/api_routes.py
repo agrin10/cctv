@@ -1,40 +1,12 @@
-from app import app
-from src.cctv.controllers.controller import handle_login, handle_registration , handle_add_zone , handle_retrieves_zone , handle_add_camera , handle_retrieves_camera, handle_logout , search_recorded_files , get_alerts_from_api , handle_edit_camera , handle_delete_camera , get_all_cameras_from_record_module, toggle_recording_camera , recording_status_specific_camera
+from .camera_controller import handle_add_zone , handle_retrieves_zone , handle_add_camera , handle_retrieves_camera , search_recorded_files , get_alerts_from_api , handle_edit_camera , handle_delete_camera , get_all_cameras_from_record_module, toggle_recording_camera , recording_status_specific_camera
 from flask import request, jsonify  ,Blueprint
-from flask_login import login_user , logout_user
 from flask_jwt_extended import jwt_required
-
-api_routes = Blueprint('api', __name__ , template_folder='templates' ,static_folder='static' )
-
-@app.route('/api/register', methods=['POST'])
-def api_register():
-    username = request.json['username']
-    password = request.json['password']
-    email = request.json['email']
-    success, message = handle_registration(username, password, email)
-    return jsonify(message=message, success=success)
-    
-@app.route('/api/login', methods=['POST'])
-def api_login():
-    username = request.json['username']
-    password = request.json['password']
-    user, success, message,  response = handle_login(username, password)
-    if success:
-        login_user(user)
-        return response
-    else:
-        return jsonify(message=message, success=success), 401
+from src.cctv.camera import camera_bp
 
 
-    
-@app.route('/api/logout', methods=['POST'])
-@jwt_required()
-def api_logout():
-    logout_user()
-    response = handle_logout()
-    return response
 
-@app.route('/api/add-zone' , methods=['POST'])
+
+@camera_bp.route('/add-zone' , methods=['POST'])
 @jwt_required()
 def api_add_zone():
     zone_name = request.json['zone_name']
@@ -48,13 +20,13 @@ def api_add_zone():
 
     
 
-@app.route('/api/zones')
+@camera_bp.route('/zones')
 @jwt_required()
 def api_zones():
     zones = handle_retrieves_zone()    
     return jsonify(zones = zones)
 
-@app.route('/api/add-camera', methods=['POST' ])
+@camera_bp.route('/api/add-camera', methods=['POST' ])
 @jwt_required()
 def api_add_camera():
     data = request.json
@@ -76,7 +48,7 @@ def api_add_camera():
     return jsonify(message=message, success=success )
 
 
-@app.route('/api/edit-camera', methods=['PATCH'])
+@camera_bp.route('/api/edit-camera', methods=['PATCH'])
 def api_edit_camera():
     
     data = request.json
@@ -116,7 +88,7 @@ def api_edit_camera():
         return jsonify({"success": False, "message": message}), 400  
     return jsonify({"success": True, "message": message}), 200
 
-@app.route('/api/delete-camera/<ip>-<name>' ,methods=['DELETE'])
+@camera_bp.route('/api/delete-camera/<ip>-<name>' ,methods=['DELETE'])
 def api_delete_camera(ip , name):
     status_code , success , message = handle_delete_camera(ip, name)
     if not success:
@@ -124,20 +96,20 @@ def api_delete_camera(ip , name):
     return jsonify({"success": True, "message": message}), status_code
     
 
-@app.route('/api/cameras')
+@camera_bp.route('/api/cameras')
 @jwt_required()
 def api_cameras():
     cameras = handle_retrieves_camera()
     return jsonify(cameras = cameras)
 
 
-@app.route('/api/alerts')
+@camera_bp.route('/api/alerts')
 @jwt_required()
 def api_alerts():
     data = get_alerts_from_api()
     return jsonify(data)
 
-@app.route('/api/search-files/<ip>-<name>')
+@camera_bp.route('/api/search-files/<ip>-<name>')
 @jwt_required()
 def search_files(ip:str , name:str):
     start_time = request.args.get('from')
@@ -146,12 +118,12 @@ def search_files(ip:str , name:str):
     return jsonify(data=data)
 
 
-@app.route('/api/get-all-cameras-record-module')
+@camera_bp.route('/api/get-all-cameras-record-module')
 def cameras_record():
     data = get_all_cameras_from_record_module()
     return jsonify(data=data)
 
-@app.route('/api/toggle_recording' , methods=['PATCH'])
+@camera_bp.route('/api/toggle_recording' , methods=['PATCH'])
 def toggle_recording():
     data = request.json
     recording = data.get('recording')
@@ -159,7 +131,7 @@ def toggle_recording():
     message , status = toggle_recording_camera(recording)
     return jsonify({"success": True, "message": message}), status
 
-@app.route('/api/recording-status/<ip>-<name>', methods=['PATCH'])
+@camera_bp.route('/api/api/recording-status/<ip>-<name>', methods=['PATCH'])
 def toggle_specific_camera(ip, name):
     try:
         data = request.json
@@ -171,18 +143,3 @@ def toggle_specific_camera(ip, name):
         return jsonify({"success": False, "message": str(e)}), 400
     
 
-
-
-# @app.route('/api/devices')  
-# @jwt_required()
-# def api_devices():
-#     data = get_all_devices_from_api()
-#     return jsonify(data=data)
-
-
-# @app.route('/api/file')
-# @jwt_required()
-# def api_file():
-#     file_path = ""
-#     send_file = seed_ai_prperties_from_file(file_path)
-#     return jsonify(send_file=send_file)
