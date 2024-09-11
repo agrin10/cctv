@@ -44,7 +44,7 @@ def handle_add_camera(
     existing_camera = Camera.query.filter_by(camera_ip=camera_ip).first()
     if existing_camera:
         return False, "Camera already exists."
-    
+
     zone = Zone.query.filter_by(zone_name=zone_name).first()
     if zone is None:
         return False, f"Zone '{zone_name}' not found."
@@ -82,7 +82,7 @@ def handle_add_camera(
         new_camera.ai_properties.append(ai_instance)
 
     try:
-        db.session.add(new_camera)
+        db.session.add(new_camera)  
         db.session.commit()
         return True, "Camera added successfully." 
     except Exception as e:

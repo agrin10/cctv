@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}مدیریت کاربران{% endblock title %}
+{% block content %}
+<div class="user-manage-container">
+    <div class="users-container">
+        <h2>لیست کاربران</h2>
+        <table style="dir:rtl">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>username</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for i in range(3) %}
+                    <td>john</td>
+                    {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+        <a href="#"><button class="btn" style="height:10px;justify-self: start;">add user</button></a>                
+    </div>
+    </div>
+</div>
+
+
+{% endblock content %}

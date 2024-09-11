@@ -71,8 +71,9 @@ def camera_view():
     cameras_in_zone = Camera.query.filter_by(camera_zone=camera.camera_zone).order_by(Camera.camera_id).all()   
     online_cameras = get_online_cameras(cameras_in_zone)  
 
-    # Debug output for online cameras
-    print(f"Online Cameras: {[cam.camera_ip for cam in online_cameras]}")  # Check which cameras are online
+    
+     # Check which cameras are online
+    # print(f"Online Cameras: {[cam.camera_ip for cam in online_cameras]}") 
 
     return render_template(
         'camera-view.html',

@@ -35,40 +35,6 @@ def handle_registration(username , password , email):
 
 
 
-# def handle_login(username, password):
-#     user = Users.query.filter_by(username=username).first()
-#     if not user:
-#         response = make_response(jsonify({
-#             "msg": "Invalid username or password"
-#         }), 401)   
-#         return None, False, 'Invalid username or password', response
-
-#     if user.check_password(password):
-#         access_token = create_access_token(identity=user.user_id)
-#         refresh_token = create_refresh_token(identity=user.user_id, expires_delta=timedelta(days=1))
-#         # print(f'access token {access_token}')
-#         # print(f'refresh token {refresh_token}')
-#         if access_token is None:
-#             raise Exception("Access token not generated")
-#         if refresh_token is None:
-#             raise Exception("Refresh token not gen``erated")
-
-#         response = make_response(jsonify({
-#             "msg": "Login successful",
-            
-#         }))
-
-#         # Set cookies securely
-#         response.set_cookie('access_token_cookie', access_token, httponly=True, samesite='Strict')
-#         set_refresh_cookies(response, refresh_token)
-#         print(user)
-#         return user, True, 'Login successful', response
-#     else:
-#         response = make_response(jsonify({
-#             "msg": "Invalid username or password"
-#         }), 401)  # Unauthorized status code
-#         return None, False, 'Invalid username or password', response
-    
 
 def handle_login(username, password):
     user = Users.query.filter_by(username=username).first()
@@ -110,3 +76,50 @@ def user_list():
     except Exception as e:
         db.session.rollback()
         return False, f"An error occurred: {str(e)}"
+
+
+def handle_add_user(username , password , email):
+    existing_user = Users.query.filter_by(username=username).first()
+    if existing_user:
+        return False , "user already exist." , 400
+    new_user=Users(
+        username=username,
+        email=email
+    )
+    new_user.set_password(password)
+
+    try:
+        db.session.add(new_user)
+        db.session.commit()
+        return True ,"user added successfully." , 200
+    except Exception as e:
+        db.session.rollback()
+        return False , f'unsuccessfull :{e}', 400
+
+def handle_edit_user(username , new_username , password , new_password ,new_email):
+    user = Users.query.filter_by(username=username).first()
+    
+    if user and user.check_password(password):
+        user.username = new_username
+        user.email = new_email
+        if new_password:
+            user.set_password(new_password)
+
+        try:
+            db.session.commit()
+            return True ,"user updated successfully." , 200
+        except Exception as e:
+            return False , f"update faild: {e}" , 400
+    return False , 'user not found' , 400
+
+    
+def handle_delete_user(username):
+    user = Users.query.filter_by(username=username).first()
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return True , "user deleted successfully." , 200
+    except Exception as e:
+        db.session.rollback()
+        return False , "delete faild" , 400
+    

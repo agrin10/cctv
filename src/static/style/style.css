@@ -51,8 +51,8 @@ body {
   transition: all 0.3s;
   background-color: var(--clr-main-light); 
   color: var(--clr-font-dark); 
-  padding: var(--content-padding);
-  margin: var(--content-margin);
+  padding: 0;
+  margin: 0;
 
 }
 h1, h2, h3, h4, h5, h6, p {
@@ -77,7 +77,7 @@ header nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding:10px;
   border-bottom: 1px solid #969595;
 }
 
@@ -100,7 +100,6 @@ header nav {
 
 .menu-btns button:nth-child(1),
 .menu-btns button:nth-child(2) {
-  background-color: var(--clr-lightGray);
   border-radius: 10px;
   transition: all 0.3s;
 }
@@ -114,6 +113,127 @@ header nav {
 .menu-btns button:nth-child(2):hover {
   background-color: var(--clr-sec-dark);
 }
+.switch {
+  --transition: 300ms;
+  --transition500: 500ms;
+  --color-dark: #0c0f14;
+  --color-darkGray: #21262e;
+  --color-gray: #52555a;
+  --color-offwhite: #cecece;
+  --shadow-color: var(--color-dark);
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 60px;
+  height: fit-content;
+  background-color: var(--color-dark);
+  border-radius: 30px;
+  padding: 4px;
+  transition: var(--transition500);
+  user-select: none;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+/* Svg styles */
+.switch .svg {
+  transition: var(--transition);
+  position: absolute;
+  left: 5px;
+}
+.switch .moon {
+  width: 18px;
+  fill: var(--color-gray);
+  opacity: 1;
+}
+
+.switch .sun {
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  left: calc(100% - 21.5px);
+  top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scale: 0.8;
+  opacity: 0;
+}
+
+.switch .sun .dot {
+  positon: relative;
+  display: block;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-dark);
+  background: white;
+  z-index: 1;
+  box-shadow: 11px 0px 0px var(--shadow-color),
+    10.3px 0px 0px var(--shadow-color), -11px 0px 0px var(--shadow-color),
+    -10.3px 0px 0px var(--shadow-color), 0px -11px 0px var(--shadow-color),
+    0px -10.3px 0px var(--shadow-color), 0px 11px 0px var(--shadow-color),
+    0px 10.3px 0px var(--shadow-color), 8px 8px 0px var(--shadow-color),
+    7.3px 7.3px 0px var(--shadow-color), 8px -8px 0px var(--shadow-color),
+    7.3px -7.3px 0px var(--shadow-color), -8px -8px 0px var(--shadow-color),
+    -7.3px -7.3px 0px var(--shadow-color), -8px 8px 0px var(--shadow-color),
+    -7.3px 7.3px 0px var(--shadow-color);
+}
+
+.switch .sun .dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid var(--color-dark);
+}
+
+/*checkbox styles */
+.switch .circle {
+  appearance: none;
+  position: relative;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  left: 0;
+  background-color: var(--color-darkGray);
+  border: 1px solid var(--color-darkGray);
+  transition: var(--transition500);
+  box-shadow: 1px 1px 20px 3px var(--color-darkGray);
+}
+
+.switch:has(.circle:checked) {
+  background: var(--color-offwhite);
+}
+
+.switch .circle:hover {
+  margin-left: 3px;
+}
+.switch .circle:checked:hover {
+  margin-left: -3px;
+}
+
+.switch .circle:checked {
+  left: calc(100% - 24px);
+  background: white;
+  border-color: white;
+  box-shadow: 1px 1px 30px 12px white;
+}
+
+.switch:has(.circle:checked) > .sun {
+  opacity: 1;
+}
+
+.switch:has(.circle:checked) > .moon {
+  opacity: 0;
+}
+
 
 @media screen and (min-width: 768px) {
   .menu-btns button {
@@ -124,6 +244,7 @@ header nav {
     padding-inline: 30px;
   }
 }
+
 /* login/ */
 .login {
   width: 340px;
@@ -458,16 +579,16 @@ header nav {
   right: 0;
   bottom: 0;
   background-color: var(--clr-sec-dark);
-  width: 200px;
+  width: 250px;
   z-index: 200;
-  transform: translateX(800px);
   transition: all 0.8s;
   font-size: 2rem;
 }
 
 .show-menu {
-  transform: translateX(0);
+  transform: translateX(0); /* This can remain if you want an animation for showing the menu */
 }
+
 
 /* add camera */
 
@@ -589,7 +710,7 @@ option:hover {
 
 .video_container {
   position: relative;
-  width: 100%;
+  width: 90%;
   height: 100%;
   overflow: hidden;
   display: flex;
@@ -598,6 +719,7 @@ option:hover {
   align-items: center;
   margin-top: 30px;
   margin-bottom: 100px;
+  margin-right: 40px;
   
 }
 
@@ -609,7 +731,6 @@ option:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--clr-lightGray);
   padding-right: 30px;
   border-radius: 30px;
   aspect-ratio: 16 / 9;
@@ -677,12 +798,13 @@ option:hover {
   bottom: 20px;
   left:0;
   margin: 10px;
+  margin-left:150px ;
   background: #585858;  
   padding: 10px;
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 98%;
+  width: 75%;
   border-radius: 5px;
   min-height: 50px;
 }
@@ -963,7 +1085,71 @@ utton[type="submit"] {
 }
 
 
+/*setting */
+.setting-container{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  padding: 40px;
+  margin: 10px 70px 10px 10px;
+}
+.setting-container h2{
+  margin: right 20px;;
+}
+.setting-items{
+  display: flex;
+  flex-direction: column  ;
+  justify-content: center;
+  padding:40px;
+  width: 30%;
+  margin-right: 80px;
+}
+.single-container a {
+  padding: 10px;
+  color: white;
+  font-weight:bold;
 
+}
+.setting-container {
+    border-radius: 30px;
+    padding: 20px;
+    width: 80%; /* Responsive width */
+}
+
+/* Header Styles */
+.setting-container h2 {
+    text-align: right;
+    margin-bottom: 20px;
+    margin-right: 50px;
+}
+
+/* Setting Items */
+.setting-items {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Single Container */
+.single-container {
+    margin-bottom: 15px;
+}
+
+/* Link Styles */
+.single-container a {
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    display: block;
+    background-color: #838383;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+}
+
+/* Hover Effects */
+.single-container a:hover {
+    background-color: hsl(280, 74%, 47%);
+}
 
 /* Add Animation */
 @keyframes zoom {
@@ -1020,6 +1206,8 @@ utton[type="submit"] {
 
 /* dashboard */
 
+
+
 .dashboard {
   display: flex;
   justify-content: start;
@@ -1027,6 +1215,9 @@ utton[type="submit"] {
   padding-top: 10px;
   flex-direction: column;
   background-color: var(--clr-lightGray);
+}
+.main-style{
+  margin-right: 250px;
 }
 
 .dashboard ul {
@@ -1102,8 +1293,7 @@ utton[type="submit"] {
   border-radius: 50%;
   cursor: pointer;
 }
-
-.backdrop {
+/* .backdrop {
   position: absolute;
   top: 0;
   left: 0;
@@ -1111,13 +1301,12 @@ utton[type="submit"] {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.425);
   z-index: 10;
-}
+} */
 
-.hidden {
+/* .hidden {
   display: none;
-}
+} */
 
-/* main  */
 
 .boxs {
   margin-top: 50px;

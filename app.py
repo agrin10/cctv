@@ -12,13 +12,13 @@ def home_page():
     if current_user is None:
         return redirect(url_for('users.login'))  # Redirect if user identity is None
     
-    return render_template('index.html', camera_id=camera_id)
+    return render_template('base.html', camera_id=camera_id)
 
 @app.route('/', methods=['GET'])
 def index():
     try:
         verify_jwt_in_request()
-        return redirect(url_for('home_page'))
+        return render_template('index.html')
     except Exception as e:
         return redirect(url_for('users.login'))
 

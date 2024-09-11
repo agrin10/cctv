@@ -30,7 +30,6 @@ def login():
         password = request.form.get('password')
         #TODO user is not identfy
         user, success, message, response = handle_login(username, password)
-        print(user)
 
         if success:
             login_user(user)
