@@ -56,3 +56,7 @@ def logout():
     response.headers['Location'] = url_for('users.login')  
     response.status_code = 302  
     return response
+
+@users_bp.route('/')
+def user_manage():
+    return render_template('user-manage.html')

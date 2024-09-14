@@ -124,10 +124,10 @@ def edit_camera(camera_ip:str, camera_new_ip:str, camera_name:str, camera_new_na
         return None, 500
 
     try:
-        response = requests.patch(recording_url + "devices", headers=header, json=payload)
+        response = requests.patch(recording_url + "devices/", headers=header, json=payload)
         response.raise_for_status() 
 
-        ai_response = requests.patch(ai_url + "devices", headers=header, json=ai_payload)
+        ai_response = requests.patch(ai_url + "devices/", headers=header, json=ai_payload)
         ai_response.raise_for_status()
 
         return {
@@ -145,7 +145,7 @@ def delete_camera_api(camera_ip:str , camera_name:str):
         return 500
     
     #sending delete requeest to ai api
-    ai_response = requests.delete(ai_url + "devices" + label , headers=header)
+    ai_response = requests.delete(ai_url + "devices/" + label , headers=header)
     ai_response.raise_for_status()
 
     return ai_response , True , "camera deleted successfuly."
@@ -154,7 +154,7 @@ def delete_camera_api(camera_ip:str , camera_name:str):
 def get_all_cameras_from_record_module():
     if not check_modules_status():
         return None , 500
-    response = requests.get(recording_url + "devices" , headers=header, json=payload)
+    response = requests.get(recording_url + "devices/" , headers=header, json=payload)
     response.raise_for_status()
     return response.json(), response.status_code
     
@@ -182,7 +182,7 @@ def toggle_record_option_for_all(bool:str):
 
 
 def get_alerts_from_api():
-    response = requests.get(ai_url+"alerts" , headers=header )
+    response = requests.get(ai_url+"alerts/" , headers=header )
     response.raise_for_status()
     data = response.json()
 

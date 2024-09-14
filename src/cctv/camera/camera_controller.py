@@ -5,7 +5,7 @@ from datetime import datetime
 import cv2
 from .api_controller import check_ai_module_api , check_modules_status , add_camera_api,check_recording_api , delete_camera_api , edit_camera , toggle_record_option_for_all , toggle_recording_specific_camera , get_all_cameras_from_record_module ,get_alerts_from_api , get_records_from_api , build_rtsp_url
 from src.cctv.zone.model import Zone
-
+import os
 
 
 def seed_ai_properties():
@@ -170,7 +170,19 @@ def handle_retrieves_camera():
         return False, f'An error occurred: {str(e)}'
     
 
+
+
+latest_frame = None
+
+import cv2
+import os
+
+latest_frame = None
+
 def generate_frames(rtsp_url):
+    """Generate frames from the video feed."""
+    global latest_frame
+
     cap = cv2.VideoCapture(rtsp_url)
     
     if not cap.isOpened():
@@ -181,14 +193,41 @@ def generate_frames(rtsp_url):
         success, frame = cap.read()
         if not success:
             break
-        else:
-            ret, buffer = cv2.imencode('.jpg', frame)
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            
+        
+        # Store the latest frame globally
+        latest_frame = frame
 
-            
+        # Encode frame to JPEG
+        ret, buffer = cv2.imencode('.jpg', frame)
+        if not ret:
+            continue
+        frame = buffer.tobytes()
+
+        # Yield the frame to the client
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    
+    cap.release()
+
+def capture_image_from_latest_frame(output_filename='captured_image.png'):
+    """Capture the most recent frame and save it as a PNG file."""
+    global latest_frame
+
+    if latest_frame is None:
+        raise ValueError("No frame available to capture")
+
+    # Ensure the output directory exists
+    output_path = r'C:/Users/ASUS/Desktop/cctv-web/src/static/screenshots'
+    
+    # Ensure the output directory exists
+    os.makedirs(output_path, exist_ok=True)
+    
+    # Save the frame as a PNG file
+    output_file_path = os.path.join(output_path, output_filename)
+    cv2.imwrite(output_file_path, latest_frame)
+    
+    return output_file_path
+     
 def get_online_cameras(cameras):
     online_cameras = []
     for camera in cameras:

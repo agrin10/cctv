@@ -1,4 +1,4 @@
-from .camera_controller import  handle_add_camera , handle_retrieves_camera , search_recorded_files , get_alerts_from_api , handle_edit_camera , handle_delete_camera , get_all_cameras_from_record_module, toggle_recording_camera , recording_status_specific_camera
+from .camera_controller import  handle_add_camera , handle_retrieves_camera , search_recorded_files , get_alerts_from_api , handle_edit_camera , handle_delete_camera , get_all_cameras_from_record_module, toggle_recording_camera , recording_status_specific_camera , build_rtsp_url
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required
 from src.cctv.camera import camera_bp
@@ -123,4 +123,3 @@ def toggle_specific_camera(ip, name):
     except Exception as e:
         return jsonify({"success": False, "message": str(e)}), 400
     
-
