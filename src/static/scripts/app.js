@@ -1,27 +1,6 @@
-"use strict";
-
-// side menu 
-const dashboardBtn = document.querySelector(".dashboard-moblie");
-const dashboard = document.querySelector(".dashboard");
-const xBtn = document.querySelector('.icon-x');
-const backdrop = document.querySelector('.backdrop');
-const mainStyle = document.querySelector('.main-style');
-
-// dashboardBtn.addEventListener("click", showDashboard);
-// xBtn.addEventListener("click", showDashboard);
-// backdrop.addEventListener('click', showDashboard);
-
-// function showDashboard() {
-//   dashboardBtn.classList.toggle("menu-active");
-//   dashboard.classList.toggle("show-menu");
-//   backdrop.classList.toggle('hidden');
-//   mainStyle.classList.toggle('show-menu');
-
-
-  // theme
-  // locatStorage
-
-  const themeSwitch = document.querySelector('.fa-moon');
+// Check if themeSwitch exists before adding an event listener
+const themeSwitch = document.querySelector('.fa-moon');
+if (themeSwitch) {
   themeSwitch.addEventListener('click', () => {
     document.body.classList.toggle('theme-dark');
 
@@ -33,65 +12,111 @@ const mainStyle = document.querySelector('.main-style');
   });
 
   document.addEventListener('DOMContentLoaded', () => {
-    let result = localStorage.getItem('theme');  
+    let result = localStorage.getItem('theme');
     if (result === 'dark') {
       document.body.classList.add('theme-dark');
     }
   });
+}
+
 // Open the Modal
 function openModal(src) {
   var modal = document.getElementById("imageModal");
   var modalImg = document.getElementById("modalImage");
-  modal.style.display = "block";
-  modalImg.src = src;
+  if (modal && modalImg) {
+    modal.style.display = "block";
+    modalImg.src = src;
+  }
 }
 
 // Close the Modal
 function closeModal() {
   var modal = document.getElementById("imageModal");
-  modal.style.display = "none";
+  if (modal) modal.style.display = "none";
 }
 
-// pop up form 
-
-function showPopup(){
-  document.getElementById("timePopup").style.display = "block";
-
-}
-function closePopup(){
-  document.getElementById("timePopup").style.display = "none";
+// Popup form
+function showPopup() {
+  document.getElementById('timePopup').classList.add('show');
 }
 
+// Close the popup modal
+function closePopup() {
+  document.getElementById('timePopup').classList.remove('show');
+}
+// function showPopup() {
+//   const timePopup = document.getElementById("timePopup");
+//   if (timePopup) timePopup.style.display = "block";
+// }
 
-//ai properties
+// function closePopup() {
+//   const timePopup = document.getElementById("timePopup");
+//   if (timePopup) timePopup.style.display = "none";
+// }
 
-
+// AI properties handling
 const selectBox = document.getElementById('selectBox');
 const select = document.getElementById('ai_properties');
 const selectedItemsContainer = document.getElementById('selectedItems');
 
-selectBox.addEventListener('click', function() {
+if (selectBox && select && selectedItemsContainer) {
+  selectBox.addEventListener('click', function () {
     select.style.display = select.style.display === 'none' ? 'block' : 'none';
-});
+  });
 
-select.addEventListener('change', function() {
+  select.addEventListener('change', function () {
     const selectedOptions = Array.from(select.selectedOptions);
     selectedItemsContainer.innerHTML = ''; // Clear previous selections
 
     selectedOptions.forEach(option => {
-        const item = document.createElement('div');
-        item.className = 'selected-item';
-        item.innerText = option.value;
+      const item = document.createElement('div');
+      item.className = 'selected-item';
+      item.innerText = option.value;
 
-        const removeIcon = document.createElement('span');
-        removeIcon.className = 'remove-item';
-        removeIcon.innerHTML = '&times;'; // Close icon
-        removeIcon.onclick = function() {
-            option.selected = false; // Unselect the option
-            item.remove(); // Remove the item from the display
-        };
+      const removeIcon = document.createElement('span');
+      removeIcon.className = 'remove-item';
+      removeIcon.innerHTML = '&times;'; // Close icon
+      removeIcon.onclick = function () {
+        option.selected = false; // Unselect the option
+        item.remove(); // Remove the item from the display
+      };
 
-        item.appendChild(removeIcon);
-        selectedItemsContainer.appendChild(item);
+      item.appendChild(removeIcon);
+      selectedItemsContainer.appendChild(item);
     });
-});
+  });
+}
+
+
+// date picker 
+function submitForm(event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  // Get form values
+  const ip = document.getElementById('ip').value;
+  const name = document.getElementById('name').value;
+  const startTime = document.getElementById('startTime').value;
+  const endTime = document.getElementById('endTime').value;
+
+  const startGregorian = jalaliToGregorian(startTime);
+  const endGregorian = jalaliToGregorian(endTime);
+
+  // Log or process the data
+  console.log("ای پی دوربین:", ip);
+  console.log("نام دوربین:", name);
+  console.log("زمان شروع (میلادی):", startGregorian);
+  console.log("زمان پایان (میلادی):", endGregorian);
+
+  alert('اطلاعات با موفقیت ثبت شد!');
+}
+
+function jalaliToGregorian(jalaliDate) {
+  const [datePart, timePart] = jalaliDate.split(" ");
+  const [year, month, day] = datePart.split('/').map(Number);
+  const [hours, minutes] = timePart.split(':').map(Number);
+  
+  // Convert Jalali date to Gregorian
+  const gDate = moment.from([year, month - 1, day, hours, minutes], 'jalali').format('YYYY-MM-DD HH:mm');
+  return gDate;
+}
+

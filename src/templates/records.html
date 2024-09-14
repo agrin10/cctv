@@ -1,67 +1,100 @@
 {% extends "base.html" %} {% block title %}بازنشانی{% endblock title %} {% block
-content %}
-<div class="video_container">
-  <div class="video-player">
-    <div class="grid-container">
-      <div class="grid-item">
-        {% if videos %}
-         {% for video in videos %}
-        <video controls width="640" height="480">
-          <source src="{{ video.output }}" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <p>Started At: {{ video.startedAt }}</p>
-        <p>Stopped At: {{ video.stoppedAt }}</p>
-        <hr />
-        {% endfor %} 
-        {% else %}
-        <p>No videos found for the specified criteria.</p>
-        {% endif %}
+  content %}
+  <div class="video_container">
+    <div class="video-player">
+      <div class="grid-container">
+        <div class="grid-item">
+          {% if videos %}
+           {% for video in videos %}
+          <video controls width="640" height="480">
+            <source src="{{ video.output }}" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <p>Started At: {{ video.startedAt }}</p>
+          <p>Stopped At: {{ video.stoppedAt }}</p>
+          <hr />
+          {% endfor %} 
+          {% else %}
+          <p>No videos found for the specified criteria.</p>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="controls">
-  <button onclick="showPopup()"><i class="fa-regular fa-calendar"></i></button>
-
-  <p><b>{{start_time}}</b>:زمان شروع</p>
-  <a href="#" class="view-btn"><i class="fa-solid fa-forward"></i></a>
-
-  <div class="buttons">
-    <button onclick="#" class="control-btn">1</button>
-    <button onclick="#" class="control-btn">4</button>
-    <button onclick="#" class="control-btn">9</button>
-    <button onclick="#" class="control-btn">16</button>
+  <div class="controls">
+    <button onclick="showPopup()"><i class="fa-regular fa-calendar"></i></button>
+  
+    <p><b>{{start_time}}</b>:زمان شروع</p>
+    <a href="#" class="view-btn"><i class="fa-solid fa-forward"></i></a>
+  
+    <div class="buttons">
+      <button onclick="#" class="control-btn">1</button>
+      <button onclick="#" class="control-btn">4</button>
+      <button onclick="#" class="control-btn">9</button>
+      <button onclick="#" class="control-btn">16</button>
+    </div>
+    <a href="#" class="view-btn"><i class="fa-solid fa-backward"></i></a>
+    <p><b>{{end_time}}</b>:زمان پایان</p>
+    <p></p>
   </div>
-  <a href="#" class="view-btn"><i class="fa-solid fa-backward"></i></a>
-  <p><b>{{end_time}}</b>:زمان پایان</p>
-  <p></p>
+  
+  <div id="timePopup" class="get-time">
+    <div class="time-content">
+        <h4><b>تاریخ</b></h4>
+        <form id="camera-form" onsubmit="submitForm(event)" action="{{url_for('camera.records' )}}" method="POST">
+            <label for="ip">ای پی دوربین:</label>
+            <input type="text" id="ip" name="ip" required>
+            <br /><br />
+            <label for="name">نام دوربین:</label>
+            <input type="text" id="name" name="name" required>
+            <br /><br />
+            <label for="startTime">زمان شروع:</label>
+            <input type="text" id="startTime" name="startTime" placeholder="YYYY/MM/DD HH:MM" required>
+            <br /><br />
+            <label for="endTime">زمان پایان:</label>
+            <input type="text" id="endTime" name="endTime" placeholder="YYYY/MM/DD HH:MM" required>
+            <br /><br />
+            <button type="submit">ثبت</button>
+            <button type="button" onclick="closePopup()">لغو</button>
+        </form>
+    </div>
 </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      flatpickr("#startTime", {
+          enableTime: true,
+          dateFormat: "Y/m/d H:i",
+          locale: {
+              firstDayOfYear: 1399,
+              weekdays: {
+                  shorthand: ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'],
+                  longhand: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه']
+              },
+              months: {
+                  shorthand: ['فرو', 'ارد', 'خرد', 'تیر', 'مرد', 'شه', 'مهر', 'آبا', 'آذر', 'دی', 'بهمن', 'اسف'],
+                  longhand: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
+              }
+          }
+      });
 
-<!-- Popup Modal -->
-<div id="timePopup" class="get-time">
-  <div class="time-content">
-    <h2>Select Time</h2>
-    <form
-      id="timeForm"
-      class="timeform"
-      method="POST"
-      action="{{url_for('camera.records' )}}"
-    >   
-        <label for="ip"> ای پی دوربین </label>
-        <input type="text" name="ip">
-        <label for="name">نام دوربین</label>
-        <input type="text" name="name">
+      flatpickr("#endTime", {
+          enableTime: true,
+          dateFormat: "Y/m/d H:i",
+          locale: {
+              firstDayOfYear: 1399,
+              weekdays: {
+                  shorthand: ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'],
+                  longhand: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه']
+              },
+              months: {
+                  shorthand: ['فرو', 'ارد', 'خرد', 'تیر', 'مرد', 'شه', 'مهر', 'آبا', 'آذر', 'دی', 'بهمن', 'اسف'],
+                  longhand: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
+              }
+          }
+      });
+  });
+</script>
 
-      <label for="start-time">زمان شروع</label>
-      <input type="datetime-local" id="start-time" name="start-time" required />
-      <br /><br />
-      <label for="end-time">زمان پایان</label>
-      <input type="datetime-local" id="end-time" name="end-time" required />
-      <br /><br />
-      <button type="submit">ثبت</button>
-      <button type="button" onclick="closePopup()">لغو</button>
-    </form>
-  </div>
-</div>
-{% endblock %}
+  {% endblock %}
+  
+  
