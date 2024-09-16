@@ -4,25 +4,57 @@
 <div class="user-manage-container">
     <div class="users-container">
         <h2>لیست کاربران</h2>
-        <table style="dir:rtl">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>username</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    {% for i in range(3) %}
-                    <td>john</td>
-                    {% endfor %}
-                </tr>
-            </tbody>
-        </table>
-        <a href="#"><button class="btn" style="height:10px;justify-self: start;">add user</button></a>                
+        <div class="user-info">
+            <div class="single-info-label info-id" >
+                <b>ID</b>
+            </div>
+            <div class="single-info-label info-username">
+                <b>username</b>
+            </div>
+            <div class="single-info-label info-password">
+                <b>password</b>
+            </div>
+            <div class="single-info-label info-giar">
+                <b><i class="fa-solid fa-gear"></i></b>
+            </div>
+        </div>
+
+        <div class="info-value">
+            <div class="single-value">
+                <a href="#">
+                    <p> user.id </p>
+                </a>
+            </div>
+            <div class="single-value">
+                <a href="#">
+                    <p> user.username </p>
+                </a>
+            </div>
+            <div class="single-value">
+                <a href="#">
+                    <p> user.password </p>
+                </a>
+            </div>
+            <div class="single-value">
+                <a href="#"><i class="fa fa-edit"></i></a>
+                <a href="{{url_for('users.delete_user')}}"><i class="fa fa-trash"></i></a>
+            </div>
+        </div>
     </div>
-    </div>
+
+<div class="add_user_form">
+    <h2>افزودن کاربر</h2>
+    <form action="#" method="post">
+        <label for="username">نام کاریری </label>
+        <input type="text" name="username" id="username" placeholder="نام کاربری">
+        <label for="password">رمز عبور</label>
+        <input type="text" name="password" id="password" placeholder="رمز">
+        <label for="email">ایمیل</label>
+        <input type="text" name="email" id="email" placeholder="ایمیل">
+        <input type="submit" name="submit-btn" id="submit-btn" placeholder="افزودن">
+
+    </form>
+
 </div>
 
 

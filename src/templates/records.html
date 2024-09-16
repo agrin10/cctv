@@ -42,12 +42,7 @@
     <div class="time-content">
         <h4><b>تاریخ</b></h4>
         <form id="camera-form" onsubmit="submitForm(event)" action="{{url_for('camera.records' )}}" method="POST">
-            <label for="ip">ای پی دوربین:</label>
-            <input type="text" id="ip" name="ip" required>
-            <br /><br />
-            <label for="name">نام دوربین:</label>
-            <input type="text" id="name" name="name" required>
-            <br /><br />
+         
             <label for="startTime">زمان شروع:</label>
             <input type="text" id="startTime" name="startTime" placeholder="YYYY/MM/DD HH:MM" required>
             <br /><br />

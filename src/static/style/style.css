@@ -1042,12 +1042,12 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .time-content {
-  background-color: #fff;
   padding: 20px;
   border-radius: 5px;
   max-width: 400px;
   width: 100%;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  background-color:white;
 }
 
 .time-content h1 {
@@ -1067,13 +1067,11 @@ input[type="range"]::-moz-range-thumb {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 3px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .time-content button {
-  background-color: #7a7a7a;
-  color: #fff;
-  border: none;
+  border: 1px solid #717171 ;
   padding: 10px 20px;
   border-radius: 3px;
   cursor: pointer;
@@ -1082,9 +1080,14 @@ input[type="range"]::-moz-range-thumb {
   text-align: center;
 }
 
+
 .time-content button:last-child {
   background-color: #a639ff;
 } 
+
+.time-content button:hover{
+  background-color: #717171;
+}
 
 /*setting */
 .setting-container{
@@ -1136,7 +1139,7 @@ input[type="range"]::-moz-range-thumb {
     margin-bottom: 15px;
 }
 
-/* Link Styles */
+
 .single-container a {
     text-decoration: none;
     padding: 10px;
@@ -1147,81 +1150,131 @@ input[type="range"]::-moz-range-thumb {
     text-align: center;
 }
 
-/* Hover Effects */
 .single-container a:hover {
     background-color: hsl(280, 74%, 47%);
 }
 
 
 /*user management */
-.user-.user-manage-container {
-  padding: 20px;
-  margin:10px;
-  display: flex;
-  
-  
+
+
+  .user-manage-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: row;
+  }
+
+
+  .users-container {
+    width: 60%;
+    margin-left: 20px;
+    border-collapse: collapse;
+  }
+
+  .users-container h2 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  .user-info, .info-value {
+    display: flex;
+    margin-bottom: 10px;
+  }
+
+  .single-info-label {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    background-color: var(--clr-sec-dark); 
+    border: 1px solid #717171; 
+    margin: 2px;
+    margin-bottom: 0;
+    border-radius: 10px;
+  }
+
+  .info-giar {
+    flex: 0.5; 
+  }
+
+  .single-value {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #717171; 
+    border-radius: 10px;
+    margin: 0 2px;
+  }
+
+
+  .single-value i {
+    margin: 0 5px; 
+    cursor: pointer;
+  }
+
+  .info-value .single-value:last-child {
+    flex: 0.5; 
+  }
+
+  .single-value a {
+    text-decoration: none;
+    color: #333;
+  }
+
+  .single-value i {
+    margin: 0 10px; 
+    cursor: pointer;
+  }
+
+  .single-value:hover {
+    color: #8949f8; 
+  }
+
+  .single-value a:hover i {
+    color: #8949f8; 
+  }
+
+
+  .add_user_form {
+    width: 20%; 
+    padding: 50px;
+    border-radius: 20px;
+    margin-top: 50px;
+    margin-right: 50px;
+    box-shadow: 1px -1px 3px rgb(126 126 126);
+    }
+
+.add_user_form h2 {
+    text-align: center; 
 }
 
-.users-container {
-  margin-top: 100px;
-  margin-right: 100PX;
-  border-radius: 5px;
-  padding: 20px;
-  width: 70%;
-  
-
-
+.add_user_form label {
+    display: block; 
+    margin: 10px 0 5px;
+    color: white;
 }
 
-.users-container h2 {
-  text-align: center;
-  margin: 30px;
-  margin-bottom: 20px;
-}
-
-.user-info, .info-value a {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  
+.add_user_form input[type="text"], 
+.add_user_form input[type="submit"] {
+    width: calc(100% - 20px); 
+    padding: 5px;
+    margin-bottom: 15px; 
+    border-radius: 20px;
+    border: 1px solid ;
 
 }
+.add_user_form input[type="submit"]{
+  width: 30%;
+  margin-top: 10px;
 
-.info-id{
-  background-color: #9443e5;
-  border-radius: 30px;
-  margin: 5px;
+}
+.add_user_form input[type="submit"]:hover{
+  background-color: #5b42f3;
   color: var(--clr-font-light);
 }
-.info-username{
-  width: 20%;
-  padding: 5px;
-  background-color: #9443e5;
-  border-radius: 30px;
-  margin: 5px;
-  color: var(--clr-font-light);
-  text-align: center;
-}
-.info-password{
-  background-color: #9443e5;
-  border-radius: 30px;
-  margin: 5px;
-  color: var(--clr-font-light);
-}
-.single-info-label {
-  flex: 1;
-  font-weight: bold;
-  text-align: center;
-}
 
-.single-value a{
-  flex: 1;
-  text-align: center;
-}
-
-.user-manage-container button{
-  margin: 70px 100px 0 0;
-}
 
 /* Add Animation */
 @keyframes zoom {
@@ -1270,7 +1323,6 @@ input[type="range"]::-moz-range-thumb {
   cursor: not-allowed;
 }
 
-/* pop up */
 
 
 
