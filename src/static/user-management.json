@@ -1,0 +1,582 @@
+[   
+    {
+        "target_class": "Module",
+        "data": [
+        {
+            "module_name": "users"
+        },
+        {
+            "module_name": "camera"
+        },
+        {
+            "module_name": "zone"
+        }
+        ]
+    },
+    {
+        "target_class": "Permissions",
+        "data": [
+            {
+                "name": "create"
+            },
+            {
+                "name": "edit"
+            },
+            {
+                "name": "delete"
+            },
+            {
+                "name": "playback"
+            },
+            {
+                "name": "overall view"
+            },
+            {
+                "name": "view"
+            }
+        ]
+    },
+    {
+        "target_class": "Accesses",
+        "data": [
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "users"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "create"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "users"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "edit"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "users"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "delete"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "users"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "view"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "camera"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "create"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "camera"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "delete"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "camera"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "edit"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "camera"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "playback"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "camera"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "overall view"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "camera"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "view"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "zone"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "create"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "zone"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "edit"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "zone"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "delete"
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "module_id": {
+                        "target_class": "Module",
+                        "criteria": {
+                            "module_name": "zone"
+                        },
+                        "field": "module_id"
+                    },
+                    "permissions_id": {
+                        "target_class": "Permissions",
+                        "criteria": {
+                            "name": "view"
+                        },
+                        "field": "id"
+                    }
+                }
+            }
+            
+        ]
+    },
+    {
+        "target_class":"UserAccess",
+        "data":[
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":5
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":6
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":7
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":8
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":9
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":10
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":11
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":12
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":13
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":14
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":15
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":16
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":17
+                        },
+                        "field": "id"
+                    }
+                }
+            },
+            {
+                "!refs": {
+                    "user_id": {
+                        "target_class": "Users",
+                        "criteria": {
+                            "username":"admin",
+                            "password_hash":"admin",
+                            "email":"admin@example.com"
+                        },
+                        "field": "user_id"
+                    },
+                    "access_id": {
+                        "target_class": "Accesses",
+                        "criteria": {
+                            "id":18
+                        },
+                        "field": "id"
+                    }
+                }
+            }
+        ]
+    }
+]

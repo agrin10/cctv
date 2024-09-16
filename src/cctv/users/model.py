@@ -35,7 +35,7 @@ class SoftDeleteMixin:
 class Users(UserMixin, db.Model):
     __tablename__ = "users"
 
-    user_id = db.Column(db.String(225), primary_key=True, nullable=False, unique=True, default=lambda: str(uuid.uuid4()))
+    user_id = db.Column(db.String(225), primary_key=True, nullable=False, unique=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
@@ -64,39 +64,37 @@ class Users(UserMixin, db.Model):
 class Module(db.Model):
     __tablename__ = "modules"
     
-    module_id = db.Column(db.String(225), unique=True, primary_key=True, 
-                          nullable=False, default=lambda: str(uuid.uuid4()))
+    module_id = db.Column(db.Integer, unique=True, primary_key=True, nullable=False ,autoincrement=True)
     module_name = db.Column(db.String(225), nullable=False, unique=True)
 
     # This relationship is for accessing Accesses directly from Module
     accesses = db.relationship('Accesses', back_populates='module', lazy=True)
 
+class Permissions(db.Model):
+    __tablename__ = "permissions"
+    
+    id = db.Column(db.Integer, unique=True, primary_key=True, nullable=False ,autoincrement=True)
+    name = db.Column(db.String(225), nullable=False, unique=True)
+
+    # This relationship allows Permissions to reference Accesses
+    accesses = db.relationship('Accesses', back_populates='permission', lazy=True)
+    
 class Accesses(db.Model):
     __tablename__ = "accesses"
     
-    id = db.Column(db.String(225), unique=True, primary_key=True, 
-                   nullable=False, default=lambda: str(uuid.uuid4()))
-    module_id = db.Column(db.String(225), db.ForeignKey('modules.module_id'), nullable=False)
-    permissions_id = db.Column(db.String(225), db.ForeignKey('permissions.id'), nullable=False)
+    id = db.Column(db.Integer, unique=True, primary_key=True, nullable=False , autoincrement=True)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.module_id'), nullable=False)
+    permissions_id = db.Column(db.Integer, db.ForeignKey('permissions.id'), nullable=False)
 
     # This provides access from Accesses back to Module
     module = db.relationship('Module', back_populates='accesses')  
     permission = db.relationship('Permissions', back_populates='accesses')
 
-class Permissions(db.Model):
-    __tablename__ = "permissions"
-    
-    id = db.Column(db.String(225), unique=True, primary_key=True, 
-                   nullable=False, default=lambda: str(uuid.uuid4()))
-    name = db.Column(db.String(225), nullable=False, unique=True)
-
-    # This relationship allows Permissions to reference Accesses
-    accesses = db.relationship('Accesses', back_populates='permission', lazy=True)
 
 
 class UserAccess(db.Model):
     __tablename__ = "user_accesses"
-    id =  db.Column(db.String(225), unique=True, primary_key=True, nullable=False, default=lambda: str(uuid.uuid4()))
+    id =  db.Column(db.Integer, unique=True, primary_key=True, nullable=False , autoincrement=True)
     user_id = db.Column(db.String(225), db.ForeignKey('users.user_id'))
-    access_id = db.Column(db.String(225), db.ForeignKey('accesses.id'))
+    access_id = db.Column(db.Integer, db.ForeignKey('accesses.id'))
 

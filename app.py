@@ -1,6 +1,8 @@
 from src import  db ,create_app
 from flask_jwt_extended import jwt_required , get_jwt_identity ,verify_jwt_in_request 
 from flask import request , url_for , render_template ,redirect
+from src.cctv.camera.camera_controller import seed_ai_properties 
+from src.cctv.users.controller import seed_user_mangement
 
 app = create_app()
 
@@ -25,4 +27,6 @@ def index():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
+        seed_ai_properties()
+        seed_user_mangement()
     app.run(debug=True , port=8080 , host='0.0.0.0')
