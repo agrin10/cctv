@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}افزوردن کاربر {% endblock title %}
+{% block content %}
+<div class="add_user_form">
+    <h2>افزودن کاربر</h2>
+    <form action="{{url_for('users.add_user')}}" method="post">
+        
+        <input type="text" name="username" id="username" placeholder="نام کاربری">
+        <input type="text" name="password" id="password" placeholder="رمز">
+        <input type="text" name="email" id="email" placeholder="ایمیل">
+        
+
+        <div class="access-form">
+            <h2>دسترسی ها </h2>
+            <select name="camera_access" id="camera_access">
+                <option value="select">دسترسی دوربین</option>
+                {% for access in accesses %}
+                {% if access.module.module_id == 29 %}
+                <option value="{{ access.id }}">{{ access.permission.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            <select name="zone_access" id="zone_access">
+                <option value="select">دسترسی منطقه</option>
+                {% for access in accesses %}
+                {% if access.module.module_id == 30 %}
+                <option value="{{ access.id }}">{{ access.permission.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            <select name="user_access" id="user_access">
+                <option value="select">دسترسی کاربر</option>
+                {% for access in accesses %}
+                    {% if access.module.module_id == 28 %}
+                <option value="{{ access.id }}">{{ access.permission.name }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <input type="submit" name="submit-btn" id="submit-btn" value="افزودن">افزودن<br><br>
+    </form>
+
+</div>
+{% endblock %}

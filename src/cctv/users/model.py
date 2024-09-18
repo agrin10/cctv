@@ -35,7 +35,7 @@ class SoftDeleteMixin:
 class Users(UserMixin, db.Model):
     __tablename__ = "users"
 
-    user_id = db.Column(db.String(225), primary_key=True, nullable=False, unique=True)
+    user_id = db.Column(db.String(225), primary_key=True, nullable=False, unique=True , default=lambda: str(uuid.uuid4()))
     username = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
@@ -97,4 +97,6 @@ class UserAccess(db.Model):
     id =  db.Column(db.Integer, unique=True, primary_key=True, nullable=False , autoincrement=True)
     user_id = db.Column(db.String(225), db.ForeignKey('users.user_id'))
     access_id = db.Column(db.Integer, db.ForeignKey('accesses.id'))
+
+
 

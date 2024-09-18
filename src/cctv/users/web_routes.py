@@ -2,9 +2,9 @@ from flask import redirect , url_for , render_template , request , flash
 from flask_login import login_user , logout_user
 import os
 from flask_jwt_extended import  jwt_required  
-from .controller import handle_login , handle_registration , handle_logout
+from .controller import handle_login , handle_registration , handle_logout , handle_add_user , handle_delete_user , handle_edit_user , user_list
 from src.cctv.users import users_bp
-
+from .model import  Accesses , Permissions , UserAccess , Module , Users
 
 
 @users_bp.route('/register', methods=['POST', 'GET'])
@@ -58,5 +58,48 @@ def logout():
     return response
 
 @users_bp.route('/')
-def user_manage():
-    return render_template('user-manage.html')
+def user_manage():    
+    list_userss = Users.query.all()
+    return render_template('user-manage.html' , users=list_userss)
+
+@users_bp.route('/delete-users/<username>', methods=["DELETE"])
+def delete_user(username):
+    success, message, status = handle_delete_user(username)
+    if success:
+        return ({'success': True, 'message': message}), 200
+    else:
+        return ({'success': False, 'message': message}), status
+
+@users_bp.route('/create' , methods=["POST" , 'GET'])
+def add_user():
+    if request.method == "POST":
+        username= request.form.get('users-username')
+        password= request.form.get('users-password')
+        email= request.form.get('users-email')
+        success , messsage , status = handle_add_user(username=username , password=password , email=email)
+        if success:
+            return render_template('user-manage.html')
+        return 'messsage' , status
+    
+
+    accesses = Accesses.query.join(Permissions).join(Module).all()
+    
+    return render_template('add-users.html'  ,accesses=accesses)
+
+@users_bp.route('/profile/<username>',  methods=['PUT'])
+def edit_user(username):
+    new_username = request.form.get('new_username')
+    password = request.form.get('password')
+    new_password = request.form.get('new_password')
+    new_email = request.form.get('new_email')
+
+    success, message, status_code = handle_edit_user(username, new_username, password, new_password, new_email)
+
+    if success:
+        flash(message, 'success')
+        return redirect(url_for('users')) 
+    else:
+        flash(message, 'error')
+        return redirect(url_for('users', username=username)) 
+
+    

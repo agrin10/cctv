@@ -9,53 +9,95 @@
                 <b>ID</b>
             </div>
             <div class="single-info-label info-username">
-                <b>username</b>
+                <b>نام کاربری</b>
             </div>
             <div class="single-info-label info-password">
-                <b>password</b>
+                <b>رمز عبود</b>
+            </div>
+            <div class="single-info-label ">
+                <b>دسترسی به دوربین</b>
+            </div>
+            <div class="single-info-label ">
+                <b>دسترسی به منطقه </b>
+            </div>
+            <div class="single-info-label ">
+                <b>دسترسی به کاربر</b>
             </div>
             <div class="single-info-label info-giar">
                 <b><i class="fa-solid fa-gear"></i></b>
             </div>
         </div>
 
+        {% for user in users %} 
         <div class="info-value">
             <div class="single-value">
                 <a href="#">
-                    <p> user.id </p>
+                    <p>{{ user.user_id }}</p>
                 </a>
             </div>
             <div class="single-value">
                 <a href="#">
-                    <p> user.username </p>
+                    <p>{{ user.username }}</p>
                 </a>
             </div>
             <div class="single-value">
                 <a href="#">
-                    <p> user.password </p>
+                    <p>{{ user.password }}</p>
                 </a>
             </div>
             <div class="single-value">
-                <a href="#"><i class="fa fa-edit"></i></a>
-                <a href="{{url_for('users.delete_user')}}"><i class="fa fa-trash"></i></a>
+                <a href="#">
+                    <p>user.access </p>
+                </a>
+            </div>
+            <div class="single-value">
+                <a href="#">
+                    <p>user.access </p>
+                </a>
+            </div>
+            <div class="single-value">
+                <a href="#">
+                    <p>user.access</p>
+                </a>
+            </div>
+            <div class="single-value">
+                <button onclick=" showUserPopup()"><i class="fa fa-edit"></i></button>
+                <button class="delete-user-btn" data-username="{{ user.username }}">
+                    <i class="fa fa-trash"></i>
+                </button>
             </div>
         </div>
+        {% endfor %}
+
+        
+        <a href="{{url_for('users.add_user')}}" class="add-user-btn"><i class="fa-solid fa-user-plus"></i></a>
     </div>
 
-<div class="add_user_form">
-    <h2>افزودن کاربر</h2>
-    <form action="#" method="post">
-        <label for="username">نام کاریری </label>
-        <input type="text" name="username" id="username" placeholder="نام کاربری">
-        <label for="password">رمز عبور</label>
-        <input type="text" name="password" id="password" placeholder="رمز">
-        <label for="email">ایمیل</label>
-        <input type="text" name="email" id="email" placeholder="ایمیل">
-        <input type="submit" name="submit-btn" id="submit-btn" placeholder="افزودن">
 
-    </form>
-
+    <div id="edit-user-popup" class="user-popup">
+        <div class="edit-user-content">
+            <h1>ویرایش کاربر</h1>
+            <form id="editUserForm" action="" method="POST">
+                <label for="new_username">نام کاربری جدید</label>
+                <input type="text" id="new_username" name="new_username" required>
+                <label for="new_email">ایمیل     جدید</label>
+                <input type="email" id="new_email" name="new_email" required>
+                <label for="password">رمز فعلی</label>
+                <input type="password" id="password" name="password" required>
+                <label for="new_password">رمز جدید :</label>
+                <input type="password" id="new_password" name="new_password">
+                <button type="submit">ذخیره تغییرات</button>
+                <button onclick="closeUserPopup()">بستن</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Custom Confirmation Modal -->
+<div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <p id="confirmMessage"></p>
+        <button id="confirmYes">Yes</button>
+        <button id="confirmNo">Cancel</button>
+    </div>
 </div>
-
-
 {% endblock content %}

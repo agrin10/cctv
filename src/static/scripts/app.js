@@ -35,7 +35,7 @@ function closeModal() {
   if (modal) modal.style.display = "none";
 }
 
-// Popup form
+// Popup date picking 
 function showPopup() {
   document.getElementById('timePopup').classList.add('show');
 }
@@ -44,15 +44,18 @@ function showPopup() {
 function closePopup() {
   document.getElementById('timePopup').classList.remove('show');
 }
-// function showPopup() {
-//   const timePopup = document.getElementById("timePopup");
-//   if (timePopup) timePopup.style.display = "block";
-// }
 
-// function closePopup() {
-//   const timePopup = document.getElementById("timePopup");
-//   if (timePopup) timePopup.style.display = "none";
-// }
+//user pop up 
+function showUserPopup() {
+  document.getElementById('edit-user-popup').classList.add('show')
+}
+
+// Close the popup users
+function closeUserPopup() {
+  document.getElementById('edit-user-popup').classList.remove('show');
+}
+
+
 
 // AI properties handling
 const selectBox = document.getElementById('selectBox');
@@ -63,11 +66,11 @@ if (selectBox && select && selectedItemsContainer) {
   selectBox.addEventListener('click', function () {
     select.style.display = select.style.display === 'none' ? 'block' : 'none';
   });
-
+  
   select.addEventListener('change', function () {
     const selectedOptions = Array.from(select.selectedOptions);
     selectedItemsContainer.innerHTML = ''; // Clear previous selections
-
+    
     selectedOptions.forEach(option => {
       const item = document.createElement('div');
       item.className = 'selected-item';
@@ -80,7 +83,7 @@ if (selectBox && select && selectedItemsContainer) {
         option.selected = false; // Unselect the option
         item.remove(); // Remove the item from the display
       };
-
+      
       item.appendChild(removeIcon);
       selectedItemsContainer.appendChild(item);
     });
@@ -91,16 +94,16 @@ if (selectBox && select && selectedItemsContainer) {
 // date picker 
 function submitForm(event) {
   event.preventDefault(); // Prevent the default form submission
-
+  
   // Get form values
   const ip = document.getElementById('ip').value;
   const name = document.getElementById('name').value;
   const startTime = document.getElementById('startTime').value;
   const endTime = document.getElementById('endTime').value;
-
+  
   const startGregorian = jalaliToGregorian(startTime);
   const endGregorian = jalaliToGregorian(endTime);
-
+  
   // Log or process the data
   console.log("ای پی دوربین:", ip);
   console.log("نام دوربین:", name);
@@ -119,4 +122,71 @@ function jalaliToGregorian(jalaliDate) {
   const gDate = moment.from([year, month - 1, day, hours, minutes], 'jalali').format('YYYY-MM-DD HH:mm');
   return gDate;
 }
+
+
+document.querySelectorAll('.delete-user-btn').forEach(button => {
+  button.addEventListener('click', function() {
+      const username = this.getAttribute('data-username');
+      const confirmModal = document.getElementById('confirmModal');
+      const confirmMessage = document.getElementById('confirmMessage');
+
+      // Set the confirmation message
+      confirmMessage.textContent = `Are you sure you want to delete ${username}?`;
+
+      // Show the modal
+      confirmModal.style.display = 'block';
+
+      // Handle the confirm button
+      document.getElementById('confirmYes').onclick = function() {
+          console.log(`Attempting to delete user with username: ${username}`);
+          const url = `/users/delete-users/${username}`;
+
+          fetch(url, {
+              method: 'DELETE'
+          })
+          .then(response => response.json())
+          .then(data => {
+              console.log('Delete response:', data);
+              if (data.message) {
+                  const row = button.closest('.info-value');
+                  if (row) {
+                      row.remove();
+                  }
+              } else if (data.error) {
+                  alert(data.error);
+              }
+              // Close the modal
+              confirmModal.style.display = 'none';
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              confirmModal.style.display = 'none'; // Close modal on error
+          });
+      };
+
+      // Handle the cancel button
+      document.getElementById('confirmNo').onclick = function() {
+          confirmModal.style.display = 'none'; // Close the modal
+      };
+  });
+});
+
+// Close the modal if the user clicks outside of it
+window.onclick = function(event) {
+  const confirmModal = document.getElementById('confirmModal');
+  if (event.target === confirmModal) {
+      confirmModal.style.display = 'none';
+  }
+};
+
+// function showPopup() {
+//   const timePopup = document.getElementById("timePopup");
+//   if (timePopup) timePopup.style.display = "block";
+// }
+
+// function closePopup() {
+//   const timePopup = document.getElementById("timePopup");
+//   if (timePopup) timePopup.style.display = "none";
+// }
+
 

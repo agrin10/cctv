@@ -1,4 +1,5 @@
-{% extends "base.html" %} {% block title %}تنظیمات{% endblock title %} {% block
+{% extends "base.html" %}
+ {% block title %}تنظیمات{% endblock title %} {% block
 content %}
 
 <div class="main-setting-container">
@@ -6,7 +7,7 @@ content %}
     <h2>تنظیمات</h2>
     <div class="setting-items">
       <div class="single-container">
-        <a href="#"><p>مدیریت کاربران</p></a>
+        <a href="{{url_for('users.user_manage')}}"><p>مدیریت کاربران</p></a>
       </div>
       <div class="single-container">
         <a href="#"><p>ای پی ماژول هوش مصنوعی</p></a>
