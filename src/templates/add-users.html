@@ -15,24 +15,24 @@
             <select name="camera_access" id="camera_access">
                 <option value="select">دسترسی دوربین</option>
                 {% for access in accesses %}
-                {% if access.module.module_id == 29 %}
-                <option value="{{ access.id }}">{{ access.permission.name }}</option>
+                {% if access.module.module_id == 18 %}
+                <option value="{{ access.id }}">{{ access.permission.label }}</option>
                 {% endif %}
                 {% endfor %}
             </select>
             <select name="zone_access" id="zone_access">
                 <option value="select">دسترسی منطقه</option>
                 {% for access in accesses %}
-                {% if access.module.module_id == 30 %}
-                <option value="{{ access.id }}">{{ access.permission.name }}</option>
+                {% if access.module.module_id == 16 %}
+                <option value="{{ access.id }}">{{ access.permission.label }}</option>
                 {% endif %}
                 {% endfor %}
             </select>
             <select name="user_access" id="user_access">
                 <option value="select">دسترسی کاربر</option>
                 {% for access in accesses %}
-                    {% if access.module.module_id == 28 %}
-                <option value="{{ access.id }}">{{ access.permission.name }}</option>
+                    {% if access.module.module_id == 17 %}
+                <option value="{{ access.id }}">{{ access.permission.label }}</option>
                 {% endif %}
                 {% endfor %}
             </select>
