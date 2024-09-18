@@ -42,7 +42,7 @@ class Users(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
     
-
+    user_accesses = db.relationship('UserAccess', back_populates='user') 
     
     def __repr__(self) -> str:
         return f"User(id={self.user_id}, username={self.username})"
@@ -98,6 +98,6 @@ class UserAccess(db.Model):
     id =  db.Column(db.Integer, unique=True, primary_key=True, nullable=False , autoincrement=True)
     user_id = db.Column(db.String(225), db.ForeignKey('users.user_id'))
     access_id = db.Column(db.Integer, db.ForeignKey('accesses.id'))
-
-
-
+    
+    user = db.relationship('Users', back_populates='user_accesses')  # Corrected relationship
+    access = db.relationship('Accesses', backref='user_accesses')

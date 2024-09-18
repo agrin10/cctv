@@ -5,63 +5,27 @@
     <div class="users-container">
         <h2>لیست کاربران</h2>
         <div class="user-info">
-            <div class="single-info-label info-id" >
-                <b>ID</b>
-            </div>
-            <div class="single-info-label info-username">
-                <b>نام کاربری</b>
-            </div>
-            <div class="single-info-label info-password">
-                <b>رمز عبود</b>
-            </div>
-            <div class="single-info-label ">
-                <b>دسترسی به دوربین</b>
-            </div>
-            <div class="single-info-label ">
-                <b>دسترسی به منطقه </b>
-            </div>
-            <div class="single-info-label ">
-                <b>دسترسی به کاربر</b>
-            </div>
-            <div class="single-info-label info-giar">
-                <b><i class="fa-solid fa-gear"></i></b>
-            </div>
+            <div class="single-info-label info-id"><b>ID</b></div>
+            <div class="single-info-label info-username"><b>نام کاربری</b></div>
+            <div class="single-info-label info-password"><b>رمز عبود</b></div>
+            <div class="single-info-label"><b>دسترسی به دوربین</b></div>
+            <div class="single-info-label"><b>دسترسی به منطقه</b></div>
+            <div class="single-info-label"><b>دسترسی به کاربر</b></div>
+            <div class="single-info-label info-giar"><b><i class="fa-solid fa-gear"></i></b></div>
         </div>
 
         {% for user in users %} 
         <div class="info-value">
+            <div class="single-value"><p>{{ user.user_id }}</p></div>
+            <div class="single-value"><p>{{ user.username }}</p></div>
+            <div class="single-value"><p>{{ user.password }}</p></div>
+            <div class="single-value"><p> user.password </p></div>
+            <div class="single-value"><p> user.password </p></div>
+            <div class="single-value"><p> user.password </p></div>
             <div class="single-value">
-                <a href="#">
-                    <p>{{ user.user_id }}</p>
-                </a>
-            </div>
-            <div class="single-value">
-                <a href="#">
-                    <p>{{ user.username }}</p>
-                </a>
-            </div>
-            <div class="single-value">
-                <a href="#">
-                    <p>{{ user.password }}</p>
-                </a>
-            </div>
-            <div class="single-value">
-                <a href="#">
-                    <p>user.access </p>
-                </a>
-            </div>
-            <div class="single-value">
-                <a href="#">
-                    <p>user.access </p>
-                </a>
-            </div>
-            <div class="single-value">
-                <a href="#">
-                    <p>user.access</p>
-                </a>
-            </div>
-            <div class="single-value">
-                <button onclick=" showUserPopup()"><i class="fa fa-edit"></i></button>
+                <button onclick="showUserPopup('{{ user.username }}', '{{ user.email }}', '{{ user.password }}')">
+                    <i class="fa fa-edit"></i>
+                </button>
                 <button class="delete-user-btn" data-username="{{ user.username }}">
                     <i class="fa fa-trash"></i>
                 </button>
@@ -69,28 +33,28 @@
         </div>
         {% endfor %}
 
-        
         <a href="{{url_for('users.add_user')}}" class="add-user-btn"><i class="fa-solid fa-user-plus"></i></a>
     </div>
-
 
     <div id="edit-user-popup" class="user-popup">
         <div class="edit-user-content">
             <h1>ویرایش کاربر</h1>
-            <form id="editUserForm" action="" method="POST">
+            <form id="editUserForm" action="#" method="POST">
                 <label for="new_username">نام کاربری جدید</label>
                 <input type="text" id="new_username" name="new_username" required>
-                <label for="new_email">ایمیل     جدید</label>
+                <label for="new_email">ایمیل جدید</label>
                 <input type="email" id="new_email" name="new_email" required>
                 <label for="password">رمز فعلی</label>
                 <input type="password" id="password" name="password" required>
                 <label for="new_password">رمز جدید :</label>
                 <input type="password" id="new_password" name="new_password">
                 <button type="submit">ذخیره تغییرات</button>
-                <button onclick="closeUserPopup()">بستن</button>
+                <button type="button" onclick="closeUserPopup()">بستن</button>
             </form>
         </div>
     </div>
+</div>
+
     
     <!-- Custom Confirmation Modal -->
 <div id="confirmModal" class="modal">

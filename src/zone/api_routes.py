@@ -1,7 +1,7 @@
 from flask import Blueprint , jsonify ,request
 from .controller import handle_add_zone , handle_retrieves_zone
 from flask_jwt_extended import jwt_required
-from src.cctv.zone import zones_bp
+from src.zone import zones_bp
 
 
 

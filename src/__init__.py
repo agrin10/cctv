@@ -22,17 +22,17 @@ def create_app():
 
 
     
-    from src.cctv.users.seeder import seed_user_management
-    from src.cctv.camera.seeder import seed_ai_properties
+    from src.users.seeder import seed_user_management
+    from src.camera.seeder import seed_ai_properties
     with app.app_context():
         db.create_all()  
         seed_user_management()  
         seed_ai_properties()
 
-    from src.cctv.users import users_bp
-    from src.cctv.camera import camera_bp
-    from src.cctv.zone import zones_bp
-    from src.cctv.setting import setting_bp
+    from src.users import users_bp
+    from src.camera import camera_bp
+    from src.zone import zones_bp
+    from src.setting import setting_bp
 
     app.register_blueprint(camera_bp, url_prefix='/camera')
     app.register_blueprint(users_bp, url_prefix='/users')

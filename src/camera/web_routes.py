@@ -2,10 +2,10 @@ from flask import redirect, url_for, render_template, request, flash, session, R
 import os
 from werkzeug.utils import secure_filename
 from flask_jwt_extended import jwt_required
-from .camera_controller import generate_frames, handle_add_camera, handle_retrieves_camera,  get_all_camera_record_with_time, get_camera_and_neighbors, get_online_cameras, build_rtsp_url, search_recorded_files, get_all_alerts  ,capture_image_from_latest_frame
+from .camera_controller import generate_frames, handle_add_camera, handle_retrieves_camera, get_camera_and_neighbors, get_online_cameras, build_rtsp_url, search_recorded_files, get_all_alerts  ,capture_image_from_latest_frame
 from .model import Camera, AiProperties
-from src.cctv.zone.model import Zone
-from src.cctv.camera import camera_bp
+from src.zone.model import Zone
+from src.camera import camera_bp
 import time
 
 
@@ -161,33 +161,27 @@ def records():
     if request.method == 'POST':
         start_time = request.form.get('start-time')
         end_time = request.form.get('end-time')
-        camera_ip = request.form.get('ip')
-        camera_name = request.form.get('name')
+        camera_ip = request.args.get('ip')
+        camera_name = request.args.get('name')
 
         session['start_time'] = start_time
         session['end_time'] = end_time
 
         # videos, status = search_recorded_files(camera_ip=camera_ip, camera_name=camera_name, from_=start_time, to_=end_time)
-        data = get_all_camera_record_with_time()
+        data , status = search_recorded_files(camera_ip=camera_ip, camera_name=camera_name , from_=start_time , to_=end_time)
 
         if status == 200:
-            return redirect(url_for('camera.records', ip=camera_ip, name=camera_name))
+            return redirect(url_for('camera.records', ip=camera_ip, name=camera_name , videos=data))
         else:
             return render_template('records.html', videos=[], start_time=start_time, end_time=end_time)
 
     else:
         start_time = session.get('start_time')
         end_time = session.get('end_time')
-        recorded_files = []
+    
 
-        if start_time and end_time:
-            videos, status = search_recorded_files(
-                from_=start_time, to_=end_time)
-
-            if status == 200:
-                recorded_files = videos
-
-        return render_template('records.html', start_time=start_time, end_time=end_time, videos=recorded_files)
+        return render_template('records.html', start_time=start_time, end_time=end_time)
     
 
 
+# 2024-08-27 15:58:31

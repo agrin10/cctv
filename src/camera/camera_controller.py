@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 import cv2
 from .api_controller import check_ai_module_api , check_modules_status , add_camera_api,check_recording_api , delete_camera_api , edit_camera , toggle_record_option_for_all , toggle_recording_specific_camera , get_all_cameras_from_record_module ,get_alerts_from_api , get_records_from_api , build_rtsp_url
-from src.cctv.zone.model import Zone
+from src.zone.model import Zone
 import os
 
 

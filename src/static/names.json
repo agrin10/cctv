@@ -1,5 +1,8 @@
 [
-    { "target_class": "AiProperties", "data": { "name": "person",  "label": "شخص" }},
+    { 
+        "target_class": "AiProperties", 
+        "data": { "name": "person",  "label": "شخص" }
+    },
     { "target_class": "AiProperties", "data": { "name": "bicycle", "label": "دوچرخه" }},
     { "target_class": "AiProperties", "data": { "name": "car", "label": "ماشین" }},
     { "target_class": "AiProperties", "data": { "name": "motorbike", "label": "موتور سیکلت" }},

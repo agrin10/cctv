@@ -2,7 +2,7 @@ from flask import redirect , url_for , render_template , request , flash
 from flask_login import login_user , logout_user
 from flask_jwt_extended import  jwt_required  
 from .controller import handle_add_zone , handle_retrieves_zone
-from src.cctv.zone import zones_bp
+from src.zone import zones_bp
 
 
 

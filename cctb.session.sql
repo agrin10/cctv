@@ -1,1 +1,1 @@
-SELECT * FROM  permissions
+SELECT * FROM  user_accesses

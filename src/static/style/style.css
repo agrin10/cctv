@@ -1037,9 +1037,7 @@ input[type="range"]::-moz-range-thumb {
   transition: opacity 0.3s ease, visibility 0.3s ease;
   background-color:rgba(0, 0, 0, 0.5); 
   
-  
 }
-
 .user-popup.show {
   opacity: 1;
   visibility: visible;
@@ -1251,7 +1249,7 @@ input[type="range"]::-moz-range-thumb {
     flex: 0.5; 
   }
 
-  .single-value a {
+  .single-value button {
     text-decoration: none;
     color: #333;
   }
@@ -1265,7 +1263,7 @@ input[type="range"]::-moz-range-thumb {
     color: #8949f8
   }
 
-  .single-value a:hover i {
+  .single-value button:hover i {
     color: #8949f8
   }
   .single-value:hover p {
@@ -1388,6 +1386,8 @@ input[type="range"]::-moz-range-thumb {
 .add_user_form select:focus {
     border-color: #777;
 }
+
+
 /* data pop up */
 .get-time {
   position: fixed;

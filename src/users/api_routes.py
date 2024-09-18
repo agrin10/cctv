@@ -2,7 +2,7 @@ from flask import  jsonify ,request
 from .controller import handle_login , handle_logout , handle_registration  , handle_add_user , handle_delete_user , handle_edit_user
 from flask_login import login_user , logout_user
 from flask_jwt_extended import jwt_required
-from src.cctv.users import users_bp
+from src.users import users_bp
 
 
 
@@ -35,18 +35,24 @@ def api_logout():
     return response
 
 @users_bp.route('/api/users' , methods=['POST'])
-def add_users():
+def api_add_users():
     username = request.json['username']
     password = request.json['password']
     email = request.json['email']
-    success , message , status = handle_add_user(username=username , password=password , email=email)
+    module_name = request.json.get("module_name")
+    permossions = request.json['permissions']
+    # print('\n\n')
+    # print(permossions)
+    # print('\n\n')
+    # print(module_name)
+    success , message , status = handle_add_user(username=username , password=password , email=email , module_name=module_name, permissions=permossions)
     if success:
         return jsonify(message=message , status=status)
     return jsonify(message=message , status=status)
 
 @users_bp.route('/api/users' , methods=['PUT'])
 def edit_users():
-    username = request.json['username']
+    username = request.json['username'] 
     new_username = request.json['new_username']
     new_password = request.json['new_password']
     password = request.json['password']
@@ -65,3 +71,4 @@ def delete_users():
     if success:
         return jsonify(message=message , status=status)
     return jsonify(message=message , status=status)
+

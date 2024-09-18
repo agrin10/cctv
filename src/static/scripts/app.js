@@ -179,14 +179,103 @@ window.onclick = function(event) {
   }
 };
 
-// function showPopup() {
-//   const timePopup = document.getElementById("timePopup");
-//   if (timePopup) timePopup.style.display = "block";
-// }
 
-// function closePopup() {
-//   const timePopup = document.getElementById("timePopup");
-//   if (timePopup) timePopup.style.display = "none";
-// }
+document.querySelectorAll('.delete-user-btn').forEach(button => {
+  button.addEventListener('click', function() {
+      const username = this.getAttribute('data-username');
+      const confirmModal = document.getElementById('confirmModal');
+      const confirmMessage = document.getElementById('confirmMessage');
+
+      confirmMessage.textContent = `Are you sure you want to delete ${username}?`;
+      confirmModal.style.display = 'block';
+
+      document.getElementById('confirmYes').onclick = function() {
+          console.log(`Attempting to delete user with username: ${username}`);
+          const url = `/users/delete-users/${username}`;
+
+          fetch(url, {
+              method: 'DELETE'
+          })
+          .then(response => response.json())
+          .then(data => {
+              console.log('Delete response:', data);
+              if (data.message) {
+                  const row = button.closest('.info-value');
+                  if (row) {
+                      row.remove();
+                  }
+              } else if (data.error) {
+                  alert(data.error);
+              }
+              confirmModal.style.display = 'none';
+          })
+          .catch(error => {
+              console.error('Error:', error);
+              confirmModal.style.display = 'none';
+          });
+      };
+
+      document.getElementById('confirmNo').onclick = function() {
+          confirmModal.style.display = 'none';
+      };
+  });
+});
+
+// Event listener for the edit user buttons
+function showUserPopup(username, email, password) {
+  // Populate the form with the user's current data
+
+  console.log(`Editing user: ${username}`); // Debug line
+
+  document.getElementById('new_username').value = username;
+  document.getElementById('new_email').value = email;
+  document.getElementById('password').value = password; // Optional, depending on your security policy
+  document.getElementById('edit-user-popup').classList.add('show'); // Show the popup
+}
+
+function closeUserPopup() {
+  document.getElementById('edit-user-popup').classList.remove('show'); // Hide the popup
+}
+
+// Handle form submission
+document.getElementById('editUserForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  const newUsername = document.getElementById('new_username').value;
+  const newEmail = document.getElementById('new_email').value;
+  const currentPassword = document.getElementById('password').value;
+  const newPassword = document.getElementById('new_password').value;
+
+  const userData = {
+      new_username: newUsername,
+      new_email: newEmail,
+      password: currentPassword,
+      new_password: newPassword
+  };
+
+  const url = `/users/profile/${username}`; 
+
+  fetch(url, {
+      method: 'PUT',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+  })
+  .then(response => response.json())
+  .then(data => {
+      console.log('Update response:', data);
+      if (data.message) {
+          alert('User updated successfully!');
+          closeUserPopup(); 
+      } else if (data.error) {
+          alert(data.error);
+      }
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
+});
 
 
+/*drop down modiifction */

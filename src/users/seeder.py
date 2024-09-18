@@ -1,4 +1,3 @@
-# src/cctv/users/seeder.py
 import json
 from sqlalchemyseeder import ResolvingSeeder
 from src import db

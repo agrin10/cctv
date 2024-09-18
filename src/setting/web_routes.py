@@ -1,7 +1,7 @@
 from flask import redirect , url_for , render_template , request , flash 
 import os
 from flask_jwt_extended import  jwt_required  
-from src.cctv.setting import setting_bp
+from src.setting import setting_bp
 
 
 

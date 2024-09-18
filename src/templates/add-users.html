@@ -11,25 +11,30 @@
         
 
         <div class="access-form">
-            <h2>دسترسی ها </h2>
-            <select name="camera_access" id="camera_access">
-                <option value="select">دسترسی دوربین</option>
+            <h2>دسترسی ها</h2>
+            <label for="camera_access">دسترسی دوربین</label>
+            <select name="camera_access" id="camera_access" multiple required>
+                <option value="">Select access...</option> <!-- Placeholder option -->
                 {% for access in accesses %}
                 {% if access.module.module_id == 18 %}
                 <option value="{{ access.id }}">{{ access.permission.label }}</option>
                 {% endif %}
                 {% endfor %}
             </select>
-            <select name="zone_access" id="zone_access">
-                <option value="select">دسترسی منطقه</option>
+            
+            <label for="zone_access">دسترسی منطقه</label>
+            <select name="zone_access" id="zone_access" multiple required>
+                <option value="">Select access...</option> <!-- Placeholder option -->
                 {% for access in accesses %}
                 {% if access.module.module_id == 16 %}
                 <option value="{{ access.id }}">{{ access.permission.label }}</option>
                 {% endif %}
                 {% endfor %}
             </select>
-            <select name="user_access" id="user_access">
-                <option value="select">دسترسی کاربر</option>
+            
+            <label for="user_access">دسترسی کاربر</label>
+            <select name="user_access" id="user_access" multiple required>
+                <option value="">Select access...</option> <!-- Placeholder option -->
                 {% for access in accesses %}
                     {% if access.module.module_id == 17 %}
                 <option value="{{ access.id }}">{{ access.permission.label }}</option>
@@ -37,6 +42,7 @@
                 {% endfor %}
             </select>
         </div>
+        
         <input type="submit" name="submit-btn" id="submit-btn" value="افزودن">افزودن<br><br>
     </form>
 
