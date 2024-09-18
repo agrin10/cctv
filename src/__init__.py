@@ -1,24 +1,33 @@
+# src/__init__.py
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_jwt_extended import JWTManager
 
+
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
 JWT = JWTManager()
 
-
 def create_app():
-    app = Flask(__name__, template_folder='templates',
-                static_folder='static', static_url_path='/')
+    app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path='/')
     app.config.from_object('config.DevelopmentConfig')
 
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
     JWT.init_app(app)
+
+
+    
+    from src.cctv.users.seeder import seed_user_management
+    from src.cctv.camera.seeder import seed_ai_properties
+    with app.app_context():
+        db.create_all()  
+        seed_user_management()  
+        seed_ai_properties()
 
     from src.cctv.users import users_bp
     from src.cctv.camera import camera_bp
@@ -31,7 +40,3 @@ def create_app():
     app.register_blueprint(setting_bp, url_prefix='/setting')
 
     return app
-
-
-from src.cctv.camera.model import Camera
-from src.cctv.users.model import Users

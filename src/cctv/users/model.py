@@ -75,6 +75,7 @@ class Permissions(db.Model):
     
     id = db.Column(db.Integer, unique=True, primary_key=True, nullable=False ,autoincrement=True)
     name = db.Column(db.String(225), nullable=False, unique=True)
+    label = db.Column(db.String(225) )
 
     # This relationship allows Permissions to reference Accesses
     accesses = db.relationship('Accesses', back_populates='permission', lazy=True)

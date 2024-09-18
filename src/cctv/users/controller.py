@@ -3,62 +3,6 @@ from src import login_manager
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, get_jwt_identity
 from flask import jsonify , make_response
 from datetime import timedelta
-from sqlalchemyseeder import ResolvingSeeder
-
-
-
-
-
-
-def seed_user_mangement():
-    session = db.session
-    seeder = ResolvingSeeder(session)
-    seeder.register(Accesses )
-    seeder.register(Permissions )
-    seeder.register(Module )
-    seeder.register(UserAccess )
-    seeder.register(Users)
-    user_manage_path = "src/static/user-management.json"
-    try:
-        # Load new properties from the JSON file with UTF-8 encoding
-        new_entities = seeder.load_entities_from_json_file(user_manage_path)
-        for entity in new_entities:
-            # Check if the entity already exists
-            if isinstance(entity, Accesses):
-                existing_access = session.query(Accesses).filter_by(permission_id=entity.permission_id).first()
-                if existing_access:
-                    print(f"Access with permission_id {entity.permission_id} already exists.")
-                else:
-                    session.add(entity)
-                    print(f"Added new Access with permission_id {entity.permission_id}.")
-
-            elif isinstance(entity, Permissions):
-                existing_permission = session.query(Permissions).filter_by(name=entity.name).first()
-                if existing_permission:
-                    print(f"Permission with name {entity.name} already exists.")
-                else:
-                    session.add(entity)
-                    print(f"Added new Permission with name {entity.name}.")
-
-            elif isinstance(entity, Module):
-                existing_module = session.query(Module).filter_by(name=entity.name).first()
-                if existing_module:
-                    print(f"Module with name {entity.name} already exists.")
-                else:
-                    session.add(entity)
-                    print(f"Added new Module with name {entity.name}.")
-
-        # Commit the session
-        session.commit()
-        print("Entities successfully committed to the database.")
-    
-    except Exception as e:
-        print(f"Error occurred: {e}")
-        db.session.rollback()
-    
-    finally:
-        db.session.close()
-
 
 
 
@@ -175,3 +119,6 @@ def handle_delete_user(username):
         db.session.rollback()
         return False , "delete faild" , 400
     
+
+def handle_users_access():
+    ...

@@ -1,1 +1,1 @@
-SELECT * FROM  ai_properties
+SELECT * FROM  permissions

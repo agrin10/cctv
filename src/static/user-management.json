@@ -17,22 +17,29 @@
         "target_class": "Permissions",
         "data": [
             {
-                "name": "create"
+                "name": "create",
+                "label":"ساختن"
+                
             },
             {
-                "name": "edit"
+                "name": "edit",
+                "label":"ویرایش"
             },
             {
-                "name": "delete"
+                "name": "delete",
+                "label":"حذف"
             },
             {
-                "name": "playback"
+                "name": "playback",
+                "label":"پخش"
             },
             {
-                "name": "overall view"
+                "name": "overall view",
+                "label":"نمای کلی "
             },
             {
-                "name": "view"
+                "name":"view",
+                "label": "دیدن لیست"
             }
         ]
     },
