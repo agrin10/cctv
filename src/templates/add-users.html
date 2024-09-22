@@ -1,50 +1,70 @@
 {% extends "base.html" %}
-{% block title %}افزوردن کاربر {% endblock title %}
+
+{% block title %}افزودن کاربر{% endblock title %}
+
 {% block content %}
+
 <div class="add_user_form">
+
     <h2>افزودن کاربر</h2>
+
     <form action="{{url_for('users.add_user')}}" method="post">
-        
+
         <input type="text" name="username" id="username" placeholder="نام کاربری">
         <input type="text" name="password" id="password" placeholder="رمز">
         <input type="text" name="email" id="email" placeholder="ایمیل">
-        
 
         <div class="access-form">
             <h2>دسترسی ها</h2>
-            <label for="camera_access">دسترسی دوربین</label>
-            <select name="camera_access" id="camera_access" multiple required>
-                <option value="">Select access...</option> <!-- Placeholder option -->
-                {% for access in accesses %}
-                {% if access.module.module_id == 18 %}
-                <option value="{{ access.id }}">{{ access.permission.label }}</option>
-                {% endif %}
-                {% endfor %}
-            </select>
+
+            <!-- Camera Access Drop-down List -->
+            <div class="custom-select">
+                <h3>دسترسی دوربین</h3>
+                <div class="options-container" id="cameraOptionsContainer">
+                    {% for access in accesses %}
+                        {% if access.module.module_id == 18 %}
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="camera_access" value="{{ access.permission.name }}">
+                                <span>{{ access.permission.label }}</span>
+                            </label>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
             
-            <label for="zone_access">دسترسی منطقه</label>
-            <select name="zone_access" id="zone_access" multiple required>
-                <option value="">Select access...</option> <!-- Placeholder option -->
-                {% for access in accesses %}
-                {% if access.module.module_id == 16 %}
-                <option value="{{ access.id }}">{{ access.permission.label }}</option>
-                {% endif %}
-                {% endfor %}
-            </select>
+            <div class="custom-select">
+                <h3>دسترسی منطقه</h3>
+                <div class="options-container" id="zoneOptionsContainer">
+                    {% for access in accesses %}
+                        {% if access.module.module_id == 16 %}
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="zone_access" value="{{ access.permission.name}}">
+                                <span>{{ access.permission.label }}</span>
+                            </label>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
             
-            <label for="user_access">دسترسی کاربر</label>
-            <select name="user_access" id="user_access" multiple required>
-                <option value="">Select access...</option> <!-- Placeholder option -->
-                {% for access in accesses %}
-                    {% if access.module.module_id == 17 %}
-                <option value="{{ access.id }}">{{ access.permission.label }}</option>
-                {% endif %}
-                {% endfor %}
-            </select>
-        </div>
-        
-        <input type="submit" name="submit-btn" id="submit-btn" value="افزودن">افزودن<br><br>
+            <div class="custom-select">
+                <h3>دسترسی کاربر</h3>
+                <div class="options-container" id="userOptionsContainer">
+                    {% for access in accesses %}
+                        {% if access.module.module_id == 17 %}
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="user_access" value="{{ access.permission.name }}">
+                                <span>{{ access.permission.label }}</span>
+                            </label>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            
+
+        <input type="submit" name="submit-btn" id="submit-btn" value="افزودن">
+
     </form>
 
 </div>
+
 {% endblock %}

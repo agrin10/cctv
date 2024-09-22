@@ -3,6 +3,8 @@ from src import login_manager
 from flask_jwt_extended import create_access_token, create_refresh_token, set_access_cookies, set_refresh_cookies, get_jwt_identity
 from flask import jsonify , make_response
 from datetime import timedelta
+from sqlalchemy.exc import SQLAlchemyError
+
 
 
 
@@ -74,25 +76,33 @@ def user_list():
         return False, f"An error occurred: {str(e)}"
 
 
-def handle_add_user(username, password, email, module_name, permissions):
+
+def handle_add_users(username, password, email, permission_names):
     existing_user = Users.query.filter((Users.username == username) | (Users.email == email)).first()
     if existing_user:
         return False, 'Username or email already exists.', 400
     
     new_user = Users(username=username, email=email)
-    new_user.set_password(password) 
-
-
+    new_user.set_password(password)
     db.session.add(new_user)
-    db.session.commit()  
+    
+    db.session.commit()
 
+    for permission_name in permission_names:
+        permission_obj = Permissions.query.filter_by(name=permission_name).first()
+        if permission_obj:  
+            access = Accesses.query.filter_by(permissions_id=permission_obj.id).first()
+            
+            if access:  
+                module = Module.query.get(access.module_id)
+                if module:  
+                    user_access = UserAccess(user_id=new_user.user_id, access_id=access.id)
+                    db.session.add(user_access)
 
-    success, message, status = handle_access_to_user(new_user, module_name, permissions)
-    if not success:
-        return False, message, status 
+    db.session.commit()
 
-    db.session.commit()  
-    return True, 'User added successfully with the specified accesses.', status
+    return True, 'User added successfully with the specified accesses.', 200
+
 
 
 
@@ -130,38 +140,3 @@ def get_permissions(permission_id):
         response.append(permission)
     return response
 
-def handle_access_to_user(username, module_name, permission_names: list):
-    print(module_name)
-    module = Module.query.filter_by(module_name=module_name).first()
-    print(module)
-
-    if not module:
-        return False, "Module does not exist", 404
-
-    for permission in permission_names:
-        permission_obj = Permissions.query.filter_by(name=permission).first()  
-
-        if permission_obj:  # Check if the permission exists
-            access = Accesses.query.filter_by(module_id=module.module_id, permissions_id=permission_obj.id).first()  
-
-            if access:  # Check if the access exists
-                user_access = UserAccess(user_id=username, access_id=access.id)  # Create a new UserAccess instance
-                db.session.add(user_access) 
-
-    db.session.commit()
-    return True, 'User added successfully with the specified accesses', 200
-
-    
-
-    # access = Accesses.query.join(Module).join(Permissions).filter(
-    #     Module.module_name == module_name,
-    #     Permissions.name == permission_name
-    # ).first()
-
-    # if access:
-    #     user_access = UserAccess(user_id=user_id, access_id=access.id)
-    #     db.session.add(user_access)
-    #     db.session.commit()
-    #     return True, f"Access to {module_name} with {permission_name} granted."
-    
-    return False, "Access entry not found."

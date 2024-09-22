@@ -38,7 +38,7 @@
         </a>
         <div class="menu-btns">
           <button><a href="{{url_for('users.login')}}"><i class="fa-solid fa-user"></i></a></button>
-          <button><a href="#"><i class="fa-solid fa-gear"></i></a></button>
+          <button><a href="{{url_for('setting.setting')}}"><i class="fa-solid fa-gear"></i></a></button>
           <button>
             <i class="fa-solid fa-moon"></i>
           </button>
@@ -75,7 +75,7 @@
           </li>
 
           <li class="dashboard-item">
-            <a href="#">
+            <a href="{{url_for('camera.alerts')}}">
               <i class="fa-solid fa-triangle-exclamation"></i>
 
               <p>هشدار ها</p>
@@ -101,7 +101,7 @@
 
         <ul class="dahboard-list-down">
           <li>
-            <a href="#">
+            <a href="{{url_for('setting.setting')}}">
               <i class="fa-solid fa-gears"></i>
 
               <p>تنظیمات</p>
