@@ -7,9 +7,10 @@ from .model import Camera, AiProperties
 from src.zone.model import Zone
 from src.camera import camera_bp
 import time
-
+from src.permissions import permission_required
 
 @camera_bp.route('/add-camera', methods=['POST', 'GET'])
+@permission_required(['create'])
 @jwt_required()
 def add_camera():
     if request.method == 'POST':
@@ -48,6 +49,7 @@ def add_camera():
 
 
 @camera_bp.route('/cameras')
+@permission_required(['view' ])
 @jwt_required()
 def cameras():
     cameras = handle_retrieves_camera()
@@ -58,6 +60,8 @@ def cameras():
 
 
 @camera_bp.route('/video_feed')
+@jwt_required()
+@permission_required(['view' ,'overall view' , 'playback'])
 def video_feed():
     camera_ip = request.args.get('camera_ip')
     if not camera_ip:
@@ -78,6 +82,8 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @camera_bp.route('/capture_image', methods=['POST'])
+@jwt_required()
+@permission_required(['create' , 'playback' , 'overall view'])
 def capture_image_route():
     """Route to capture an image from the video feed."""
     camera_ip = request.form.get('camera_ip')
@@ -101,6 +107,8 @@ def capture_image_route():
         return str(e), 500
 
 @camera_bp.route('/camera-view')
+@jwt_required()
+@permission_required(['view' ,'overall view' , 'playback'])
 def camera_view():
     """Render camera view and display capture status."""
     layout = request.args.get('layout', default=1, type=int)
@@ -137,6 +145,8 @@ def camera_view():
     )
 
 @camera_bp.route('/alerts/')
+@jwt_required()
+@permission_required(['view'])
 def alerts():
     response = get_all_alerts()
 
@@ -157,6 +167,8 @@ def alerts():
 
 
 @camera_bp.route('/records', methods=['POST', 'GET'])
+@jwt_required()
+@permission_required(['create' , 'view' , 'playback'])
 def records():
     if request.method == 'POST':
         start_time = request.form.get('start-time')

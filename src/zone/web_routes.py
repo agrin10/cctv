@@ -3,10 +3,11 @@ from flask_login import login_user , logout_user
 from flask_jwt_extended import  jwt_required  
 from .controller import handle_add_zone , handle_retrieves_zone
 from src.zone import zones_bp
-
+from src.permissions import permission_required
 
 
 @zones_bp.route('/zones')
+@permission_required(['view'])
 @jwt_required()
 def zones():
     zones= handle_retrieves_zone()
@@ -14,6 +15,7 @@ def zones():
 
 
 @zones_bp.route('/add-zone' , methods=['POST' , 'GET'])
+@permission_required(['create'])
 @jwt_required()
 def add_zone():
     if request.method == 'POST':
@@ -22,8 +24,8 @@ def add_zone():
         success , message = handle_add_zone(zone_name , zone_desc)
         if success:
             flash(message=message)
-            return redirect(url_for('camera.zones'))
+            return redirect(url_for('zone.zones'))
         else:
             flash(message=message)
-            return redirect(url_for('camera.add_zone'))
+            return redirect(url_for('zone.add_zone'))
     return render_template('add-zone.html')
