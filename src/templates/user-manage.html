@@ -48,6 +48,51 @@
                 <input type="password" id="password" name="password" required>
                 <label for="new_password">رمز جدید :</label>
                 <input type="password" id="new_password" name="new_password">
+                <div class="access-form">
+                    <h2>دسترسی ها</h2>
+        
+                    <!-- Camera Access Drop-down List -->
+                    <div class="custom-select">
+                        <h3>دسترسی دوربین</h3>
+                        <div class="options-container" id="cameraOptionsContainer">
+                            {% for access in accesses %}
+                                {% if access.module.module_id == 18 %}
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="camera_access" value="{{ access.permission.name }}">
+                                        <span>{{ access.permission.label }}</span>
+                                    </label>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="custom-select">
+                        <h3>دسترسی منطقه</h3>
+                        <div class="options-container" id="zoneOptionsContainer">
+                            {% for access in accesses %}
+                                {% if access.module.module_id == 16 %}
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="zone_access" value="{{ access.permission.name}}">
+                                        <span>{{ access.permission.label }}</span>
+                                    </label>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <div class="custom-select">
+                        <h3>دسترسی کاربر</h3>
+                        <div class="options-container" id="userOptionsContainer">
+                            {% for access in accesses %}
+                                {% if access.module.module_id == 17 %}
+                                    <label class="custom-checkbox">
+                                        <input type="checkbox" name="user_access" value="{{ access.permission.name }}">
+                                        <span>{{ access.permission.label }}</span>
+                                    </label>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 <button type="submit">ذخیره تغییرات</button>
                 <button type="button" onclick="closeUserPopup()">بستن</button>
             </form>
