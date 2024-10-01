@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_jwt_extended import JWTManager
+from importlib import import_module
 
 
 db = SQLAlchemy()
@@ -29,14 +30,32 @@ def create_app():
         seed_user_management()  
         seed_ai_properties()
 
-    from src.users import users_bp
-    from src.camera import camera_bp
-    from src.zone import zones_bp
-    from src.setting import setting_bp
-
-    app.register_blueprint(camera_bp, url_prefix='/camera')
-    app.register_blueprint(users_bp, url_prefix='/users')
-    app.register_blueprint(zones_bp, url_prefix='/zones')
-    app.register_blueprint(setting_bp, url_prefix='/setting')
+    register_blueprint(app)
 
     return app
+
+
+from importlib import import_module
+
+def register_blueprint(app):
+    url_prefixes = {
+        'camera': '/camera',
+        'zone': '/zones',
+        'users': '/users',
+        'setting': '/setting',
+        'web': None
+    }
+
+    modules = ('camera', 'zone', 'users', 'setting', 'web')
+
+    for module in modules:
+        # Import the shared Blueprint from each module's __init__.py or blueprint.py
+        blueprint_module = import_module(f'src.{module}') 
+        blueprint_name = f'{module}_bp' 
+
+        # Import both web_routes and api_routes so that routes are registered to the Blueprint
+        import_module(f'src.{module}.web_routes')  
+        import_module(f'src.{module}.api_routes')  
+
+        # Register the shared blueprint to the app with the appropriate URL prefix
+        app.register_blueprint(getattr(blueprint_module, blueprint_name), url_prefix=url_prefixes[module])

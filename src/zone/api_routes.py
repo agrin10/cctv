@@ -1,11 +1,11 @@
 from flask import Blueprint , jsonify ,request
 from .controller import handle_add_zone , handle_retrieves_zone
 from flask_jwt_extended import jwt_required
-from src.zone import zones_bp
+from src.zone import zone_bp
 from src.permissions import permission_required
 
 
-@zones_bp.route('/api/add-zone' , methods=['POST'])
+@zone_bp.route('/api/add-zone' , methods=['POST'])
 @permission_required(['create'])
 @jwt_required()
 def api_add_zone():
@@ -20,7 +20,7 @@ def api_add_zone():
 
     
 
-@zones_bp.route('/api/zones')
+@zone_bp.route('/api/zones')
 @permission_required(['view'])
 @jwt_required()
 def api_zones():

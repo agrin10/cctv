@@ -1,1 +1,1 @@
-SELECT * FROM  user_accesses
+SELECT * FROM  users

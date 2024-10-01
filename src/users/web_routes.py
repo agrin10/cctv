@@ -36,7 +36,7 @@ def login():
             login_user(user)
             flash(message=message)
 
-            response.headers['Location'] = url_for('home_page')
+            response.headers['Location'] = url_for('web.home_page')
             response.status_code = 302
 
             return response

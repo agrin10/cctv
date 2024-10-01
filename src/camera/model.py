@@ -3,6 +3,8 @@ from flask_bcrypt import Bcrypt
 import uuid
 from datetime import datetime , timezone
 from sqlalchemy.ext.declarative import declared_attr
+from src.zone.model import Zone
+
 
 bcrypt = Bcrypt()
 
@@ -45,19 +47,25 @@ class Camera(db.Model):
     camera_name = db.Column(db.String(150), nullable=False)
     camera_ip = db.Column(db.String(150), nullable=False, unique=True)
     camera_type = db.Column(db.String(150), nullable=False)
-    camera_zone = db.Column(db.String(225), db.ForeignKey("zones.zone_name"), nullable=False)  
+    
+    # Updated to reference 'zone_id' instead of 'zone_name'
+    camera_zone = db.Column(db.String(225), db.ForeignKey("zones.zone_id"), nullable=False)  
+    
     camera_image_path = db.Column(db.String(255), nullable=True)
     camera_record = db.Column(db.Boolean, default=False)
     camera_password = db.Column(db.String(150), nullable=False)
     camera_username = db.Column(db.String(150), nullable=False)
     camera_port = db.Column(db.Integer, nullable=True)
 
+    # Relationship to 'Zone'
     zone = db.relationship("Zone", back_populates="cameras") 
+    
+    # Relationship to 'AiProperties' through a secondary table
     ai_properties = db.relationship("AiProperties", secondary=camera_ai_relationship, back_populates="cameras")
 
+    # Timestamps
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
-
     def toDict(self):
         camera_dict = {
             "camera_id": str(self.camera_id),

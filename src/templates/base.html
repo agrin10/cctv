@@ -33,7 +33,7 @@
     {% block header %}{% endblock header %}
     <header class="container">
       <nav>
-        <a href="{{url_for('index')}}">
+        <a href="{{url_for('web.index')}}">
         <p class="nav-logo"></p>
         </a>
         <div class="menu-btns">
@@ -50,11 +50,11 @@
 
       <div class="dashboard">
         <div class="icon-x">
-        </div><a href="{{url_for('index')}}"><p class="dashboard-logo">Netixsystem</p></a>
+        </div><a href="{{url_for('web.index')}}"><p class="dashboard-logo">Netixsystem</p></a>
         
         <ul class="dashboard-list">
           <li class="dashboard-item">
-            <a href="{{url_for('index')}}">
+            <a href="{{url_for('web.index')}}">
               <i class="fa-solid fa-house"></i>
               <p>خانه</p>
             </a>

@@ -31,7 +31,7 @@ def seed_ai_properties():
         db.session.commit()
         print("AI properties successfully committed to the database.")
         
-    except Exception as e:
+    except Exception as e:  
         print(f"Error occurred: {e}")
         db.session.rollback()
     finally:
