@@ -8,53 +8,56 @@
   list-style-type: none;
 }
 
-@font-face {
-  font-family: "vazir";
-  src: url("./assets/fonts/Vazir.woff") format("woff");
-}
+/* Import Vazirmatn font from a CDN */
+@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap");
 
+/* Import Rubik font from a CDN */
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 
 :root {
-  /* theme */
+
   --clr-main-dark: #161616;
   --clr-sec-dark: #777777;
   --clr-main-light: #f5f3f3;
   --clr-sec-light: #cefdd3;
 
   --clr-lightGray: #c2c1c1;
-  /* text */
+
+
   --clr-font-dark: #000;
   --clr-font-light: #fff;
-  /* font */
-  --font-family-fa: "vazir";
-  --font-family-en: "Rubik", sans-serif;
-
-  --clr-font-dark: #000;
-  --clr-font-light: #fff; /* This is the white color for dark mode */
   
-  /* Margins */
-  --content-margin: 20px; /* Margin for content */
-  --content-padding: 10px; /* Padding for the container */
+ 
+  --font-family-fa: "Vazirmatn", sans-serif; 
+  --font-family-en: "Rubik", sans-serif;     
 
+ 
+  --content-margin: 20px;
+  --content-padding: 10px;
 }
 
+
 html {
-  font-size: 62.5%;
+  font-size: 62.5%; 
 }
 
 body {
-  font-size: 1.7rem;
-  direction: rtl;
-  font-family: var(--font-family-fa);
+  font-size: 1.7rem; 
+  direction: rtl;    
+  font-family: var(--font-family-fa); 
   position: relative;
   transition: all 0.3s;
-  background-color: var(--clr-main-light); 
-  color: var(--clr-font-dark); 
+  background-color: #131F13;
+  color: var(--clr-font-dark);
   padding: 0;
   margin: 0;
-
 }
+
+.english-text {
+  font-family: var(--font-family-en);
+}
+
+
 h1, h2, h3, h4, h5, h6, p {
   color: var(--clr-font-dark);
 }
@@ -162,7 +165,7 @@ header nav {
 }
 
 .switch .sun .dot {
-  positon: relative;
+  position: relative;
   display: block;
   width: 3px;
   height: 3px;
@@ -246,116 +249,263 @@ header nav {
 }
 
 /* login/ */
-.login {
-  width: 300px;
-  height: 450px;
-  background: #2c2c2c;
-  padding: 47px;
-  padding-bottom: 57px;
-  color: #fff;
-  border-radius: 17px;
-  padding-bottom: 50px;
-  font-size: 1.4em;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  margin: auto;
-  margin-top: 120px;
-}
-
-.login input[type="text"],
-.login input[type="password"], 
-.login input[type="email"] {
-  opacity: 1;
-  display: block;
-  border: none;
-  outline: none;
-  width: 100%;
-  padding: 13px 18px;
-  margin: 20px 0 0 0;
-  font-size: 1rem;
-  border-radius: 100px;
-  background: #3c3c3c;
-  color: #fff;
-}
-
-.login input:focus {
-  animation: bounce 1s;
-  -webkit-appearance: none;
-  background-color: #515151;
-}
-
-.login input[type=submit],
-.login input[type=button],
-.h1 {
-  border: 0;
-  outline: 0;
-  width: 100%;
-  padding: 13px;
-  margin: 40px 0 0 0;
-  border-radius: 500px;
-  font-weight: 600;
-  animation: bounce2 1.6s;
-}
-
-.h1 {
-  padding: 0;
-  position: relative;
-  top: -35px;
-  display: block;
-  margin-bottom: -0px;
-  font-size: 1.3em;
-}
-
-.btn {
-  background: linear-gradient(144deg, #8b1bdb, #5b42f3 50%, #2dc1d1);
-  color: #fff;
-  padding: 16px !important;
-  border-radius: 10px;
-}
-
-.btn:hover {
-  background: linear-gradient(144deg, #1e1e1e , 20%,#1e1e1e 50%,#1e1e1e );  
-  color: rgb(255, 255, 255);
-  padding: 16px !important;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  border-radius: 10px;
-}
-
-.login input[type=text] {
-  animation: bounce 1s;
-  -webkit-appearance: none;
-}
-
-.login input[type=password] {
-  animation: bounce1 1.3s;
-}
-
-.login input[type=email] {
-  animation: bounce1 1.6s;
-}
-
-.ui {
-  font-weight: bolder;
-  background: -webkit-linear-gradient(#B563FF, #535EFC, #0EC8EE);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  border-bottom: 4px solid transparent;
-  border-image: linear-gradient(0.25turn, #535EFC, #0EC8EE, #0EC8EE);
-  border-image-slice: 1;
-  display: inline;
-}
-
-.already-account{
-  color: #575757;
-  font-size: 12px;
+.login_container {
   display: flex;
   justify-content: center;
-  margin: 20px;
+  align-items: center; 
+  width: 90vw; 
+  height: 90vh; 
+  max-width: 1400px; 
+  max-height: 800px; 
+  margin: auto;
+  border: none;
+  overflow: hidden; 
 }
-.already-account a{
-  color: #fffefe;
+
+.first_page{
+  display: flex;
+  width: 100%;
+  height: 100%; 
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.left {
+  background-color: #131F13;
+  flex: 1.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.logo-container {
+  width: 40%;
+  }
+
+.logo {
+  width: 100%;
+}
+
+.right {
+  flex: 1;
+  margin: 0; 
+  padding: 40px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; 
+}
+
+.form-container {
+  background-color: #304D30;
+  padding: 30px;
+  border-radius: 8px;
+  border-radius: 12px;
+  width: 80%;
+  height: 80%;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 40px;
+}
+
+.tab-link {
+  background-color: transparent;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  margin: 0 10px;
+  padding-bottom: 5px;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.tab-link.active {
+  border-bottom: 2px solid #fff;
+}
+
+.form-title {
+  text-align: center;
+  color: #fff;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+.forms{
+  background-color: #304D30;
+  padding: 20px;
+  width: 100%;
+  max-width: 600px; 
+  height: 100%;
+  overflow-y: auto; 
+  border-radius: 10px;
+  box-sizing: border-box;
+  margin-top: 50px;
+}
+.forms h2{
+  font-family: "Cairo", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 50px;
+  font-variation-settings:"slnt" 0;
+  margin: 40px;
+  padding: 20px;
+}
+
+
+#login form,
+#register form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: flex-end;
+}
+
+#login input, #register input {
+  width: 100%; 
+  margin-bottom: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+  
+}
+#login input[type="text"], 
+#login input[type="password"], 
+#login input[type="email"], 
+#register input[type="text"], 
+#register input[type="password"], 
+#register input[type="email"] {
+  width: 80%; 
+  height: 70px; 
+  padding: 15px;
+  border-radius: 10px; 
+  background-color: #EBEBEB; 
+  color: #333; 
+  font-size: 16px;  
+  margin-bottom: 15px; 
+  box-sizing: border-box;
+  margin: 0 auto; 
+  margin-bottom: 10px; 
+}
+
+#login input::placeholder,
+#register input::placeholder {
+  color: #828f86; 
+}
+
+
+
+.checkbox-container{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: 10px 30px;
+}
+
+#login label, 
+#register label {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; 
+  margin: 20px;
+  gap: 10px;
+  font-size: 18px;
+  
+}
+
+
+#login input[type="checkbox"], 
+#register input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  border: 2px solid #ffffff;
+  border-radius: 20px;
+  transition: all 0.3s;
+}
+
+#login input[type="checkbox"]:checked ~ .checkmark,
+#register input[type="checkbox"]:checked ~ .checkmark {
+  background-color: #ffffff;
+  border-color: #ffffff;
+}
+
+#login input[type="checkbox"]:checked ~ .checkmark:after,
+#register input[type="checkbox"]:checked ~ .checkmark:after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 4px;
+  height: 10px;
+  border: solid rgb(0, 0, 0);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+#login:hover input[type="checkbox"] ~ .checkmark,
+#register:hover input[type="checkbox"] ~ .checkmark {
+  border-color: #ffffff;
+}
+
+#login input::placeholder,
+#register input::placeholder {
+  color: #828f86;
+}
+#login input[type="checkbox"]:disabled ~ .checkmark,
+#register input[type="checkbox"]:disabled ~ .checkmark {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#login input[type="checkbox"]:disabled ~ .checkmark:hover,
+#register input[type="checkbox"]:disabled ~ .checkmark:hover {
+  border-color: #4d4d4d;
+}
+
+
+.submit-btn {
+  width: 70%; 
+  margin: 0 auto; 
+  padding: 10px;
+  background-color: #124076;
+  border: none; 
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #fff;
+  height: 40px;
+  text-align: center;
+}
+
+.submit-btn:hover {
+  background-color: #062e0d;
+}
+
+.tab-content {
+  display: none;
+  transition: opacity 0.3s ease-in-out; 
+  max-height: calc(100vh - 200px); 
+  overflow-y: auto; 
 
 }
+
+.tab-content.active {
+  display: block;
+}
+
+
 /* camera list */
 
 
@@ -367,7 +517,6 @@ header nav {
   gap: 20px;                  
   border-radius: 10px;  
   font-size: 2rem;   
-    
 
 }
 
@@ -419,8 +568,8 @@ header nav {
 }
 
 .add-cam .btn{
-  display: flex;               /* This creates a flex container */
-  justify-content: flex-end;   /* Aligns the button to the right */
+  display: flex;              
+  justify-content: flex-end;  
   margin-top: 20px; 
   
 }
@@ -1642,11 +1791,11 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   padding-top: 10px;
   flex-direction: column;
-  /* background-color: var(--clr-main-light); */
-  
+
 }
 .main-style{
   margin-right: 250px;
+  background-color: #131F13;
 }
 
 .dashboard ul {
@@ -1722,19 +1871,6 @@ input[type="range"]::-moz-range-thumb {
   border-radius: 50%;
   cursor: pointer;
 }
-/* .backdrop {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.425);
-  z-index: 10;
-} */
-
-/* .hidden {
-  display: none;
-} */
 
 
 .boxs {
