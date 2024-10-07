@@ -21,7 +21,7 @@ def register():
         else:
             flash(message=message)
             return redirect(url_for('users.register'))
-    return render_template('register.html')
+    return render_template('authentication.html' , side_menu= True)
 
 
 @users_bp.route('/login', methods=['POST', 'GET'])
@@ -43,7 +43,7 @@ def login():
 
         flash(message=message)
         return redirect(url_for('users.login'))
-    return render_template('login.html')
+    return render_template('authentication.html')
 
 
 @users_bp.route('/logout')
@@ -62,9 +62,9 @@ def logout():
 @jwt_required()
 @permission_required(['view'])
 def user_manage():
-    list_userss = Users.query.all()
+    list_users = Users.query.all()
     accesses = Accesses.query.join(Permissions).join(Module).all()
-    return render_template('user-manage.html', users=list_userss, accesses=accesses)
+    return render_template('user-manage.html', users=list_users, accesses=accesses)
 
 
 @users_bp.route('/delete-users/<username>', methods=["DELETE"])
