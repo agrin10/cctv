@@ -29,7 +29,7 @@
     {% if current_user.is_authenticated %}
     <header class="container">
       <nav>
-          <h3 id="nav-title">viztech</h3>
+          <h3 id="nav-title"></h3>
         <div class="menu-btns">
           <button class="user-icon"><a href="{{url_for('users.login')}}" ></a></button>
           <button class="help-icon"><a href="#"></a></button>
@@ -150,7 +150,7 @@
     </div>
   
     <script src="{{url_for('static' ,filename='scripts/app.js')}}"></script>
-    <script src="{{url_for('static' ,filename='scripts/another.js')}}"></script>
+    <script src="{{url_for('static' ,filename='scripts/dom-changes.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment/2.29.1/moment.min.js"></script>
     <script src="jalali.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -159,6 +159,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
     
     <!-- Your new JavaScript code goes here -->
+     <script>
+// Immediately set the header title before waiting for DOMContentLoaded
+
+     </script>
 
     
     {% block scripts %}{% endblock scripts %}

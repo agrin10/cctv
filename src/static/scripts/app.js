@@ -323,3 +323,15 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
       });
   });
   
+
+  window.onload = function() {
+    if (window.location.pathname === 'users/login') {
+        document.body.style.backgroundColor = '#131F13';
+        console.log('its working')
+    } else {
+        document.body.style.backgroundColor = '#fff';
+    }
+};
+
+
+
