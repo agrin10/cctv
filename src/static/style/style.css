@@ -47,7 +47,7 @@ body {
   font-family: var(--font-family-fa); 
   position: relative;
   transition: all 0.3s;
-  background-color: #131F13;
+  /* background-color: #131F13; */
   color: var(--clr-font-dark);
   padding: 0;
   margin: 0;
@@ -63,10 +63,11 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .container {
-  max-width: 1300px;
+  max-width: 85%;
   margin: 0 auto;
-  padding: 0 var(--content-margin);                   
-
+  margin-left: 0;
+  height: 20%;
+  
 }
 
 button {
@@ -81,7 +82,8 @@ header nav {
   justify-content: space-between;
   align-items: center;
   padding:10px;
-  border-bottom: 1px solid #969595;
+  border: 1px solid #828282;
+  background-color: #D7D7D7;
 }
 
 .nav-logo {
@@ -108,14 +110,12 @@ header nav {
 }
 
 .menu-btns button:nth-child(1) a,
-.menu-btns button:nth-child(2) a {
+.menu-btns button:nth-child(2) a, 
+.menu-btns button:nth-child(3) a, 
+.menu-btns button:nth-child(4) a {
   color: var(--clr-font-dark);
 }
 
-.menu-btns button:nth-child(1):hover,
-.menu-btns button:nth-child(2):hover {
-  background-color: var(--clr-sec-dark);
-}
 .switch {
   --transition: 300ms;
   --transition500: 500ms;
@@ -247,264 +247,6 @@ header nav {
     padding-inline: 30px;
   }
 }
-
-/* login/ */
-.login_container {
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-  width: 90vw; 
-  height: 90vh; 
-  max-width: 1400px; 
-  max-height: 800px; 
-  margin: auto;
-  border: none;
-  overflow: hidden; 
-}
-
-.first_page{
-  display: flex;
-  width: 100%;
-  height: 100%; 
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.left {
-  background-color: #131F13;
-  flex: 1.5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-}
-
-.logo-container {
-  width: 40%;
-  }
-
-.logo {
-  width: 100%;
-}
-
-.right {
-  flex: 1;
-  margin: 0; 
-  padding: 40px; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%; 
-}
-
-.form-container {
-  background-color: #304D30;
-  padding: 30px;
-  border-radius: 8px;
-  border-radius: 12px;
-  width: 80%;
-  height: 80%;
-}
-
-.tabs {
-  display: flex;
-  justify-content: space-evenly;
-  margin-bottom: 40px;
-}
-
-.tab-link {
-  background-color: transparent;
-  color: #fff;
-  border: none;
-  font-size: 18px;
-  margin: 0 10px;
-  padding-bottom: 5px;
-  border-bottom: 2px solid transparent;
-  cursor: pointer;
-}
-
-.tab-link.active {
-  border-bottom: 2px solid #fff;
-}
-
-.form-title {
-  text-align: center;
-  color: #fff;
-  margin-bottom: 20px;
-  font-size: 24px;
-}
-.forms{
-  background-color: #304D30;
-  padding: 20px;
-  width: 100%;
-  max-width: 600px; 
-  height: 100%;
-  overflow-y: auto; 
-  border-radius: 10px;
-  box-sizing: border-box;
-  margin-top: 50px;
-}
-.forms h2{
-  font-family: "Cairo", sans-serif;
-  font-optical-sizing: auto;
-  font-style: normal;
-  font-size: 50px;
-  font-variation-settings:"slnt" 0;
-  margin: 40px;
-  padding: 20px;
-}
-
-
-#login form,
-#register form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; 
-  align-items: flex-end;
-}
-
-#login input, #register input {
-  width: 100%; 
-  margin-bottom: 15px;
-  padding: 10px;
-  box-sizing: border-box;
-  
-}
-#login input[type="text"], 
-#login input[type="password"], 
-#login input[type="email"], 
-#register input[type="text"], 
-#register input[type="password"], 
-#register input[type="email"] {
-  width: 80%; 
-  height: 70px; 
-  padding: 15px;
-  border-radius: 10px; 
-  background-color: #EBEBEB; 
-  color: #333; 
-  font-size: 16px;  
-  margin-bottom: 15px; 
-  box-sizing: border-box;
-  margin: 0 auto; 
-  margin-bottom: 10px; 
-}
-
-#login input::placeholder,
-#register input::placeholder {
-  color: #828f86; 
-}
-
-
-
-.checkbox-container{
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 10px 30px;
-}
-
-#login label, 
-#register label {
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end; 
-  margin: 20px;
-  gap: 10px;
-  font-size: 18px;
-  
-}
-
-
-#login input[type="checkbox"], 
-#register input[type="checkbox"] {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.checkmark {
-  position: relative;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  border: 2px solid #ffffff;
-  border-radius: 20px;
-  transition: all 0.3s;
-}
-
-#login input[type="checkbox"]:checked ~ .checkmark,
-#register input[type="checkbox"]:checked ~ .checkmark {
-  background-color: #ffffff;
-  border-color: #ffffff;
-}
-
-#login input[type="checkbox"]:checked ~ .checkmark:after,
-#register input[type="checkbox"]:checked ~ .checkmark:after {
-  content: "";
-  position: absolute;
-  top: 2px;
-  left: 6px;
-  width: 4px;
-  height: 10px;
-  border: solid rgb(0, 0, 0);
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-#login:hover input[type="checkbox"] ~ .checkmark,
-#register:hover input[type="checkbox"] ~ .checkmark {
-  border-color: #ffffff;
-}
-
-#login input::placeholder,
-#register input::placeholder {
-  color: #828f86;
-}
-#login input[type="checkbox"]:disabled ~ .checkmark,
-#register input[type="checkbox"]:disabled ~ .checkmark {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-#login input[type="checkbox"]:disabled ~ .checkmark:hover,
-#register input[type="checkbox"]:disabled ~ .checkmark:hover {
-  border-color: #4d4d4d;
-}
-
-
-.submit-btn {
-  width: 70%; 
-  margin: 0 auto; 
-  padding: 10px;
-  background-color: #124076;
-  border: none; 
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  color: #fff;
-  height: 40px;
-  text-align: center;
-}
-
-.submit-btn:hover {
-  background-color: #062e0d;
-}
-
-.tab-content {
-  display: none;
-  transition: opacity 0.3s ease-in-out; 
-  max-height: calc(100vh - 200px); 
-  overflow-y: auto; 
-
-}
-
-.tab-content.active {
-  display: block;
-}
-
 
 /* camera list */
 
@@ -728,7 +470,7 @@ header nav {
   top: 0;
   right: 0;
   bottom: 0;
-  background-color: var(--clr-sec-dark);
+  background-color: #304D30;
   width: 250px;
   z-index: 200;
   transition: all 0.8s;
@@ -1791,11 +1533,11 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   padding-top: 10px;
   flex-direction: column;
+  width: 15%;
 
 }
 .main-style{
   margin-right: 250px;
-  background-color: #131F13;
 }
 
 .dashboard ul {
@@ -1808,7 +1550,7 @@ input[type="range"]::-moz-range-thumb {
 .dashboard li i {
   font-size: 2.5rem;
   margin-inline: 10px;
-  color: var(--clr-font-dark);
+  color: var(--clr-font-light);
 }
 
 .dashboard .dashboard-list {
@@ -1841,13 +1583,11 @@ input[type="range"]::-moz-range-thumb {
 .dashboard li p {
   font-size: 1.6rem;
   font-weight: 600;
-  color: var(--clr-font-dark);
+  color: var(--clr-font-light);
 }
 
 .dashboard-logo {
-  color: var(--clr-font-dark);
-  font-weight: 900;
-  font-size: 2rem;
+  margin-top: 20px;
 }
 
 .dashboard li a:hover {
@@ -1858,19 +1598,7 @@ input[type="range"]::-moz-range-thumb {
   font-size: 2.5rem;
 }
 
-.icon-x {
-  display: flex;
-  justify-content: end;
-  width: 100%;
-  margin-left: 15px;
-}
 
-.icon-x i {
-  font-size: 2.5rem;
-  border: 1px solid black;
-  border-radius: 50%;
-  cursor: pointer;
-}
 
 
 .boxs {
@@ -1897,6 +1625,218 @@ input[type="range"]::-moz-range-thumb {
   padding: 35px 35px;
   width: 90%;
   border:1px solid var(--clr-sec-dark);
+}
+
+/*icons */
+
+.home-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/home 1 (1).svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.item-icon{
+  width: 30px;     
+  height: 30px;     
+  background-image: url('../images/arrow-down.svg'); 
+  background-size: contain;    
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  position: absolute;
+  left: 0;
+}
+.arrow-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/arrow-right.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+  margin-left: 0;
+  position: absolute; 
+  left: 0; 
+  transform: translateY(-50%);
+  padding-bottom: 10px;
+}
+
+.alert-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/danger.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.camera-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/security-camera 1 (1).svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.zone-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/pin 1.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.hr-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/people.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.useraction-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/shield-tick.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.backup-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/public-service 1.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.monitoring-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/monitor-recorder.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.setting-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/setting-2.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.logout-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/user-minus.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.bell-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/8541621_bell_alert_icon 1.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.user-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/Ellipse 5.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.help-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/Frame 88.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.user-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/Ellipse 5.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
+}
+.ticket-icon{
+  width: 20px;      
+  height: 20px;     
+  background-image: url('../images/ticket.svg');
+  background-size: contain;    
+  background-repeat: no-repeat;  
+  background-position: center;
+  border: none;      
+  background-color: transparent; 
+  cursor: pointer;   
+  color: #000;
 }
 
 @media screen and (min-width: 768px) {
