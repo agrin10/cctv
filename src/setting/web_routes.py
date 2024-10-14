@@ -9,4 +9,3 @@ from src.permissions import permission_required
 @jwt_required()
 def setting():
     return render_template('setting.html')
-
