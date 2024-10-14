@@ -8,30 +8,40 @@
   list-style-type: none;
 }
 
-/* Import Vazirmatn font from a CDN */
-@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap");
-
-/* Import Rubik font from a CDN */
-@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
+/* importing fonts*/
+@font-face {
+  font-family: 'vazir';
+  src: url('../fonts/Vazirmatn-VariableFont_wght.ttf');
+}
 
 :root {
 
-  --clr-main-dark: #161616;
-  --clr-sec-dark: #777777;
-  --clr-main-light: #f5f3f3;
-  --clr-sec-light: #cefdd3;
+  --Main-Green :#304D30;
+  --Black:#02060C;
+  --accent-color: #124076;
 
-  --clr-lightGray: #c2c1c1;
+  --Main-Green-Dark---1: #131F13;
+  --Main-Green-Dark---2: #1D2E1D;
+  --Main-Green-Dark---3: #263E26;
+  --Main-Green-Light---1: #4E6A4E;
+  --Main-Green-Light---2: #6D876D;
+  --Main-Green-Light---3: #8BA38B;
 
+  --Main-Gray-Dark---1: #383838;
+  --Main-Gray-Dark---2: #646464;
+  --Main-Gray-Dark---3: #828282;
+
+
+  --Main-Gray-Light---1: #BDBDBD;
+  --Main-Gray-Light---2: #D7D7D7;
+  --Main-Gray-Light---3: #EBEBEB;
+
+  --font-family-fa: "vazir", sans-serif; 
+  --font-family-en: "Rubik", sans-serif;     
 
   --clr-font-dark: #000;
   --clr-font-light: #fff;
-  
- 
-  --font-family-fa: "Vazirmatn", sans-serif; 
-  --font-family-en: "Rubik", sans-serif;     
 
- 
   --content-margin: 20px;
   --content-padding: 10px;
 }
@@ -44,10 +54,9 @@ html {
 body {
   font-size: 1.7rem; 
   direction: rtl;    
-  font-family: var(--font-family-fa); 
+  font-family: var(--font-family-fa) !important; 
   position: relative;
   transition: all 0.3s;
-  background-color: #131F13;
   color: var(--clr-font-dark);
   padding: 0;
   margin: 0;
@@ -61,13 +70,30 @@ body {
 h1, h2, h3, h4, h5, h6, p {
   color: var(--clr-font-dark);
 }
+a{
+  color: var(--clr-font-light);
+}
+
+.container {
+  max-width: 85%;
+  margin: 0 auto;
+  margin-left: 0;
+  height: 20%;
+  
+}
+
+button {
+  all: unset;
+  cursor: pointer;
+  font-family: var(--font-family-fa) !important
+
+}
 
 /* login */
 .login_container {
   display: flex;
   justify-content: center;
   align-items: center; 
-  width: 90vw; 
   height: 90vh; 
   max-width: 1400px; 
   max-height: 800px; 
@@ -85,7 +111,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .left {
-  background-color: #131F13;
+  background-color:var(--Main-Green-Dark---1);
   flex: 1.5;
   display: flex;
   justify-content: center;
@@ -112,7 +138,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .form-container {
-  background-color: #304D30;
+  background-color: var(--Main-Green);
   padding: 30px;
   border-radius: 8px;
   border-radius: 12px;
@@ -128,7 +154,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 .tab-link {
   background-color: transparent;
-  color: #fff;
+  color: var(--clr-font-light);
   border: none;
   font-size: 18px;
   margin: 0 10px;
@@ -138,17 +164,17 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .tab-link.active {
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid var(--Main-Gray-Light---3);
 }
 
 .form-title {
   text-align: center;
-  color: #fff;
+  color: var(--clr-font-light);
   margin-bottom: 20px;
   font-size: 24px;
 }
 .forms{
-  background-color: #304D30;
+  background-color: var(--Main-Green);
   padding: 20px;
   width: 100%;
   max-width: 600px; 
@@ -194,7 +220,7 @@ h1, h2, h3, h4, h5, h6, p {
   height: 70px; 
   padding: 15px;
   border-radius: 10px; 
-  background-color: #EBEBEB; 
+  background-color: var(--Main-Gray-Light---3); 
   color: #333; 
   font-size: 16px;  
   margin-bottom: 15px; 
@@ -205,7 +231,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 #login input::placeholder,
 #register input::placeholder {
-  color: #828f86; 
+  color: var(--Main-Green-Light---2); 
 }
 
 
@@ -219,7 +245,7 @@ h1, h2, h3, h4, h5, h6, p {
 
 #login label, 
 #register label {
-  color: #fff;
+  color: var(--clr-font-light);
   display: flex;
   align-items: center;
   justify-content: flex-end; 
@@ -244,15 +270,15 @@ h1, h2, h3, h4, h5, h6, p {
   width: 20px;
   height: 20px;
   margin-right: 10px;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--Main-Gray-Light---3);
   border-radius: 20px;
   transition: all 0.3s;
 }
 
 #login input[type="checkbox"]:checked ~ .checkmark,
 #register input[type="checkbox"]:checked ~ .checkmark {
-  background-color: #ffffff;
-  border-color: #ffffff;
+  background-color: var(--Main-Gray-Light---3);
+  border-color: var(--Main-Gray-Light---3);
 }
 
 #login input[type="checkbox"]:checked ~ .checkmark:after,
@@ -270,12 +296,12 @@ h1, h2, h3, h4, h5, h6, p {
 
 #login:hover input[type="checkbox"] ~ .checkmark,
 #register:hover input[type="checkbox"] ~ .checkmark {
-  border-color: #ffffff;
+  border-color: var(--Main-Gray-Light---3);
 }
 
 #login input::placeholder,
 #register input::placeholder {
-  color: #828f86;
+  color: var(--Main-Green-Light---2);
 }
 #login input[type="checkbox"]:disabled ~ .checkmark,
 #register input[type="checkbox"]:disabled ~ .checkmark {
@@ -298,13 +324,13 @@ h1, h2, h3, h4, h5, h6, p {
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  color: #fff;
+  color: var(--clr-font-light);
   height: 40px;
   text-align: center;
 }
 
 .submit-btn:hover {
-  background-color: #062e0d;
+  background-color: var(#131F13);
 }
 
 .tab-content {
