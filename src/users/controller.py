@@ -8,35 +8,37 @@ from sqlalchemy.exc import SQLAlchemyError
 
 
 
-def handle_registration(username , password , email):
+def handle_registration(username, password, email):
+    existing_user = Users.query.filter_by(username=username).first()
+    existing_email = Users.query.filter_by(email=email).first()
     
-    existing_user = Users.query.filter_by(username = username).first()
-    existing_email = Users.query.filter_by(email = email).first()
     if existing_user:
-        return False , 'username already exists' 
+        return False, 'Username already exists' 
     if password is None:
-        return False , 'password is required' 
+        return False, 'Password is required' 
     if existing_email:
-        return False , 'email already exists'
-    if len(password) < 8 :
-        return False , 'Password must be at least 8 characters long'
+        return False, 'Email already exists'
+    if len(password) < 8:
+        return False, 'Password must be at least 8 characters long'
     
-    new_user = Users(username = username , email = email , password = password)
+    new_user = Users(username=username, email=email)
+    new_user.set_password(password) 
     
     try:
         db.session.add(new_user)
         db.session.commit()
-        return True , 'registration successful, please login'
+        return True, 'Registration successful, please login'
     except Exception as e:
-            db.session.rollback()
-            return False, f'An error occurred: {str(e)}'         
-
+        db.session.rollback()
+        return False, f'An error occurred: {str(e)}'
 
 
 
 def handle_login(username, password):
     user = Users.query.filter_by(username=username).first()
     if user and user.check_password(password) :
+        print('valid password')
+        print("Hashed password:", user.password_hash)
         access_token = create_access_token(identity=user.user_id)
         refresh_token = create_refresh_token(identity=user.user_id, expires_delta=timedelta(days=1))
         

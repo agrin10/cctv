@@ -1,4 +1,3 @@
-// Check if themeSwitch exists before adding an event listener
 const themeSwitch = document.querySelector('.fa-moon');
 if (themeSwitch) {
   themeSwitch.addEventListener('click', () => {
@@ -19,7 +18,6 @@ if (themeSwitch) {
   });
 }
 
-// Open the Modal
 function openModal(src) {
   var modal = document.getElementById("imageModal");
   var modalImg = document.getElementById("modalImage");
@@ -45,16 +43,35 @@ function closePopup() {
   document.getElementById('timePopup').classList.remove('show');
 }
 
-//user pop up 
-function showUserPopup() {
-  document.getElementById('edit-user-popup').classList.add('show')
+// //user pop up 
+// function showUserPopup() {
+//   document.getElementById('edit-user-popup').style.display='block'
+// }
+
+// // Close the popup users
+// function closeUserPopup() {
+//   document.getElementById('edit-user-popup').style.display='none';
+// }
+
+
+// Function to show the user popup with existing user details
+function showUserPopup(username, email, password) {
+  // Populate the inputs with the existing user data
+  document.getElementById('firstName').value = ""; // You may want to fetch these values based on your context
+  document.getElementById('lastName').value = ""; // You may want to fetch these values based on your context
+  document.getElementById('username').value = username;
+  document.getElementById('password').value = password;
+
+  // Show the popup
+  const popup = document.getElementById('edit-user-popup');
+  popup.classList.add('show');
 }
 
-// Close the popup users
-function closeUserPopup() {
-  document.getElementById('edit-user-popup').classList.remove('show');
-}
-
+// Hide the popup when cancel button is clicked
+document.querySelector('.cancel-btn').addEventListener('click', function() {
+  const popup = document.getElementById('edit-user-popup');
+  popup.classList.remove('show');
+});
 
 
 // AI properties handling
@@ -69,7 +86,7 @@ if (selectBox && select && selectedItemsContainer) {
   
   select.addEventListener('change', function () {
     const selectedOptions = Array.from(select.selectedOptions);
-    selectedItemsContainer.innerHTML = ''; // Clear previous selections
+    selectedItemsContainer.innerHTML = ''; 
     
     selectedOptions.forEach(option => {
       const item = document.createElement('div');
@@ -78,10 +95,10 @@ if (selectBox && select && selectedItemsContainer) {
 
       const removeIcon = document.createElement('span');
       removeIcon.className = 'remove-item';
-      removeIcon.innerHTML = '&times;'; // Close icon
+      removeIcon.innerHTML = '&times;'; 
       removeIcon.onclick = function () {
-        option.selected = false; // Unselect the option
-        item.remove(); // Remove the item from the display
+        option.selected = false; 
+        item.remove(); 
       };
       
       item.appendChild(removeIcon);
@@ -93,9 +110,8 @@ if (selectBox && select && selectedItemsContainer) {
 
 // date picker 
 function submitForm(event) {
-  event.preventDefault(); // Prevent the default form submission
+  event.preventDefault(); 
   
-  // Get form values
   const ip = document.getElementById('ip').value;
   const name = document.getElementById('name').value;
   const startTime = document.getElementById('startTime').value;
@@ -104,7 +120,6 @@ function submitForm(event) {
   const startGregorian = jalaliToGregorian(startTime);
   const endGregorian = jalaliToGregorian(endTime);
   
-  // Log or process the data
   console.log("ای پی دوربین:", ip);
   console.log("نام دوربین:", name);
   console.log("زمان شروع (میلادی):", startGregorian);
@@ -130,13 +145,10 @@ document.querySelectorAll('.delete-user-btn').forEach(button => {
       const confirmModal = document.getElementById('confirmModal');
       const confirmMessage = document.getElementById('confirmMessage');
 
-      // Set the confirmation message
       confirmMessage.textContent = `Are you sure you want to delete ${username}?`;
 
-      // Show the modal
       confirmModal.style.display = 'block';
 
-      // Handle the confirm button
       document.getElementById('confirmYes').onclick = function() {
           console.log(`Attempting to delete user with username: ${username}`);
           const url = `/users/delete-users/${username}`;
@@ -155,23 +167,20 @@ document.querySelectorAll('.delete-user-btn').forEach(button => {
               } else if (data.error) {
                   alert(data.error);
               }
-              // Close the modal
               confirmModal.style.display = 'none';
           })
           .catch(error => {
               console.error('Error:', error);
-              confirmModal.style.display = 'none'; // Close modal on error
+              confirmModal.style.display = 'none'; 
           });
       };
 
-      // Handle the cancel button
       document.getElementById('confirmNo').onclick = function() {
-          confirmModal.style.display = 'none'; // Close the modal
+          confirmModal.style.display = 'none';
       };
   });
 });
 
-// Close the modal if the user clicks outside of it
 window.onclick = function(event) {
   const confirmModal = document.getElementById('confirmModal');
   if (event.target === confirmModal) {
@@ -179,26 +188,26 @@ window.onclick = function(event) {
   }
 };
 
-let currentUsername = ''; // Declare a variable to store the username
+let currentUsername = ''; 
 
 function showUserPopup(username, email, password) {
-    currentUsername = username; // Store the username
-    console.log(`Editing user: ${username}`); // Debug line
+    currentUsername = username; 
+    console.log(`Editing user: ${username}`); 
 
-    // Populate the form with the user's current data
+
     document.getElementById('new_username').value = username;
     document.getElementById('new_email').value = email;
-    document.getElementById('password').value = password; // Optional
-    document.getElementById('edit-user-popup').classList.add('show'); // Show the popup
+    document.getElementById('password').value = password;
+    document.getElementById('edit-user-popup').classList.add('show');
 }
 
 function closeUserPopup() {
-    document.getElementById('edit-user-popup').classList.remove('show'); // Hide the popup
+    document.getElementById('edit-user-popup').classList.remove('show'); 
 }
 
 // Handle form submission
 document.getElementById('editUserForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the default form submission
+    event.preventDefault(); 
 
     const newUsername = document.getElementById('new_username').value;
     const newEmail = document.getElementById('new_email').value;
@@ -212,7 +221,7 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
         new_password: newPassword
     };
 
-    const url = `/users/profile/${currentUsername}`; // Use the stored username
+    const url = `/users/profile/${currentUsername}`; 
 
     fetch(url, {
         method: 'PUT',
@@ -227,15 +236,14 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
         if (data.message) {
             alert('User updated successfully!');
 
-            // Update the user info on the page
-            // Assuming you have a way to find the user on the page
+
             const userInfoElement = document.querySelector(`.info-value:has(.single-value:contains(${currentUsername}))`);
             if (userInfoElement) {
                 userInfoElement.querySelector('.single-value:nth-child(2) p').textContent = newUsername;
                 userInfoElement.querySelector('.single-value:nth-child(3) p').textContent = newEmail;
             }
 
-            closeUserPopup(); // Close the popup after successful update
+            closeUserPopup(); 
         } else if (data.error) {
             alert(data.error);
         }
@@ -251,19 +259,16 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
         const selectedOptions = document.getElementById('selectedOptions');
         const optionsContainer = document.getElementById('optionsContainer');
 
-        // Toggle dropdown visibility
         selectedOptions.addEventListener('click', function() {
             optionsContainer.style.display = optionsContainer.style.display === 'block' ? 'none' : 'block';
         });
 
-        // Handle checkbox selection
         optionsContainer.addEventListener('change', function(event) {
             if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
                 updateSelectedOptions();
             }
         });
 
-        // Update the displayed selected options
         function updateSelectedOptions() {
             const checkboxes = optionsContainer.querySelectorAll('input[type="checkbox"]');
             const selected = Array.from(checkboxes)
@@ -274,7 +279,6 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
             selectedOptions.textContent = selected.length > 0 ? selected : 'Select options...';
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', function(event) {
             if (!event.target.closest('.custom-select')) {
                 optionsContainer.style.display = 'none';
@@ -290,20 +294,17 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
           const selectedOptions = select.querySelector('.selected-options');
           const optionsContainer = select.querySelector('.options-container');
   
-          // Toggle dropdown visibility on click
           selectedOptions.addEventListener('click', function() {
               const isVisible = optionsContainer.style.display === 'block';
               optionsContainer.style.display = isVisible ? 'none' : 'block';
           });
   
-          // Handle checkbox change
           optionsContainer.addEventListener('change', function(event) {
               if (event.target.tagName === 'INPUT' && event.target.type === 'checkbox') {
                   updateSelectedOptions(select);
               }
           });
   
-          // Update selected options text
           function updateSelectedOptions(select) {
               const checkboxes = select.querySelectorAll('input[type="checkbox"]');
               const selected = Array.from(checkboxes)
@@ -314,7 +315,6 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
               selectedOptions.textContent = selected.length > 0 ? selected : 'دسترسی ها...';
           }
   
-          // Close dropdown when clicking outside
           document.addEventListener('click', function(event) {
               if (!event.target.closest('.custom-select')) {
                   optionsContainer.style.display = 'none';
@@ -324,14 +324,7 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
   });
   
 
-  window.onload = function() {
-    if (window.location.pathname === 'users/login') {
-        document.body.style.backgroundColor = '#131F13';
-        console.log('its working')
-    } else {
-        document.body.style.backgroundColor = '#fff';
-    }
-};
 
+// cameras ************
 
-
+    

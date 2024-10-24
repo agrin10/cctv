@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta , timezone
 import re
-# from app import app
 import requests
 import cv2
 import pytz
@@ -144,11 +143,11 @@ def delete_camera_api(camera_ip:str , camera_name:str):
     if not check_modules_status():
         return 500
     
-    #sending delete requeest to ai api
+    #sending delete request to ai api
     ai_response = requests.delete(ai_url + "devices/" + label , headers=header)
     ai_response.raise_for_status()
 
-    return ai_response , True , "camera deleted successfuly."
+    return ai_response , True , "camera deleted successfully."
 
 
 def get_all_cameras_from_record_module():

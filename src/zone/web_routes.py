@@ -6,7 +6,7 @@ from src.zone import zone_bp
 from src.permissions import permission_required
 
 
-@zone_bp.route('/zones')
+@zone_bp.route('/')
 @permission_required(['view'])
 @jwt_required()
 def zones():
@@ -14,18 +14,20 @@ def zones():
     return render_template('zones.html' , zones=zones)
 
 
-@zone_bp.route('/add-zone' , methods=['POST' , 'GET'])
+@zone_bp.route('/' , methods=['POST'])
 @permission_required(['create'])
 @jwt_required()
 def add_zone():
-    if request.method == 'POST':
-        zone_name = request.form.get('zone-name')
-        zone_desc = request.form.get('zone-desc')
-        success , message = handle_add_zone(zone_name , zone_desc)
-        if success:
-            flash(message=message)
-            return redirect(url_for('zone.zones'))
-        else:
-            flash(message=message)
-            return redirect(url_for('zone.add_zone'))
-    return render_template('add-zone.html')
+    zone_name = request.form.get('zone_name')
+    zone_desc = request.form.get('zone_desc')
+
+    print(zone_name)
+    print(zone_desc)
+    success , message = handle_add_zone(zone_name , zone_desc)
+    if success:
+        flash(message=message)
+        return redirect(url_for('zone.zones'))
+    else:
+        flash(message=message)
+        return "error"
+        # return redirect(url_for('zone.zones'))

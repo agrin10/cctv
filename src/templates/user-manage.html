@@ -1,48 +1,50 @@
 {% extends "base.html" %}
-{% block title %}تنظیمات{% endblock title %}
+{% block title %}مدیریت کاربران 
+{% endblock title %}
  
 {% block content %}
 <div class="setting-container">
-    <div class="content">
-        <a href="{{url_for('setting.setting')}}" class="load-content" ><p class="public-tit">عمومی</p></a>
-        <a href="{{url_for('users.user_manage')}}" class="load-content"><p>مدیریت کاربران</p></a>
-    </div>
-  <!-- Sidebar -->
-  <div class="sidebar">
-    <div class="search-box">
-        <input type="text" placeholder="جست‌وجو...">
-        <span class="search-icon-setting"></span>
-        <b>عمومی</b>
-    </div>
-    <div class="setting-options" id="setting-options">
-        <div class="users-container">
-            <div class="users-header-option">
-                <h4 class="table-title">لیست کاربران</h4>
-                <button class="add-user-btn"><a href="{{url_for('users.add_user')}}">+افزودن کاربر</a></button>
-            </div>
-        <table class="user-table">
+  <div class="content">
+      <a href="{{url_for('setting.setting')}}" class="load-content" ><p class="public-titl">عمومی</p></a>
+      <a href="{{url_for('users.user_manage')}}" class="load-content"><p>مدیریت کاربران</p></a>
+  </div>
+<!-- Sidebar -->
+<div class="sidebar">
+  <div class="search-box">
+      <input type="text" placeholder="جست‌وجو...">
+      <span class="search-icon-setting"></span>
+      <b>مدیریت کاربران</b>
+  </div>
+  <div class="setting-options" id="setting-options">
+      <div class="users-container">
+          <div class="users-header-option">
+              <h4 class="table-title">لیست کاربران</h4>
+              <button  class="add-user-button">افزودن کاربر+</button>
+          </div>
+          <table class="main-table">
             <thead class="table-header">
-                <tr class="header-row">
-                    <th class="header-cell"></th>
-                    <th class="header-cell">تصویر</th>
-                    <th class="header-cell">نام </th>
-                    <th class="header-cell">نام خانوادگی</th>
-                    <th class="header-cell">نام کاربری</th>
-                    <th class="header-cell">ویرایش</th>
+              <tr class="header-row">
+                <th class="header-cell-numbers"></th>
+                <th class="header-cell">تصویر</th>
+                <th class="header-cell">نام </th>
+                <th class="header-cell">نام خانوادگی</th>
+                <th class="header-cell">نام کاربری</th>
+                <th class="header-cell">ویرایش</th>
                     <th class="header-cell">حذف</th>
-                </tr>
+                  </tr>
             </thead>
             <tbody class="table-body">
-                {% for user in users %}
-                {% if loop.index >= 1 %}  {# Jinja2 loop index starts from 1 #}
+              {% for user in users %}
+              {% if loop.index >= 1 %}  {# Jinja2 loop index starts from 1 #}
                 <tr class="body-row">
-                    <td class="body-cell-number"><span class="row-number" lang="fa">{{ loop.index| persian  }}  </span></td>
+                    <td class="body-cell-number"><span class="row-number" lang="fa">{{ loop.index| persian }} </span></td>
                     <td class="body-cell"><img src="#" alt="pic"></td>
                     <td class="body-cell">نام</td>
                     <td class="body-cell">خانوادگی نام</td>
-                    <td class="body-cell">{{ user.username }}</td>
+                    <td class="body-cell"></td>
                     <td class="body-cell">
-                        <button onclick="showUserPopup('{{ user.username }}', '{{ user.email }}', '{{ user.password }}')" class="edit-btn"></button>
+                        <button class="edit-user-edit-btn edit-btn"></button>
+
                     </td>
                     <td class="body-cell">
                         <button class="delete-user-btn delete-btn" data-username="{{ user.username }}">
@@ -51,14 +53,327 @@
                 </tr>
                 {% endif %}
                 {% endfor %}
-
             </tbody>
         </table>
+        
+  </div>
+
+</div>
+<!--add user form -->
+
+  
+  
+
+<!--edit user form -->
+<div class="backdrop-modal" id="editUserBackdrop"></div>
+<form id="editUserForm" style="display:none" class="edit-user-form-modal" action="#">
+  <h2>ویرایش حساب کاربر</h2>
+  
+        <div class="input-group-text">
+          <div class="input-field">
+            <label for="firstName" class="lable-input"
+              >نام <span style="color: red">*</span></label
+            >
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              placeholder="نام"
+              required
+            />
+          </div>
+          <div class="input-field">
+            <label for="lastName" class="lable-input"
+              >نام خانوادگی <span style="color: red">*</span></label
+            >
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              placeholder="نام خانوادگی"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="input-group-text">
+          <div class="input-field">
+            <label for="username" class="lable-input">نام کاربری</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="نام کاربری"
+            />
+          </div>
+
+          <div class="input-field">
+            <label for="password" class="lable-input">رمز عبور</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="رمز عبور"
+            />
+          </div>
+        </div>
+        <div class="input-group">
+          <!-- Accesses Section -->
+          <label class="lable-input">دسترسی ها</label>
+          <div class="accesses">
+            <!-- Camera Dropdown -->
+            <div class="custom-dropdown">
+              <div class="selected lable-cheekbox" id="selectedCameras">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  style="fill: rgba(0, 0, 0, 1)"
+                >
+                  <path d="m11.998 17 7-8h-14z"></path></svg
+                >دوربین ها
+              </div>
+              <div class="options" id="cameraOptions">
+                <div>
+                  <input
+                    type="checkbox"
+                    class="checkbox"
+                    data-value="camera1"
+                  />
+                  دوربین شماره یک
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    class="checkbox"
+                    data-value="camera2"
+                  />
+                  دوربین شماره دو
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    class="checkbox"
+                    data-value="camera3"
+                  />
+                  دوربین شماره سه
+                </div>
+              </div>
+            </div>
+            <!-- Zone Dropdown -->
+            <div class="custom-dropdown">
+              <div class="selected lable-cheekbox" id="selectedZones">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  style="fill: rgba(0, 0, 0, 1)"
+                >
+                  <path d="m11.998 17 7-8h-14z"></path></svg
+                >مناطق
+              </div>
+              <div class="options" id="zoneOptions">
+                <div>
+                  <input type="checkbox" class="checkbox" data-value="zone1" />
+                  منطقه شماره یک
+                </div>
+                <div>
+                  <input type="checkbox" class="checkbox" data-value="zone2" />
+                  منطقه شماره دو
+                </div>
+                <div>
+                  <input type="checkbox" class="checkbox" data-value="zone3" />
+                  منطقه شماره سه
+                </div>
+              </div>
+            </div>
+            <!-- Users Dropdown -->
+            <div class="custom-dropdown">
+              <div class="selected lable-cheekbox" id="selectedUsers">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  style="fill: rgba(0, 0, 0, 1)"
+                >
+                  <path d="m11.998 17 7-8h-14z"></path></svg
+                >کاربران
+              </div>
+              <div class="options" id="userOptions">
+                <div>
+                  <input type="checkbox" class="checkbox" data-value="user1" />
+                  کاربر شماره یک
+                </div>
+                <div>
+                  <input type="checkbox" class="checkbox" data-value="user2" />
+                  کاربر شماره دو
+                </div>
+                <div>
+                  <input type="checkbox" class="checkbox" data-value="user3" />
+                  کاربر شماره سه
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="lable-input">دسترسی به دوربین ها</label>
+          <div class="accesses">
+            <!-- Camera Dropdown -->
+            <div class="custom-dropdown">
+              <div class="selected lable-cheekbox" id="selectedCamerasTwo">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  style="fill: rgba(0, 0, 0, 1)"
+                >
+                  <path d="m11.998 17 7-8h-14z"></path>
+                </svg>
+
+                دوربین ها
+              </div>
+              <div class="options" id="cameraOptionsTwo">
+                <div>
+                  <input
+                    type="checkbox"
+                    class="checkbox"
+                    data-value="camera1"
+                  />
+                  شماره یک
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    class="checkbox"
+                    data-value="camera2"
+                  />
+                  شماره دو
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    class="checkbox"
+                    data-value="camera3"
+                  />
+                  شماره سه
+                </div>
+              </div>
+            </div>
+            <!-- Zone Dropdown -->
+            <div class="custom-dropdown">
+              <div class="selected lable-cheekbox" id="selectedZonesTwo">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  style="fill: rgba(0, 0, 0, 1)"
+                  class="down-icon"
+                >
+                  <path d="m11.998 17 7-8h-14z"></path>
+                </svg>
+                مناطق
+              </div>
+              <div class="options" id="zoneOptionsTwo">
+                <div>
+                  <input type="checkbox" class="checkbox" data-value="zone1" />
+                  شماره یک
+                </div>
+                <div>
+                  <input type="checkbox" class="checkbox" data-value="zone2" />
+                  شماره دو
+                </div>
+                <div>
+                  <input type="checkbox" class="checkbox" data-value="zone3" />
+                  شماره سه
+                </div>
+              </div>
+            </div>
+            <!-- Users Dropdown -->
+          </div>
+        </div>
+
+        <div class="edit-form-actions">
+          <button type="submit" class="save-btn">تایید</button>
+          <button type="button" class="cancel-btn" id="cancelEditModal">انصراف</button>
+      </div>
+  
+      </form>
     </div>
 
-  </div>
-</div>
+    
 
+<script>
+// Dropdown functionality
+const toggleDropdown = (selected, options) => {
+  selected.addEventListener("click", () => {
+    options.style.display = options.style.display === "block" ? "none" : "block";
+  });
+};
 
+toggleDropdown(selectedCameras, cameraOptions);
+toggleDropdown(selectedZones, zoneOptions);
+toggleDropdown(selectedUsers, userOptions);
+toggleDropdown(selectedCamerasTwo, cameraOptionsTwo);
+toggleDropdown(selectedZonesTwo, zoneOptionsTwo);
+
+// Close the dropdown when clicking outside
+document.addEventListener("click", (event) => {
+  if (!selectedCameras.contains(event.target) && !cameraOptions.contains(event.target)) {
+    cameraOptions.style.display = "none";
+  }
+  if (!selectedZones.contains(event.target) && !zoneOptions.contains(event.target)) {
+    zoneOptions.style.display = "none";
+  }
+  if (!selectedUsers.contains(event.target) && !userOptions.contains(event.target)) {
+    userOptions.style.display = "none";
+  }
+  if (!selectedCamerasTwo.contains(event.target) && !cameraOptionsTwo.contains(event.target)) {
+    cameraOptionsTwo.style.display = "none";
+  }
+  if (!selectedZonesTwo.contains(event.target) && !zoneOptionsTwo.contains(event.target)) {
+    zoneOptionsTwo.style.display = "none";
+  }
+});
+
+// Edit user modal logic
+const editUserForm = document.getElementById("editUserForm");
+const cancelModal = document.getElementById("cancelEditModal");
+const backdropModal = document.querySelector(".backdrop-modal");
+
+// Show the popup when an edit button is clicked
+const editButtons = document.querySelectorAll(".edit-user-edit-btn");
+
+editButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    // Show the form
+    editUserForm.style.display = "block";
+    backdropModal.style.display = "block"; 
+  });
+});
+
+// Close the popup when cancel is clicked
+cancelModal.addEventListener("click", () => {
+  editUserForm.style.display = "none";
+  backdropModal.style.display = "none";
+});
+
+// Close the popup when clicking outside the form
+window.addEventListener("click", (event) => {
+  if (event.target === backdropModal) {
+    editUserForm.style.display = "none";
+    backdropModal.style.display = "none";
+  }
+});</script>
 
 {% endblock content %}
+
+
+
+    

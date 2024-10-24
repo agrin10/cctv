@@ -1,43 +1,461 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="main-cam">
-    <div class="main-cam-list">
-        <h1>لیست دوربین ها </h1>
-        <div class="cam-list-container">
 
-            {% for camera in cameras %}
-            <div class="single-cam-container">
-                <div class="camera-image-container">
-                    {% if camera.camera_image_path %}
-                <img src="{{ url_for('static', filename='uploads/' + camera.camera_image_path) }}" alt="{{ camera.camera_name }}">
-            {% else %}
-                <p>No image available</p>
-            {% endif %}
+
+    <div class="camera-container">
+        <div class="camera-body">
+
+            <div class="camera-main-content">
+                <div class="camera-main-content-header">
+                    <button class="camera-filter-btn">
+                        <i class="filter-icon"></i>فیلتر ها 
+                    </button>
+                    <b>لیست دوربین ها </b>
                 </div>
-                <div class="single-cam-list">
-                    <div class="single-cam">
-                        <p>IP دوربین : {{ camera.camera_ip }}</p>
-                    </div>
-                    <div class="single-cam">
-                        <p>نام دستگاه: {{ camera.camera_name }}</p>
-                    </div>
-                    <div class="single-cam">
-                        <p>نوع دستگاه: {{ camera.camera_type }}</p>
-                    </div>
-                    <div class="single-cam">
-                        <p>منطقه: {{ camera.zone.zone_name}}</p> 
-                    </div>
+                <table class="camera-table">
+                    <thead>
+                        <tr>
+                            <th class="numbers-list"></th>
+                            <th class="camera-ip"> ادرس IP</th>
+                            <th class="camera-name">نام دستگاه</th>
+                            <th class="camera-type">نوع دستگاه</th>
+                            <th class="camera-zone-name">نام منطقه</th>
+                            <th class="camera-edit-btn-icon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in range(10) %}
+                        <tr class="camera-body-row">
+                            <td class="body-cell-number"><span class="row-number" lang="fa">1</span></td>
+                            <td style="color:red";> ادرس IP  </td>
+                            <td>admin</td>
+                            <td>yaho</td>
+                            <td>منطقه 1</td>
+                            <td>
+                                <div class="cam-table-btns">
+                                    <button class="camera-view-btn view-btn"></button>
+                                    <button class="camera-delete-btn delete-btn"></button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- More rows here -->
+                    </tbody>
+                </table>
+
+                <!-- Pagination -->
+                <div class="camera-pagination">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="#">قبلی</a></li>
+                            <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
+                            <li class="page-item"><a class="page-link" href="#">بعدی</a></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
-            {% endfor %}
-            
-            <div class='add-cam'>
-                <a href="{{ url_for('camera.add_camera') }}">
-                    <button class='btn'>افزودن دوربین</button>
-                </a>
+        
+            <div class="camera-sidebar">
+                <h3 class="camera-title">افزودن دوربین جدید</h3>
+                <div class="add-form-container">
+                <form action="">
+                    <input type="text" id="ipAddress"name="ipAddress"placeholder="آدرس IP" required class="input-camera-add-modal"/>
+
+                    <div class="input-group-text">
+                          
+                        <div class="input-field">
+                          <input
+                            type="text"
+                            id="deviceName"
+                            name="deviceName"
+                            placeholder=" نام دستکاه"
+                            class="input-camera-add-modal"
+                          />
+                        </div>
+                      <div class="input-field">
+                          <input
+                          type="text"
+                          id="deviceType"
+                          name="deviceType"
+                          placeholder="نوع دستگاه"
+                          required
+                          class="input-camera-add-modal"
+                        />
+                      </div>
+                    </div>
+
+                    <div class="input-group-text">
+                        <div class="input-field">
+                        <input
+                        type="text"
+                        id="cameraUsername"
+                        name="camera_username"
+                        placeholder=" نام کاربری"
+                        class="input-camera-add-modal"
+                        />
+                        </div>  
+                        <div class="input-field">
+                              <input
+                              type="password"
+                              id="cameraPassword"
+                              name="camera_password"
+                              placeholder=" رمز عبور"
+                              required
+                              class="input-camera-add-modal"
+                            />
+                        </div>
+                    </div>
+   
+
+                  
+                      <!-- Zone Dropdown -->
+                      <div class="custom-dropdown">
+                        <div class="selected label-checkbox" id="selectedZones">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                            <path d="m11.998 17 7-8h-14z"></path>
+                          </svg>
+                          نام منطقه
+                        </div>
+                        <div class="options" id="zoneOptions">
+                          <div>
+                            <input type="checkbox" class="checkbox" data-value="zone1" /> منطقه شماره یک
+                          </div>
+                          <div>
+                            <input type="checkbox" class="checkbox" data-value="zone2" /> منطقه شماره دو
+                          </div>
+                          <div>
+                            <input type="checkbox" class="checkbox" data-value="zone3" /> منطقه شماره سه
+                          </div>
+                        </div>
+                      </div>
+                  
+                      <!-- Object Detection Section -->
+                      <div class="bottom-options">
+                          <div class="custom-dropdown">
+                            <label class="dropdown-label" for="objectDetection"><h5>تشخیص اشیاء</h5></label>
+                            <div class="selected label-checkbox" id="selectedObjects">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                                <path d="m11.998 17 7-8h-14z"></path>
+                              </svg>
+                              لیست اشیاء
+                            </div>
+                            <div class="options" id="objectOptions">
+                              <div>
+                                <input type="checkbox" class="checkbox" data-value="object1" /> اشیاء شماره یک
+                              </div>
+                              <div>
+                                <input type="checkbox" class="checkbox" data-value="object2" /> اشیاء شماره دو
+                              </div>
+                              <div>
+                                <input type="checkbox" class="checkbox" data-value="object3" /> اشیاء شماره سه
+                              </div>
+                            </div>
+                          </div>
+                          <!-- Recording Section -->
+                          <div class="custom-dropdown">
+                            <label class="dropdown-label" for="recording"><h5>ظبط</h5></label>
+                            <div class="selected label-checkbox" id="selectedRecording">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                                <path d="m11.998 17 7-8h-14z"></path>
+                              </svg>
+                              ضبط
+                            </div>
+                            <div class="options" id="recordingOptions">
+                              <div data-value="yes" class="single-option">بله</div>
+                              <div data-value="no" class="single-option">خیر</div>
+                            </div>
+                                              </div>
+                      </div>
+                  
+                      <!-- Form Actions -->
+                        <div class="button-group" id="buttonGroup">
+                            <!-- Initially hidden; will replace "افزودن" button -->
+                            <button class="zone-add-btn">افزودن</button>
+
+                        </div>
+                    </div>
+                  </form>
+                </div>
+                                  
+<div class="backdrop-modal"></div>
+<!-- Camera Modal Popup -->
+<div id="specific_camera_popup" class="specific_camera_popup">
+    <div class="popup-content">
+        <div class="cam-modal-header">
+            <h4>دوربین: <span id="modal-camera-name">Camera Name</span></h4>
+            <p>تاریخ و زمان: <span id="modal-camera-timestamp">Time</span></p>
+        </div>
+        <p>مشاهده موقعیت دوربین</p>
+        <div class="popup-camera-frame">
+            <!-- Overlay header -->
+            <div class="camera-header-overlay">
+                
+                <div class="camera-header-right">
+                    <span class="camera-header-zone" id="modal-camera-zone">اتاق مدیریت</span> - 
+                    <span class="camera-header-name" id="modal-camera-name-header">دوربین test</span>
+                </div>
+                <div class="camera-header-left">
+                    <span class="camera-header-time" id="modal-camera-timestamp">12:24:43</span>
+                </div>
             </div>
             
+            <!-- Camera view -->
+            <img id="modal-camera-image" src="your_image_url_here" alt="camera view" class="camera-view-image">
+            <!-- Bottom Icons -->
+            <div class="camera-footer-icons">
+                <i class="icon-record"></i>
+                <i class="icon-timer"></i>
+                <i class="icon-volume"></i>
+                <i class="icon-settings"></i>
+                <i class="icon-fullscreen"></i>
+            </div>
+        </div>
+        <div class="cam-modal-buttons">
+            <button class="popup-return-btn">بازگشت</button>
         </div>
     </div>
 </div>
-{% endblock %}
+
+<div class="backdrop-modal cam-backdrop"></div>
+<!--edit modal form-->
+<div id="editCameraModal" class="edit-camera-modal">
+    <div class="modal-content">
+        <h3>ویرایش کاربر</h3>
+        <form id="editCameraForm" class="edit-camera-form">
+            <div class="cam-input-group">
+                <div class="cam-input-field">
+                    <input type="text" id="camIpAddress" name="ipAddress" placeholder="آدرس IP" required class="input-camera-edit-modal cam-input"/>
+                </div>
+                <div class="cam-input-field">
+                    <input type="text" id="camIpAddress" name="ipAddress" placeholder="آدرس IP" required class="input-camera-edit-modal cam-input"/>
+                </div>
+            </div>
+            <div class="cam-input-group">
+                <div class="cam-input-field">
+                    <input type="text" id="camDeviceName" name="deviceName" placeholder=" نام دستگاه" class="input-camera-edit-modal cam-input" />
+                </div>
+                <div class="cam-input-field">
+                    <input type="text" id="camDeviceType" name="deviceType" placeholder="نوع دستگاه" required class="input-camera-edit-modal cam-input" />
+                </div>
+            </div>
+
+            <div class="cam-input-group">
+                <div class="cam-input-field">
+                    <input type="text" id="camCameraUsername" name="camera_username" placeholder=" نام کاربری" class="input-camera-edit-modal cam-input" />
+                </div>  
+                <div class="cam-input-field">
+                    <input type="password" id="camCameraPassword" name="camera_password" placeholder=" رمز عبور" required class="input-camera-edit-modal cam-input" />
+                </div>
+            </div>
+
+            <!-- Zone Dropdown -->
+            <div class="custom-dropdown cam-custom-dropdown">
+                <div class="selected label-checkbox cam-selected-zones" id="camSelectedZones">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                        <path d="m11.998 17 7-8h-14z"></path>
+                    </svg>
+                    نام منطقه
+                </div>
+                <div class="options" id="camZoneOptions">
+                    <div>
+                        <input type="checkbox" class="cam-checkbox" data-value="zone1" /> منطقه شماره یک
+                    </div>
+                    <div>
+                        <input type="checkbox" class="cam-checkbox" data-value="zone2" /> منطقه شماره دو
+                    </div>
+                    <div>
+                        <input type="checkbox" class="cam-checkbox" data-value="zone3" /> منطقه شماره سه
+                    </div>
+                </div>
+            </div>
+
+            <!-- Object Detection Section -->
+            <div class="bottom-options cam-bottom-options">
+                <div class="custom-dropdown cam-custom-dropdown">
+                    <label class="dropdown-label" for="objectDetection"><h5>تشخیص اشیاء</h5></label>
+                    <div class="selected label-checkbox cam-selected-objects" id="camSelectedObjects">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                            <path d="m11.998 17 7-8h-14z"></path>
+                        </svg>
+                        لیست اشیاء
+                    </div>
+                    <div class="options" id="camObjectOptions">
+                        <div>
+                            <input type="checkbox" class="cam-checkbox" data-value="object1" /> اشیاء شماره یک
+                        </div>
+                        <div>
+                            <input type="checkbox" class="cam-checkbox" data-value="object2" /> اشیاء شماره دو
+                        </div>
+                        <div>
+                            <input type="checkbox" class="cam-checkbox" data-value="object3" /> اشیاء شماره سه
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recording Section -->
+                <div class="custom-dropdown cam-custom-dropdown">
+                    <label class="dropdown-label" for="recording"><h5>ضبط</h5></label>
+                    <div class="selected label-checkbox cam-selected-recording" id="camSelectedRecording">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                            <path d="m11.998 17 7-8h-14z"></path>
+                        </svg>
+                        ضبط
+                    </div>
+                    <div class="options" id="camRecordingOptions">
+                        <div data-value="yes" class="single-option cam-single-option">بله</div>
+                        <div data-value="no" class="single-option cam-single-option">خیر</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="cam-button-group" id="camButtonGroup">
+                <button type="button" class="confirm-edit-btn cam-confirm-edit-btn">ویرایش</button>
+                <button type="button" class="cancel-btn cam-cancel-btn">انصراف</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+<script>
+    var popup = document.getElementById("specific_camera_popup");
+
+    var cameraRows = document.querySelectorAll(".camera-body-row");
+
+cameraRows.forEach(function(row) {
+    var viewButton = row.querySelector(".view-btn");  
+    if (viewButton) {
+        viewButton.addEventListener("click", function(event) {
+            event.stopPropagation();
+
+            var deviceName = row.querySelector('td:nth-child(3)').innerText; 
+            var zoneName = row.querySelector('td:nth-child(5)').innerText;  
+
+            var currentDate = new Date();
+            var timestamp = currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1) + '/' + currentDate.getDate() + ' ' + currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds();
+
+            document.getElementById("modal-camera-name").innerText = deviceName;  
+            document.getElementById("modal-camera-zone").innerText = zoneName;   
+            document.getElementById("modal-camera-timestamp").innerText = timestamp; 
+
+
+            document.getElementById("modal-camera-name-header").innerText = 'دوربین ' + deviceName;
+
+
+            popup.style.display = "block";
+        });
+    }
+});
+
+
+document.querySelector(".popup-return-btn").addEventListener("click", function() {
+    popup.style.display = "none"; 
+});
+
+window.onclick = function(event) {
+    if (event.target == popup) {
+        popup.style.display = "none";
+    }
+};
+
+// Get form elements for sidebar form
+const formTitle = document.querySelector('.camera-title'); 
+const ipAddressInput = document.getElementById('ipAddress'); 
+const deviceNameInput = document.getElementById('deviceName'); 
+const deviceTypeInput = document.getElementById('deviceType'); 
+const cameraUsernameInput = document.getElementById('cameraUsername'); 
+const cameraPasswordInput = document.getElementById('cameraPassword'); 
+const buttonGroup = document.getElementById('buttonGroup');
+
+function fillSidebarFormWithRowData(row) {
+    // Get values from the clicked row
+    const ipAddress = row.cells[1].innerText;        
+    const deviceName = row.cells[2].innerText;      
+    const deviceType = row.cells[3].innerText;      
+    const zoneName = row.cells[4].innerText;      
+    const cameraUsername = '';
+    const cameraPassword = ''; 
+
+    // Fill the sidebar form fields
+    ipAddressInput.value = ipAddress;
+    deviceNameInput.value = deviceName;
+    deviceTypeInput.value = deviceType;
+    cameraUsernameInput.value = cameraUsername;
+    cameraPasswordInput.value = cameraPassword;
+
+    formTitle.textContent = 'ویرایش دوربین: ' + deviceName;
+
+    buttonGroup.innerHTML = `
+        <button type="button" class="camera-edit-btn">ویرایش</button>
+        <button type="button" class="camera-cancel-btn">انصراف</button>
+    `;
+
+    document.querySelector('.camera-edit-btn').addEventListener('click', openCameraEditModal); 
+    document.querySelector('.camera-cancel-btn').addEventListener('click', resetSidebarForm); 
+}
+document.querySelectorAll('.camera-body-row').forEach(row => {
+    row.addEventListener('click', () => fillSidebarFormWithRowData(row));
+});
+
+function resetSidebarForm() {
+    formTitle.textContent = 'افزودن دوربین جدید'; 
+    ipAddressInput.value = '';
+    deviceNameInput.value = '';
+    deviceTypeInput.value = '';
+    cameraUsernameInput.value = '';
+    cameraPasswordInput.value = '';
+    buttonGroup.innerHTML = '';  
+
+    buttonGroup.innerHTML = `<button type="submit" class="zone-add-btn">افزودن</button>`;
+}
+
+window.onload = () => {
+    resetSidebarForm();
+};
+
+const cameraEditModal = document.getElementById('editCameraModal');
+    const modalBackdrop = document.querySelector('.cam-backdrop');
+
+    console.log(cameraEditModal, modalBackdrop); 
+
+    const camIpAddressInput = document.getElementById('camIpAddress');
+    const camDeviceNameInput = document.getElementById('camDeviceName');
+    const camDeviceTypeInput = document.getElementById('camDeviceType');
+    const camCameraUsernameInput = document.getElementById('camCameraUsername');
+    const camCameraPasswordInput = document.getElementById('camCameraPassword');
+
+
+
+    function openCameraEditModal() {
+        console.log('Opening modal...'); // Debugging log
+
+        camIpAddressInput.value = ipAddressInput.value;
+        camDeviceNameInput.value = deviceNameInput.value;
+        camDeviceTypeInput.value = deviceTypeInput.value;
+        camCameraUsernameInput.value = cameraUsernameInput.value;
+        camCameraPasswordInput.value = cameraPasswordInput.value;
+
+        cameraEditModal.style.display = 'flex';  
+        modalBackdrop.style.display = 'block';
+        console.log('Modal should be visible now');  
+    }
+
+    function closeCameraEditModal() {
+        cameraEditModal.style.display = 'none';
+        modalBackdrop.style.display = 'none';
+    }
+
+
+    modalBackdrop.addEventListener('click', closeCameraEditModal);
+
+    document.querySelector('.cam-cancel-btn').addEventListener('click', closeCameraEditModal);
+
+
+
+
+</script>
+
+{% endblock content %}

@@ -24,14 +24,14 @@ def add_camera():
         camera_image = None
         ai_properties_list = request.form.getlist('ai_properties[]')
 
-        if 'file' in request.files:
-            file = request.files['file']
-            if file.filename != '':
-                filename = secure_filename(file.filename)
-                file_path = os.path.join(
-                    camera.config['UPLOAD_FOLDER'], filename)
-                file.save(file_path)
-                camera_image = filename
+        # if 'file' in request.files:
+        #     file = request.files['file']
+        #     if file.filename != '':
+        #         filename = secure_filename(file.filename)
+        #         file_path = os.path.join(
+        #             # camera.config['UPLOAD_FOLDER'], filename)
+        #         file.save(file_path)
+        #         camera_image = filename
         success, message, status_code = handle_add_camera(
             camera_ip, camera_name, camera_username, camera_type, camera_password, zone_name, camera_image, is_record, ai_properties_list)
 
@@ -42,18 +42,17 @@ def add_camera():
             flash(message=message)
             return redirect(url_for('camera.add_camera'))
 
-    zones = Zone.query.all()
-    camera = Camera.query.all()
-    ai_properties = AiProperties.query.all()
-    return render_template('add-cam.html', zones=zones, camera=camera, ai_properties=ai_properties)
+
 
 
 @camera_bp.route('/cameras')
 @permission_required(['view' ])
 @jwt_required()
 def cameras():
-    cameras = handle_retrieves_camera()
-    return render_template('cameras.html', cameras=cameras)
+    zones = Zone.query.all()
+    camera = Camera.query.all()
+    ai_properties = AiProperties.query.all()
+    return render_template('cameras.html', cameras=cameras ,zones=zones, camera=camera, ai_properties=ai_properties)
 
 
 

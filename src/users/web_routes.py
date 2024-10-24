@@ -8,6 +8,7 @@ from .model import Accesses, Permissions, UserAccess, Module, Users
 from src.permissions import permission_required
 
 
+
 @users_bp.route('/register', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
@@ -58,9 +59,10 @@ def logout():
     return response
 
 
+
 @users_bp.route('/')
 @jwt_required()
-@permission_required(['view'])
+# @permission_required(['view'])
 def user_manage():
     list_users = Users.query.all()
     accesses = Accesses.query.join(Permissions).join(Module).all()
@@ -68,7 +70,7 @@ def user_manage():
 
 
 @users_bp.route('/delete-users/<username>', methods=["DELETE"])
-@permission_required(['delete'])
+# @permission_required(['delete'])
 @jwt_required()
 def delete_user(username):
     success, message, status = handle_delete_user(username)
@@ -79,7 +81,7 @@ def delete_user(username):
 
 
 @users_bp.route('/create', methods=["POST", 'GET'])
-@permission_required(['create'])
+# @permission_required(['create'])
 @jwt_required()
 def add_user():
     if request.method == "POST":
@@ -105,7 +107,7 @@ def add_user():
 
 
 @users_bp.route('/profile/<username>',  methods=['PUT'])
-@permission_required(['edit'])
+# @permission_required(['edit'])
 @jwt_required()
 def edit_user(username):
     user_data = request.get_json()
@@ -125,3 +127,4 @@ def edit_user(username):
     else:
         flash(message, 'error')
         return {'message': message}, 400
+

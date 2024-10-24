@@ -60,6 +60,7 @@ body {
   color: var(--clr-font-dark);
   padding: 0;
   margin: 0;
+  background-color: var(--Main-Green-Dark---1);
 }
 
 .english-text {

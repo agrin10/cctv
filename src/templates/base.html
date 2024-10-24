@@ -149,8 +149,8 @@
       {% endblock content %}
     </div>
   
-    <script src="{{url_for('static' ,filename='scripts/app.js')}}"></script>
-    <script src="{{url_for('static' ,filename='scripts/dom-changes.js')}}"></script>
+    
+    <!-- cdn -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment/2.29.1/moment.min.js"></script>
     <script src="jalali.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -158,12 +158,10 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"></script>
     
-    <!-- Your new JavaScript code goes here -->
-     <script>
-// Immediately set the header title before waiting for DOMContentLoaded
-
-     </script>
-
+    <!--js files -->
+    <script src="{{url_for('static' ,filename='scripts/app.js')}}"></script>
+    <script src="{{url_for('static' ,filename='scripts/domchanges.js')}}"></script>
+    <script src="{{url_for('static' ,filename='scripts/dropdown.js')}}"></script>
     
     {% block scripts %}{% endblock scripts %}
   </body>
