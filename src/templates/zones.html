@@ -57,4 +57,34 @@
   </div>
 </div>
 
+<!-- Backdrop and Modal -->
+<div class="backdrop-modal"></div>
+<div class="zone-camera-list camera-list-modal" style="display:none;">
+  <h4>منطقه شماره 5</h4>
+  <div class="cam-list-table">
+    <table class="zone-table">
+      <thead>
+        <tr>
+          <th class="numbers-list"></th>
+          <th>ادرس ip</th>
+          <th>نام دستگاه</th>
+          <th>نوع دستگاه</th>
+          <th>نام منطقه</th>
+          <th class="camera-list-view-btn"></th>
+        </tr>
+      </thead>
+      <tbody id="cameraListBody">
+      </tbody>
+    </table>
+  </div>
+  <div class="down-nav">
+    <button class="close-modal-btn">بازگشت</button>
+  </div>
+</div>
+
+
+<script src="{{url_for('static' ,filename='scripts/zones.js')}}"></script>
+<script>
+</script>
+
 {% endblock content %}
