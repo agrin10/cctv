@@ -1785,24 +1785,30 @@ Svg {
 
 
 
-/*overall view*/
 /* overall view style  */
 .overall-view-container {
   background: var(--Main-Gray-Light---2, #D7D7D7);
   box-shadow: 0px 0px 15px 0px #00000026;
   border-radius: 10px;
   margin: 30px;
+  padding: 20px;
+
+
 }
 
-/* The grid container for camera placeholders */
 .grid-container {
   display: grid;
-  gap: 10px; /* Space between grid items */
+  gap: 10px; 
   height: 100%;
   width: 100%;
+  /* margin: 20px ; */
 }
 
-/* Layout specific styles */
+.grid-container .layout-1{
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
 .layout-1 {
   grid-template-columns: 1fr; /* 1 column */
   grid-template-rows: 1fr;    /* 1 row */
@@ -1823,7 +1829,6 @@ Svg {
   grid-template-rows: repeat(4, 1fr);    /* 4 rows */
 }
 .layout-1 .grid-item{
-  width: 100%;
   display: flex;
   padding: 0;
 }
@@ -1855,17 +1860,16 @@ Svg {
 }
 
 
-/* Styling for the grid items */
 .grid-item {
-  display: flex;               /* Centering content */
-  justify-content: center;     /* Center horizontally */
-  align-items: center;         /* Center vertically */
-  border-radius: 10px;
-  overflow: hidden;            /* Ensures content doesn't overflow */
-  height: 100%;                /* Ensure grid item fills its cell */
+  display: flex;             
+  justify-content: center;    
+  align-items: center;         
+  overflow: hidden;           
+  height: 100%;       
+  background: var(--Main-Gray-Light---1, #BDBDBD);
+  border: 2.03px solid var(--Main-Gray-Dark---3, #828282);
 }
 
-/* Placeholder styling */
 .placeholder {
   text-align: center;
   font-size: 18px;
@@ -1877,8 +1881,8 @@ Svg {
 }
 
 .placeholder img {
-  width: 60%; /* Responsive width for the placeholder image */
-  height: auto; /* Maintain aspect ratio */
+  width: 60%; 
+  height: auto; 
 }
 
 .overall-camera-container {
@@ -1886,17 +1890,20 @@ Svg {
   border: 1px solid var(--Main-Gray-Dark---3, #828282);
   overflow: hidden;
   margin: 10px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+.overall-camera-container img{
+  width: 100%;
+  box-shadow: 0px 0px 35.22px 0px #00000026;
+
 }
 .placeholder img {
   width: 60%; /* Responsive width for the placeholder image */
   height: auto; /* Maintain aspect ratio */
 }
 
-.overall-camera-container {
-  position: relative;
-  border: 1px solid var(--Main-Gray-Dark---3, #828282);
-  overflow: hidden;
-}
+
 
 .camera-header-overlay {
   position: absolute;
@@ -1926,11 +1933,6 @@ Svg {
 }
 
 
-.overall-camera-container {
-  position: relative;
-  border: 1px solid var(--Main-Gray-Dark---3, #828282);
-  overflow: hidden;
-}
 
 .camera-header-overlay {
   position: absolute;
@@ -1975,7 +1977,7 @@ button.fullscreen-btn {
 
 /* Split view buttons and styles */
 .split-buttons {
-  margin-top: 20px;
+  margin-top: 40px;
   display: flex;
   justify-content: space-between;
   flex-direction: row-reverse;
@@ -1986,11 +1988,6 @@ button.fullscreen-btn {
   width: 100%;
 }
 
-.split-buttons button {
-  padding: 10px 20px;
-  font-size: 14px;
-  cursor: pointer;
-}
 
 .split-buttons-group {
   display: flex;
@@ -2004,6 +2001,7 @@ button.fullscreen-btn {
   color: var(--Main-Green-Light---2, #6D876D);
   padding: 8px 12px;
   margin: 0 5px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -2011,10 +2009,13 @@ button.fullscreen-btn {
   background: var(--Main-Green, #304D30);
   color: var(--clr-font-light);
 }
-
-.split-buttons-group button:hover {
+.split-buttons-group-button:hover {
   background: var(--Main-Green-Light---1);
   color: var(--clr-font-light);
+}
+
+.arrow-right-circle:hover , .arrow-left-circle:hover{
+  filter: invert(100%) sepia(8%) saturate(31%) hue-rotate(268deg) brightness(106%) contrast(106%);
 }
 
 /* .overall view paginations */
@@ -2048,6 +2049,8 @@ button.fullscreen-btn {
     color: white;
 }
 
+
+/* *************************** */
 
 
 /*icons */
@@ -2237,18 +2240,7 @@ button.fullscreen-btn {
   cursor: pointer;   
   color: #000;
 }
-.user-icon{
-  width: 20px;      
-  height: 20px;     
-  background-image: url('../images/Ellipse 5.svg');
-  background-size: contain;    
-  background-repeat: no-repeat;  
-  background-position: center;
-  border: none;      
-  background-color: transparent; 
-  cursor: pointer;   
-  color: #000;
-}
+
 .ticket-icon{
   width: 20px;      
   height: 20px;     
@@ -2430,9 +2422,6 @@ button.fullscreen-btn {
     border: none;      
     background-color: transparent; 
     cursor: pointer;   
-}
-.arrow-right-circle:hover , .arrow-left-circle:hover{
-  color: var(--clr-font-light);
 }
 
 
