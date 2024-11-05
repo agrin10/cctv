@@ -6,6 +6,8 @@ from .controller import handle_login, handle_registration, handle_logout, handle
 from src.users import users_bp
 from .model import Accesses, Permissions, UserAccess, Module, Users
 from src.permissions import permission_required
+from src.camera.model import Camera
+from src.zone.model import Zone
 
 
 
@@ -66,9 +68,11 @@ def logout():
 def user_manage():
     list_users = Users.query.all()
     accesses = Accesses.query.join(Permissions).join(Module).all()
-    return render_template('user-manage.html', users=list_users, accesses=accesses)
+    camera = Camera.query.all()
+    zone = Zone.query.all()
+    return render_template('user-manage.html', users=list_users, accesses=accesses, cameras= camera , zones= zone)
 
-
+    
 @users_bp.route('/delete-users/<username>', methods=["DELETE"])
 # @permission_required(['delete'])
 @jwt_required()
@@ -80,14 +84,15 @@ def delete_user(username):
         return ({'success': False, 'message': message}), status
 
 
-@users_bp.route('/create', methods=["POST", 'GET'])
+@users_bp.route('/', methods=["POST"])
 # @permission_required(['create'])
 @jwt_required()
 def add_user():
     if request.method == "POST":
+        first_name = request.form.get('firstName')
+        last_name = request.form.get('lastName')
         username = request.form.get('username')
         password = request.form.get('password')
-        email = request.form.get('email')
 
         camera_access = request.form.getlist('camera_access')
         zone_access = request.form.getlist('zone_access')
@@ -95,34 +100,51 @@ def add_user():
 
         all_permissions = camera_access + zone_access + user_access
 
-        success, message, status = handle_add_users(
-            username, password, email, all_permissions)
+        success, message, status = handle_add_users(first_name , last_name,
+            username, password, all_permissions)
 
         if success:
             return redirect(url_for('users.user_manage'))
-        return redirect(url_for('users.add_user'))
-
-    accesses = Accesses.query.join(Permissions).join(Module).all()
-    return render_template('add-users.html', accesses=accesses)
+        return [{'message':message}]
 
 
-@users_bp.route('/profile/<username>',  methods=['PUT'])
-# @permission_required(['edit'])
+# def get_user_by_ip(user_id):
+#     user = Users.query.filter_by(user_id=user_id).first()
+#     if user:
+#         return {
+#             'user_id': user.user_id,
+#             'username': user.user_username,
+#             'device_type': user.user_type,
+#             'username': user.user_username,
+#             'password': user.user_password,
+#             'zones': user.zone.zone_name,
+#             'ai_properties': [prop.name for prop in user.user_accesses],
+#         }
+#     else:
+#         return None
+
+@users_bp.route('/edit',  methods=['PATCH'])
+@permission_required(['edit'])
 @jwt_required()
-def edit_user(username):
+def edit_user():
     user_data = request.get_json()
-
+    print(user_data)
+    username= user_data.get('old_username')
     new_username = user_data.get('new_username')
-    new_email = user_data.get('new_email')
-    password = user_data.get('password')
-    new_password = user_data.get('new_password')
+    password = user_data.get('old_password')
+    new_password = user_data.get('password')
+    print(f'{new_password}   {password}')
+    camera_access = user_data.get('camera_access', [])
+    zone_access = user_data.get('zone_access', [])
+    user_access = user_data.get('user_access', [])
+    
+    new_permission_names = camera_access + zone_access + user_access
 
     success, message, status_code = handle_edit_user(
-        username, new_username, password, new_password, new_email)
+        username, new_username, password, new_password, new_permission_names)
 
     if success:
         flash(message, 'success')
-        # return redirect(url_for('users.user_manage'))
         return {"message": message}, 200
     else:
         flash(message, 'error')

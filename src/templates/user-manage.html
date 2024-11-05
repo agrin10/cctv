@@ -36,7 +36,11 @@
             <tbody class="table-body">
               {% for user in users %}
               {% if loop.index >= 1 %}  {# Jinja2 loop index starts from 1 #}
-                <tr class="body-row" data-username="{{ user.username }}">
+                <tr class="body-row" data-username="{{ user.username }}" 
+                data-password="{{ user.password_hash }}" 
+                data-firstname="{{ user.first_name }}" 
+                data-lastname="{{ user.last_name }}">
+                
                     <td class="body-cell-number"><span class="row-number" lang="fa">{{ loop.index| persian }} </span></td>
                     <td class="body-cell"><img src="#" alt="pic"></td>
                     <td class="body-cell">{{user.name}}</td>
@@ -218,6 +222,215 @@
 </form>
 </div>
   
+
+
+<!--edit user form -->
+<div class="backdrop-modal" id="editUserBackdrop"></div>
+<div id="editUserModal" >
+  <form id="editUserForm" class="edit-user-form-modal" style="display:none;" method="post">
+    <h2>ویرایش حساب کاربر</h2>  
+    {% for user in users  %}
+        <input type="hidden" name="old_username" value="{{user.username}}" >
+        <input type="hidden" name="old_password" value="{{user.password_hash}}" >
+        {% endfor %}
+        <div class="input-group-text">
+          <div class="input-field">
+            <label for="firstName" class="lable-input"
+              >نام <span style="color: red">*</span></label
+            >
+            <input
+              type="text"
+              id="EditUserFirstName"
+              name="firstName"
+              placeholder="نام"
+              required
+            />
+          </div>
+          <div class="input-field">
+            <label for="lastName" class="lable-input"
+              >نام خانوادگی <span style="color: red">*</span></label
+            >
+            <input
+              type="text"
+              id="EditUserLastName"
+              name="lastName"
+              placeholder="نام خانوادگی"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="input-group-text">
+          <div class="input-field">
+            <label for="username" class="lable-input">نام کاربری</label>
+            <input
+              type="text"
+              id="EditUserUsername"
+              name="username"
+              placeholder="نام کاربری"
+            />
+          </div>
+
+          <div class="input-field">
+            <label for="password" class="lable-input">رمز عبور</label>
+            <input
+              type="password"
+              id="editUsePassword"
+              name="password"
+              placeholder="رمز عبور"
+            />
+          </div>
+        </div>
+          <div class="input-group">
+            <!-- Accesses Section -->
+            <label class="lable-input">دسترسی ها</label>
+            <div class="accesses">
+
+
+<!-- Camera Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedCameras">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> دوربین ها
+  </div>
+  <div class="options" id="EditUserCameraOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id == 2 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="camera_access[]" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Zone Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedZones">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> مناطق
+  </div>
+  <div class="options" id="EditUserZoneOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id == 3 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="zone_access[]" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Users Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedUsers">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> کاربران
+  </div>
+  <div class="options" id="EditUserUserOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id ==1 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="user_access[]" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</div>
+</div>
+
+<div class="input-group">
+<label class="lable-input">دسترسی به دوربین ها</label>
+<div class="accesses">
+<!-- Camera Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedCamerasTwo">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style="fill: rgba(0, 0, 0, 1)"
+    >
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg>
+
+    دوربین ها
+  </div>
+  <div class="options" id="EditUserCameraOptionsTwo">
+    <div>
+      <input
+        type="checkbox"
+        class="checkbox"
+        data-value="camera1"
+      />
+      شماره یک
+    </div>
+    <div>
+      <input
+        type="checkbox"
+        class="checkbox"
+        data-value="camera2"
+      />
+      شماره دو
+    </div>
+    <div>
+      <input
+        type="checkbox"
+        class="checkbox"
+        data-value="camera3"
+      />
+      شماره سه
+    </div>
+  </div>
+</div>
+<!-- Zone Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedZonesTwo">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style="fill: rgba(0, 0, 0, 1)"
+      class="down-icon"
+    >
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg>
+    مناطق
+  </div>
+  <div class="options" id="EditUserZoneOptionsTwo">
+    <div>
+      <input type="checkbox" class="checkbox" data-value="zone1" />
+      شماره یک
+    </div>
+    <div>
+      <input type="checkbox" class="checkbox" data-value="zone2" />
+      شماره دو
+    </div>
+    <div>
+      <input type="checkbox" class="checkbox" data-value="zone3" />
+      شماره سه
+    </div>
+  </div>
+</div>
+<!-- Users Dropdown -->
+</div>
+</div>
+    <div class="edit-form-actions">
+      <button type="submit" class="edit-save-btn">تایید</button>
+      <button type="button" class="cancel-btn" id="cancelEditModal">انصراف</button>
+  </div>
+
+  </form>
+</div>
 
 <script src="{{url_for('static' ,filename='scripts/users.js')}}"></script>
 
