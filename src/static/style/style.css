@@ -771,6 +771,105 @@ input:focus{
   margin: 5px;
 }
 
+/* *********************************** */
+/* edit zone modal */
+.edit-form-modal {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.zone-edit-inputs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  margin-top:10px ;
+}
+
+.edit-form {
+  background: var(--Main-Gray-Light---2, #D7D7D7);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 30%;
+  max-width: 100%;
+  position: relative;
+  z-index: 1000;
+  height: 55%;
+}
+.edit-button-group{
+  display: flex;
+  align-content: center;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.edit-button-group button {
+  padding: 5px 20px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--accent-color, #124076);
+  color: white;
+  border-radius: 5px;
+  width: 30%;
+}
+
+.zone-input-desc{
+  width: 100%;
+  padding: 10px;
+  height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-align: right;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background: var(--Main-Gray-Light---3, #EBEBEB);
+  resize: none;
+
+}
+
+.edit-button-group .cancel-edit-btn {
+  background-color: white;
+  border: 1px solid var(--accent-color, #124076);
+  color: var(--accent-color, #124076);
+}
+
+
+/* Input Fields */
+.zone-input {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 5px;
+font-size: 1.5rem;
+box-sizing: border-box;
+background: var(--Main-Gray-Light---3, #EBEBEB);
+text-align: right;
+}
+
+
+.zone-sidebar .cancel-btn{
+    background-color: var(--Main-Gray-light---2);
+    border: 1px solid var(--accent-color, #124076);
+    color: var(--accent-color, #124076);
+}
+/* ******************************** */
+
 
 
 /*icons */

@@ -9,8 +9,67 @@ function fillSidebarFormWithRowData(row) {
     formTitle.textContent = `ویرایش منطقه: ${zoneName}`;
   
     // Set old values for data attributes
-    // openEditModal(zoneName, zoneDescription);
+    openEditModal(zoneName, zoneDescription);
   }
+  
+  // Open the edit modal with current data
+  function openEditModal(zoneName, zoneDescription) {
+    newZoneNameInput.value = zoneName;
+    newZoneDescriptionInput.value = zoneDescription;
+    
+    newZoneNameInput.setAttribute("data-old-zone-name", zoneName);
+    newZoneDescriptionInput.setAttribute("data-old-zone-desc", zoneDescription);
+  
+    editModal.style.display = "flex";
+    modalBackdrop.style.display = "block";
+  }
+  document.querySelector('.confirm-edit-btn').addEventListener('click', function() {
+    const newZoneNameInput = document.getElementById("newZoneName");
+    const newZoneDescriptionInput = document.getElementById("newZoneDescription");
+
+    // Get old values from data attributes
+    const oldZoneName = newZoneNameInput.getAttribute('data-old-zone-name');
+    const oldZoneDescription = newZoneDescriptionInput.getAttribute('data-old-zone-desc');
+
+    // Get new values from input fields
+    const newZoneName = newZoneNameInput.value;
+    const newZoneDescription = newZoneDescriptionInput.value;
+
+    // Define the data to send in the request
+    const data = {
+        old_zone_name: oldZoneName,
+        old_zone_desc: oldZoneDescription,
+        new_zone_name: newZoneName,
+        new_zone_desc: newZoneDescription
+    };
+
+    // Send data to backend with PATCH method
+    fetch('/zones/', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Update the selected row with the new values
+            selectedRow.setAttribute('data-zone-name', newZoneName);
+            selectedRow.setAttribute('data-zone-description', newZoneDescription);
+            selectedRow.cells[1].innerText = newZoneName;
+            selectedRow.cells[2].innerText = newZoneDescription;
+
+            // Close the modal and reset the sidebar form
+            closeEditZoneModal();
+            resetSidebarForm();
+        } else {
+            console.error(`Failed to edit zone: ${data.message}`);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+  
+
 
   const modal = document.querySelector(".camera-list-modal");
   const backdrop = document.querySelector(".backdrop-modal");
@@ -22,14 +81,15 @@ function fillSidebarFormWithRowData(row) {
 
     viewButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const zoneId = this.dataset.zoneId; 
-            const zoneName = this.closest('tr').dataset.zoneName; 
-            fetchCameras(zoneId, zoneName); 
+            const zoneId = this.dataset.zoneId; // Assuming zone ID is stored in a data attribute
+            const zoneName = this.closest('tr').dataset.zoneName; // Get the zone name from the row
+
+            fetchCameras(zoneId, zoneName); // Pass the zone name to fetchCameras
         });
     });
 
     function fetchCameras(zoneId, zoneName) {
-        fetch(`/zones/${zoneId}/cameras`) 
+        fetch(`/zones/${zoneId}/cameras`) // Adjust the URL based on your route
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Zone not found');
@@ -38,7 +98,8 @@ function fillSidebarFormWithRowData(row) {
             })
             .then(data => {
                 populateCameraList(data);
-                document.querySelector('.camera-list-modal h2').textContent = `دوربین‌های ${zoneName}`; 
+                // Update the modal header with the zone name
+                document.querySelector('.camera-list-modal h2').textContent = `دوربین‌های ${zoneName}`; // Update the header
                 // Show the modal
                 document.querySelector('.backdrop-modal').style.display = 'block';
                 document.querySelector('.zone-camera-list').style.display = 'block';
@@ -110,16 +171,34 @@ function fillSidebarFormWithRowData(row) {
 
   document.querySelector(".zone-edit-btn").addEventListener("click", () => {
     openEditZoneModal(zoneName, zoneDescription);
-  document.querySelector('.zone-cancel-btn').addEventListener('click', resetSidebarForm);
+  document.querySelector('.zone-cancel-btn').addEventListener('click', resetSidebarForm());
   });
 }
 
+// Function to open the edit-zone modal with the selected data
+function openEditZoneModal(zoneName, zoneDescription) {
+  const newZoneNameInput = document.getElementById("newZoneName");
+  const newZoneDescriptionInput = document.getElementById("newZoneDescription");
 
+  // Set modal inputs with the current zone data
+  newZoneNameInput.value = zoneName;
+  newZoneDescriptionInput.value = zoneDescription;
 
+  // Set data attributes to store the old values for the backend
+  newZoneNameInput.setAttribute("data-old-zone-name", zoneName);
+  newZoneDescriptionInput.setAttribute("data-old-zone-desc", zoneDescription);
+
+  // Show the modal
+  document.getElementById("editFormModal").style.display = "flex";
+  document.getElementById("modalBackdrop").style.display = "block";
+}
+
+// Attach click event to each table row to populate the sidebar
 document.querySelectorAll(".zone-body-row").forEach((row) => {
   row.addEventListener("click", () => fillSidebarFormWithRowData(row));
 });
 
+// Reset sidebar form to "Add New Zone" state
 function resetSidebarForm() {
   formTitle.textContent = "افزودن منطقه جدید";
   zoneNameInput.value = "";
@@ -128,11 +207,14 @@ function resetSidebarForm() {
 }
 
 
+// Initialize sidebar form and close modals on page load
 window.onload = function () {
   resetSidebarForm();
   closeCamListModal();
+  closeEditZoneModal();
 };
 
+// Open and close functions for cam-list modal
 function openCamListModal() {
   document.querySelector(".camera-list-modal").style.display = "block";
   document.querySelector(".backdrop-modal").style.display = "block";
@@ -149,9 +231,28 @@ document.querySelectorAll(".view-btn").forEach((btn) => {
 document.querySelector(".close-modal-btn").addEventListener("click", closeCamListModal);
 document.querySelector(".backdrop-modal").addEventListener("click", closeCamListModal);
 
+// Close the edit-zone modal
+function closeEditZoneModal() {
+  document.getElementById("editFormModal").style.display = "none";
+  document.getElementById("modalBackdrop").style.display = "none";
+}
 
+// Attach the close event to the backdrop and cancel button for the edit-zone modal
+document.querySelector(".cancel-edit-btn").addEventListener("click", closeEditZoneModal);
+document.getElementById("modalBackdrop").addEventListener("click", closeEditZoneModal);
+
+
+  closeEditZoneModal(); 
+
+  cancelEditBtn.addEventListener("click", closeEditZoneModal);
+
+  modalBackdrop.addEventListener("click", function () {
+    closeCamListModal();
+    closeEditZoneModal()
+  });
 
   window.onload = function () {
     closeCamListModal(); 
+    closeEditZoneModal(); 
   };
   
