@@ -21,48 +21,25 @@
           <tbody>
             {% for zone in zones %} 
             {% if loop.index >= 1 %} 
-            <tr class="zone-body-row">
+            <tr class="zone-body-row" 
+                data-zone-id="{{ zone.zone_id }}" 
+                data-zone-name="{{ zone.zone_name }}" 
+                data-zone-description="{{ zone.zone_desc }}"
+            >
               <td class="body-cell-number">
                 <span class="row-number" lang="fa">{{ loop.index| persian }} </span>
               </td>
               <td>{{zone.zone_name}}</td>
               <td>  {{zone.zone_desc}} </td>
               <td>
-                <button class="view-btn"></button>
+              <button class="view-btn" data-zone-id="{{ zone.zone_id }}"></button>
             </td>
             </tr>
             {% endif %} 
             {% endfor %}
           </tbody>
         </table>
-        <!-- pagination -->
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-            <li class="page-item">
-              <a class="page-link" href="#">Previous</a>
-            </li>
-            <li class="page-item disabled">
-              <span class="page-link">Previous</span>
-            </li>
-
-            <li class="page-item"><a class="page-link" href="#">1 </a></li>
-            <li class="page-item active" aria-current="page">
-              <span class="page-link">2</span>
-            </li>
-            <li class="page-item disabled">
-              <span class="page-link">...</span>
-            </li>
-
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
-            </li>
-            <li class="page-item disabled">
-              <span class="page-link">Next</span>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
+        </div>
       <div class="zone-sidebar">
         <h3 class="zone-title">افزودن منطقه جدید</h3>
         <form id="zoneForm" action="{{ url_for('zone.add_zone') }}" method ="post">
@@ -79,215 +56,5 @@
     </div>
   </div>
 </div>
-
-<div class="backdrop-modal" id="modalBackdrop"></div>
-<div class="edit-form-modal" id="editFormModal">
-  <div class="edit-form" id="editForm_odal">
-    <form action="#" id="editForm">
-      <h3 id="modalTitle" class="modal-title">ویرایش منطقه</h3>
-      <div class="zone-edit-inputs">
-        <label for="newZoneName">نام منطقه</label>
-        <input
-          type="text"
-          id="newZoneName"
-          class="zone-input"
-          placeholder="نام منطقه"
-          multiple
-        />
-
-        <label for="newZoneDescription">توضیحات</label>
-        <textarea
-          type="text"
-          id="newZoneDescription"
-          class="zone-input-desc"
-          placeholder="توضیحات"
-        ></textarea>
-      </div>
-      <div class="edit-button-group" id="editButtonGroup">
-        <button type="button" class="cancel-edit-btn">انصراف</button>
-        <button type="button" class="confirm-edit-btn">تایید</button>
-      </div>
-    </form>
-  </div>
-</div>
-<!-- Backdrop and Modal -->
-<div class="backdrop-modal"></div>
-<div class="zone-camera-list camera-list-modal">
-  <h2>منطقه شماره 5</h2>
-  <div class="cam-list-table">
-    <table class="zone-table">
-      <thead>
-        <tr>
-          <th class="numbers-list"></th>
-          <th>ادرس ip</th>
-          <th>نام دستگاه</th>
-          <th>نوع دستگاه</th>
-          <th>نام منطقه</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for i in range(20) %}
-        <tr class="cam-list-zone-body-row">
-          <td class="body-cell-number">
-            <span class="row-number" lang="fa">1</span>
-          </td>
-          <td>127.1.10.0</td>
-          <td>تست</td>
-          <td>داهوا</td>
-          <td>پیش فرض</td>
-          <td class="view-btn zone-view-btn"></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  <div class="down-nav">
-    <button class="close-modal-btn">بازگشت</button>
-  </div>
-</div>
-<script>
-  // Get modal and backdrop elements
-  const modal = document.querySelector(".camera-list-modal");
-  const backdrop = document.querySelector(".backdrop-modal");
-  const closeModalBtn = document.querySelector(".close-modal-btn");
-  const viewBtns = document.querySelectorAll(".view-btn");
-
-  // Function to open the modal
-  function openCamListModal() {
-    modal.style.display = "block";
-    backdrop.style.display = "block";
-  }
-
-  function closeCamListModal() {
-    modal.style.display = "none";
-    backdrop.style.display = "none";
-  }
-
-  viewBtns.forEach((btn) => {
-    btn.addEventListener("click", openCamListModal);
-  });
-
-  closeModalBtn.addEventListener("click", closeCamListModal);
-  backdrop.addEventListener("click", closeCamListModal);
-
-  window.onload = () => {
-    closeCamListModal();
-  };
-
-  // Get form elements for sidebar form
-  const formTitle = document.querySelector(".zone-title"); // The zone title element
-  const zoneNameInput = document.getElementById("zoneName");
-  const zoneDescriptionInput = document.getElementById("zoneDescription");
-  const buttonGroup = document.getElementById("buttonGroup");
-
-  // Function to fill the sidebar form with selected row data and update the title
-  function fillSidebarFormWithRowData(row) {
-    const zoneName = row.cells[1].innerText; // Get the zone name from the table row
-    const zoneDescription = row.cells[2].innerText; // Get the zone description from the table row
-
-    // Fill the sidebar form fields
-    zoneNameInput.value = zoneName;
-    zoneDescriptionInput.value = zoneDescription;
-
-    // Update the form title with the selected zone name
-    formTitle.textContent = zoneName;
-
-    // Replace buttons with "ویرایش" and "انصراف"
-    buttonGroup.innerHTML = `
-                 <button type="button" class="zone-edit-btn">ویرایش</button>
-                 <button type="button" class="cancel-btn">انصراف</button>
-             `;
-
-    // Add event listeners to the new buttons
-    document
-      .querySelector(".zone-edit-btn")
-      .addEventListener("click", openEditModal); // Open modal on edit
-    document.querySelector(".cancel-btn").addEventListener("click", cancelEdit);
-  }
-
-  // Event listener for table rows to populate the sidebar form
-  document.querySelectorAll(".zone-body-row").forEach((row) => {
-    row.addEventListener("click", () => fillSidebarFormWithRowData(row));
-  });
-
-  // Function to handle "انصراف" button click in the sidebar form
-  function cancelEdit() {
-    resetSidebarForm();
-  }
-
-  // Function to reset the sidebar form and buttons to the initial state
-  function resetSidebarForm() {
-    formTitle.textContent = "افزودن منطقه جدید"; // Reset form title to default
-    zoneNameInput.value = "";
-    zoneDescriptionInput.value = "";
-    buttonGroup.innerHTML = ""; // Remove buttons
-
-    // Add the original "افزودن" button back (if necessary)
-    buttonGroup.innerHTML = `<button type="submit" class="zone-add-btn" style="background-color: #124076; color:white;">افزودن</button>`;
-  }
-
-
-
-  // Ensure sidebar form is reset on page load
-  window.onload = () => {
-    resetSidebarForm();
-  };
-
-  // Get modal elements
-  const editModal = document.getElementById("editFormModal");
-  const modalBackdrop = document.getElementById("modalBackdrop");
-  const modalTitle = document.getElementById("modalTitle");
-  const newZoneNameInput = document.getElementById("newZoneName");
-  const newZoneDescriptionInput = document.getElementById("newZoneDescription");
-  const confirmEditBtn = document.querySelector(".confirm-edit-btn");
-  const cancelEditBtn = document.querySelector(".cancel-edit-btn");
-
-  // Function to open the modal
-  function openEditModal() {
-    newZoneNameInput.value = zoneNameInput.value;
-    newZoneDescriptionInput.value = zoneDescriptionInput.value;
-
-    // Update modal title if necessary
-    modalTitle.textContent = `ویرایش منطقه: ${zoneNameInput.value}`;
-
-    // Open modal and backdrop
-    editModal.style.display = "flex";
-    modalBackdrop.style.display = "block"; // Show backdrop
-  }
-
-  // Function to close the edit form modal
-  function closeEditModal() {
-    editModal.style.display = "none";
-    modalBackdrop.style.display = "none"; // Hide backdrop when modal closes
-  }
-
-  // Event listener for "تایید" button inside edit modal
-  confirmEditBtn.addEventListener("click", function () {
-    const updatedZoneName = newZoneNameInput.value;
-    const updatedZoneDescription = newZoneDescriptionInput.value;
-
-    // Handle the update logic here (e.g., send updated data to the backend)
-    alert(`منطقه با موفقیت ویرایش شد: ${updatedZoneName}`);
-
-    closeEditModal(); // Close the modal after editing
-  });
-
-  // Event listener for "انصراف" button inside edit modal to close modal
-  cancelEditBtn.addEventListener("click", closeEditModal);
-
-  // ---- Backdrop Click ----
-  // Add event listener to close any open modal when backdrop is clicked
-  modalBackdrop.addEventListener("click", function () {
-    closeCamListModal();
-    closeEditModal();
-  });
-
-  // Ensure all modals are hidden on page load
-  window.onload = function () {
-    closeCamListModal(); // Camera list modal
-    closeEditModal(); // Edit form modal
-  };
-</script>
 
 {% endblock content %}
