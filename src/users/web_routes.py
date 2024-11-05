@@ -133,7 +133,7 @@ def edit_user():
     new_username = user_data.get('new_username')
     password = user_data.get('old_password')
     new_password = user_data.get('password')
-    print(f'{new_password}   {password}')
+    print(f'old{username} , new{new_username}\npassword:{new_password} new_password   {password}')
     camera_access = user_data.get('camera_access', [])
     zone_access = user_data.get('zone_access', [])
     user_access = user_data.get('user_access', [])

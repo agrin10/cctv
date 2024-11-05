@@ -37,8 +37,11 @@ class Users(UserMixin, db.Model):
 
     user_id = db.Column(db.String(225), primary_key=True, nullable=False, unique=True , default=lambda: str(uuid.uuid4()))
     username = db.Column(db.String(150), unique=True, nullable=False)
-    password_hash = db.Column(db.String(150), nullable=False)
-    email = db.Column(db.String(150), unique=True, nullable=False)
+    password_hash = db.Column(db.String(150), nullable=True)
+    email = db.Column(db.String(150), unique=True, nullable=True)
+    name = db.Column(db.String(150) , unique=False ,nullable= True)
+    last_name = db.Column(db.String(150) , unique=False ,nullable= True)
+    profile_image = db.Column(db.Text, nullable=True)  
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc))
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc))
     

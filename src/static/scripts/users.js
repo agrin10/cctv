@@ -131,3 +131,28 @@ function closeEditModal() {
 
 // Event listener for cancel button
 document.getElementById('cancelEditModal').addEventListener('click', closeEditModal);
+
+
+
+/// delete users 
+function deleteUser(button) {
+  const username = button.getAttribute('data-username'); // Get the username from the button's data attribute
+  const url = `/users/delete-users/${username}`; // Construct the URL for the DELETE request
+
+  // Send DELETE request to the backend
+  fetch(url, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+  })
+  .then(response => response.json()) // Parse the JSON response
+  .then(data => {
+      if (data.success) {
+          // If deletion is successful, remove the corresponding row from the table
+          button.closest('tr').remove();
+          console.log(`User ${username} deleted successfully.`);
+      } else {
+          console.log(`Failed to delete user: ${data.message}`);
+      }
+  })
+  .catch(error => console.error('Error:', error)); // Handle any errors
+}
