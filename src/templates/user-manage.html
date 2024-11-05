@@ -61,6 +61,164 @@
   </div>
   
 </div>
+
+
+<!--add user form -->
+<div class="backdrop-modal" id="addUserBackdrop"></div>
+<form id="AddUserForm" class="add-user-form-modal" action="{{url_for('users.add_user')}}" style="display:none;" method="post">
+  <h2>افزودن حساب کاربر</h2>
+
+  <div class="input-group-text">
+    <div class="input-field">
+      <label for="firstName" class="lable-input">نام </label>
+      <input type="text" id="firstName" name="firstName" placeholder="نام" required />
+    </div>
+    <div class="input-field">
+      <label for="lastName" class="lable-input">نام خانوادگی </label>
+      <input type="text" id="lastName" name="lastName" placeholder="نام خانوادگی" required />
+    </div>
+  </div>
+
+  <div class="input-group-text">
+    <div class="input-field">
+      <label for="username" class="lable-input">نام کاربری</label>
+      <input type="text" id="username" name="username" placeholder="نام کاربری" />
+    </div>
+    <div class="input-field">
+      <label for="password" class="lable-input">رمز عبور</label>
+      <input type="password" id="password" name="password" placeholder="رمز عبور" />
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label class="lable-input">دسترسی ها</label>
+    <div class="accesses">
+      
+<!-- Camera Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedCameras">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> دوربین ها
+  </div>
+  <div class="options" id="cameraOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id == 2 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="camera_access[]" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Zone Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedZones">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> مناطق
+  </div>
+  <div class="options" id="zoneOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id == 3 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="zone_access[]" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Users Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedUsers">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> کاربران
+  </div>
+  <div class="options" id="userOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id ==1 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="user_access[]" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</div>
+</div>
+
+<div class="input-group">
+<label class="lable-input">دسترسی به دوربین ها</label>
+<div class="accesses">
+<!-- Camera Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedCamerasTwo">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style="fill: rgba(0, 0, 0, 1)"
+    >
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg>
+
+    دوربین ها
+  </div>
+  <div class="options" id="cameraOptionsTwo">
+    {% for camera in cameras  %}
+    <div>
+      <input
+        type="checkbox"
+        class="checkbox"
+        data-value="{{camera.camera_ip}}"
+      />
+       {{camera.camera_name}}
+    </div>
+      {% endfor %}
+        </div>
+</div>
+<!-- Zone Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedZonesTwo">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style="fill: rgba(0, 0, 0, 1)"
+      class="down-icon"
+    >
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg>
+    مناطق
+  </div>
+  <div class="options" id="zoneOptionsTwo">
+    {% for zone in zones  %}
+    <div>
+      <input type="checkbox" class="checkbox" data-value="zone.zone_name" />
+      {{zone.zone_name}} 
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<!-- Users Dropdown -->
+</div>
+</div>
+  <div class="add-form-actions">
+    <button type="submit" class="save-btn">تایید</button>
+    <button type="button" class="cancel-btn" id="cancelAddModal">انصراف</button>
+  </div>
+</form>
+</div>
+  
+
 <script src="{{url_for('static' ,filename='scripts/users.js')}}"></script>
 
       

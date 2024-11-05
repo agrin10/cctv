@@ -1563,7 +1563,225 @@ width: 5%;
 
 
 /* ****************************user management  */
+/* ***********************edit useers ************************** */
+/*edit users */
 
+
+/* *************************** */
+
+.edit-user-form-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 700; 
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  max-width: 500px;
+  height: auto;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  background: var(--Main-Gray-Light---3, #EBEBEB);
+}
+
+.lable-input {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.edit-user-form-modal input[type="text"],
+.edit-user-form-modal input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.edit-user-form-modal input {
+  text-align: right;
+}
+
+/* /////////////////////////////////////// */
+
+.edit-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10%;
+}
+
+.edit-form-actions button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 48%;
+  border: 0;
+  margin: 5px;
+  text-align: center;
+}
+
+.edit-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.edit-save-btn {
+  background-color: #124076;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  color: black;
+  text-align: center !important;
+}
+
+.accesses {
+  display: flex;
+  flex-direction: row;
+
+  gap: 15px;
+}
+
+.input-group-text {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cancel-btn {
+  border: 2px solid #124076 !important;
+}
+
+.lable-cheekbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+Svg {
+  transition: all 0.3s;
+}
+
+
+.select-location:focus{
+  outline: none;
+}
+
+.user-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  z-index: 99999; /* Make sure it appears above the backdrop */
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%; /* Adjust to your liking */
+  max-width: 500px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal content */
+.modal-content {
+  position: relative;
+}
+
+/* Close button */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Form styling (optional) */
+.input-group-text, .form-actions {
+  margin-bottom: 15px;
+}
+
+
+/* add user modal */
+
+
+.add-user-form-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 700; 
+  padding: 20px;
+  border-radius: 8px;
+  width: 50%;
+  max-width: 500px;
+  height: auto;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  background: var(--Main-Gray-Light---3, #EBEBEB);
+}
+
+.lable-input {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.add-user-form-modal input[type="text"],
+.add-user-form-modal input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.add-user-form-modal input {
+  text-align: right;
+}
+
+
+.add-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10%;
+}
+
+.add-form-actions button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 48%;
+  border: 0;
+  margin: 5px;
+  text-align: center;
+}
+
+.add-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.save-btn {
+  background-color: #124076;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #f5f5f5;
+  color: black;
+  text-align: center !important;
+}
+
+/* *************************************************** */
 
 
 /*icons */
