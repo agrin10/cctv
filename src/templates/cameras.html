@@ -49,32 +49,7 @@
                     </tbody>
                 </table>
 
-                <!-- Pagination -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                      <li class="page-item">
-                        <a class="page-link" href="#">قبلی</a>
-                      </li>
-                      <li class="page-item disabled">
-                        <span class="page-link">قبلی</span>
-                      </li>
-          
-                      <li class="page-item"><a class="page-link" href="#">1 </a></li>
-                      <li class="page-item active" aria-current="page">
-                        <span class="page-link">2</span>
-                      </li>
-                      <li class="page-item disabled">
-                        <span class="page-link">...</span>
-                      </li>
-          
-                      <li class="page-item">
-                        <a class="page-link" href="#">بعدی</a>
-                      </li>
-                      <li class="page-item disabled">
-                        <span class="page-link">بعدی</span>
-                      </li>
-                    </ul>
-                  </nav>
+
           
             </div>
         
@@ -198,11 +173,6 @@
                 </div>
             </div>
 
-<div class="add-result " style="display:none;">
-    <i class="bx bx-check" style="color: #06ff62; "></i>
-    <p>sucsses</p>
-    <button class="close-btn">close</button>
-    </div>
                                   
 <div class="backdrop-modal"></div>
 <!-- Camera Modal Popup -->
@@ -284,7 +254,8 @@
                     <input type="text" id="EdiCamIpAddress" name="ipAddress" 
                         data-old="{{ camera.camera_ip }}" 
                         value="{{ camera.camera_ip }}" 
-                        placeholder="آدرس IP" required class="input-camera-edit-modal cam-input"/>
+                        placeholder="آدرس IP" required class="input-camera-edit-modal cam-input"
+                        />
                 </div>
                 <div class="cam-input-field">
                     <input type="text" id="EditcamNewIpAddress" name="newIpAddress" 
@@ -382,7 +353,7 @@
                         </div>
                             <!-- Form Actions -->
                             <div class="cam-button-group" id="camButtonGroup">
-                            <button type="button" class="confirm-edit-btn cam-  " id="camConfirmEditBtn">ویرایش</button>
+                            <button type="button" class="confirm-edit-btn cam-confirm-edit-btn  " id="camConfirmEditBtn">ویرایش</button>
                             <button type="button" class="cancel-btn cam-cancel-btn">انصراف</button>
                         </div>
                     </form>
@@ -394,18 +365,6 @@
 
 <script src="{{url_for('static' ,filename='scripts/cameras.js')}}"></script>
 
-<script>
-    const addResult = document.querySelector(".add-result");
-    const btn = document.querySelector(".camera-add-btn");
-    const resultCloseBtn = document.querySelector(".result-close-btn");
-    btn.addEventListener("click", () => {
-        addResult.style.display='block'
-      });
-
-    resultCloseBtn.addEventListener("click", () => {
-        addResult.style.display='none'
-      });
-</script>
     
 
 {% endblock content %}

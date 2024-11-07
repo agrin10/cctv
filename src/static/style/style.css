@@ -549,7 +549,7 @@ svg {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  background: var(--Main-Gray-Light---3, #EBEBEB);
+  /* background: var(--Main-Gray-Light---3, #EBEBEB); */
 }
 
 .options {
@@ -587,7 +587,7 @@ svg {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  background-color: white;
+  /* background-color: white; */
   font-size: 13px;
 }
 
@@ -614,7 +614,6 @@ svg {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  background-color: white !important;
   font-size: 13px;
   width: 100%;
 }
@@ -2648,7 +2647,6 @@ svg {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  background: var(--Main-Gray-Light---3, #EBEBEB);
 }
 
 .options {
@@ -2679,7 +2677,7 @@ svg {
   margin-top: 30px;
 }
 
-.cam-confirm-edit-btn{
+.cam-confirm-edit-btn {
   padding: 10px ;
   width: 20%;
   background-color: var(--accent-color, #124076);

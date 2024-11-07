@@ -152,3 +152,72 @@ function closeCameraEditModal() {
 // Close modal on clicking the cancel button or backdrop
 document.querySelector(".cam-cancel-btn").addEventListener("click", closeCameraEditModal);
 document.querySelector(".cam-backdrop").addEventListener("click", closeCameraEditModal);
+
+document.getElementById('camConfirmEditBtn').addEventListener('click', () => {
+    // Gather data from form inputs
+    const oldIpAddress = document.getElementById('EdiCamIpAddress').dataset.old;
+    const newIpAddress = document.getElementById('EditcamNewIpAddress').value;
+    const deviceName = document.getElementById('EditcamDeviceName').value;
+    const deviceType = document.getElementById('EditCamDeviceType').value;
+    const cameraUsername = document.getElementById('EditCamCameraUsername').value;
+    const cameraPassword = document.getElementById('EditCamCameraPassword').value;
+    const zoneName = document.getElementById('EditzoneSelect').value;
+    const isRecording = document.getElementById('recordingSelectEdit').value === "1";
+    const aiProperties = Array.from(document.querySelectorAll('#ObjectEditCameraOptions .checkbox:checked')).map(cb => cb.value);
+
+    // Create the data payload
+    const data = {
+        oldIpAddress: oldIpAddress,
+        newIpAddress: newIpAddress,
+        deviceName: deviceName,
+        deviceType: deviceType,
+        camera_username: cameraUsername,
+        camera_password: cameraPassword,
+        camera_zones: zoneName,
+        recording: isRecording,
+        ai_properties: aiProperties
+    };
+
+    // Send PATCH request to the Flask endpoint
+    fetch('/camera/edit-camera', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result.success) {
+            // Update the camera row in the table
+            updateCameraRow(newIpAddress, deviceName, deviceType, cameraUsername, cameraPassword, zoneName, isRecording, aiProperties);
+            alert('Camera updated successfully!');
+            closeCameraEditModal();  // Close the modal after successful edit
+        } else {
+            alert(`Error: ${result.message}`);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
+// Function to update the camera row in the table
+function updateCameraRow(ip, name, type, username, password, zone, recording, aiProps) {
+    const row = document.querySelector(`tr[data-camera-ip="${ip}"]`);
+    if (row) {
+        row.cells[1].innerText = ip;
+        row.cells[2].innerText = name;
+        row.cells[3].innerText = type;
+        row.cells[4].innerText = username;
+        row.cells[5].innerText = password;
+        row.cells[6].innerText = zone;
+        row.cells[7].innerText = recording ? 'Yes' : 'No';
+        row.cells[8].innerText = aiProps.join(', ');
+    }
+}
+
+// Function to close the edit modal
+function closeCameraEditModal() {
+    document.getElementById("editCameraModal").style.display = "none";
+    document.querySelector(".cam-backdrop").style.display = "none";
+}
+
+// Open and close the modal based on edit button and cancel button
+document.querySelector(".cam-cancel-btn").addEventListener("click", closeCameraEditModal);
