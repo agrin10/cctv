@@ -64,13 +64,18 @@ def logout():
 
 @users_bp.route('/')
 @jwt_required()
-# @permission_required(['view'])
+@permission_required(['view'])
 def user_manage():
     list_users = Users.query.all()
     accesses = Accesses.query.join(Permissions).join(Module).all()
     camera = Camera.query.all()
     zone = Zone.query.all()
-    return render_template('user-manage.html', users=list_users, accesses=accesses, cameras= camera , zones= zone)
+    # pagination
+    page = request.args.get('page', 1, type=int)  
+    per_page = 10  
+    users = Users.query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return render_template('user-manage.html', users_list=list_users, accesses=accesses, cameras= camera , zones= zone , users=users.items , pagination=users)
 
     
 @users_bp.route('/delete-users/<username>', methods=["DELETE"])
@@ -85,43 +90,28 @@ def delete_user(username):
 
 
 @users_bp.route('/', methods=["POST"])
-# @permission_required(['create'])
+@permission_required(['create'])
 @jwt_required()
 def add_user():
-    if request.method == "POST":
-        first_name = request.form.get('firstName')
-        last_name = request.form.get('lastName')
-        username = request.form.get('username')
-        password = request.form.get('password')
+    first_name = request.form.get('firstName')
+    last_name = request.form.get('lastName')
+    username = request.form.get('username')
+    password = request.form.get('password')
 
-        camera_access = request.form.getlist('camera_access')
-        zone_access = request.form.getlist('zone_access')
-        user_access = request.form.getlist('user_access')
+    camera_access = request.form.getlist('camera_access')
+    zone_access = request.form.getlist('zone_access')
+    user_access = request.form.getlist('user_access')
 
-        all_permissions = camera_access + zone_access + user_access
+    all_permissions = camera_access + zone_access + user_access
 
-        success, message, status = handle_add_users(first_name , last_name,
-            username, password, all_permissions)
+    success, message, status = handle_add_users(first_name , last_name,
+        username, password, all_permissions)
 
-        if success:
-            return redirect(url_for('users.user_manage'))
-        return [{'message':message}]
+    if success:
+        return redirect(url_for('users.user_manage'))
+    return [{'message':message}]
 
 
-# def get_user_by_ip(user_id):
-#     user = Users.query.filter_by(user_id=user_id).first()
-#     if user:
-#         return {
-#             'user_id': user.user_id,
-#             'username': user.user_username,
-#             'device_type': user.user_type,
-#             'username': user.user_username,
-#             'password': user.user_password,
-#             'zones': user.zone.zone_name,
-#             'ai_properties': [prop.name for prop in user.user_accesses],
-#         }
-#     else:
-#         return None
 
 @users_bp.route('/edit',  methods=['PATCH'])
 @permission_required(['edit'])

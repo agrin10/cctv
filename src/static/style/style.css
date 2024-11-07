@@ -1156,7 +1156,8 @@ text-align: right;
 /* ****************************************setting *************************** */
 .setting-container {
   display: flex;
-  height: 90vh;
+  height: 100vh;
+  padding-bottom: 20px;
 }
 
 .sidebar {
@@ -1221,7 +1222,7 @@ text-align: right;
   height: 92%;
   border-radius: 15px;
   padding:5px 0;
-
+  position: relative;
 }
 
 .item-list {
@@ -1451,7 +1452,7 @@ input:checked + .slider:before {
     width: 30%;
     background-color: var(--Main-Gray-Light---2);
     margin: 15px;
-    height: 100vh;
+    height: 100%;
     border-radius: 15px;
 }
 
@@ -2015,12 +2016,25 @@ button.fullscreen-btn {
   filter: invert(100%) sepia(8%) saturate(31%) hue-rotate(268deg) brightness(106%) contrast(106%);
 }
 
-/* .overall view pagination */
+/* .overall pagination */
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  background: var(--Main-Gray-Light---1, #BDBDBD);
+  border-top: 1px solid var(--Main-Gray-Dark---3, #828282);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-radius: 0px 0px 5px 5px;
+}
+
 .overall-pagination {
   display: flex;
   justify-content: center;  
   background: var(--Main-Gray-Light---1, #BDBDBD);
-  border-top: 1px solid var(--Main-Gray-Dark---3, #828282);
   position: relative;
   bottom: 0;
   left: 0;
@@ -2032,7 +2046,7 @@ button.fullscreen-btn {
     margin: 0 5px;
 }
 
-.overall-pagination .overall-view-page-link {
+.overall-pagination .overall-page-link {
     display: inline-block;
     padding: 10px 15px;
     color: var(--Main-Green-Dark---2 );
@@ -2041,7 +2055,7 @@ button.fullscreen-btn {
     cursor: pointer;
 }
 
-.overall-pagination .overall-view-page-item.active .overall-view-page-link {
+.overall-pagination .overall-page-item.active .overall-page-link {
   background: var(--Main-Green, #304D30);
   color: white;
     
@@ -2188,7 +2202,6 @@ button.fullscreen-btn {
     margin: 0 5px;
 }
 .cancel-btn {
-    background-color: var(--Main-Gray-Dark---2);
     border: 1px solid  #124076;
     color:   #124076;
 } 

@@ -79,12 +79,12 @@ def user_list():
 
 
 
-def handle_add_users(username, password, email, permission_names):
-    existing_user = Users.query.filter((Users.username == username) | (Users.email == email)).first()
+def handle_add_users(firstname, lastname,username, password, permission_names):
+    existing_user = Users.query.filter(Users.username == username).first()
     if existing_user:
         return False, 'Username or email already exists.', 400
     
-    new_user = Users(username=username, email=email)
+    new_user = Users(name= firstname , last_name =lastname , username=username)
     new_user.set_password(password)
     db.session.add(new_user)
     
@@ -108,22 +108,36 @@ def handle_add_users(username, password, email, permission_names):
 
 
 
-
-def handle_edit_user(username , new_username , password , new_password ,new_email):
+def handle_edit_user(username, new_username, password, new_password, new_permission_names):
     user = Users.query.filter_by(username=username).first()
     
     if user and user.check_password(password):
         user.username = new_username
-        user.email = new_email
         if new_password:
             user.set_password(new_password)
-
+        
+        # Clear current permissions and accesses
+        UserAccess.query.filter_by(user_id=user.user_id).delete()
+        
+        for permission_name in new_permission_names:
+            permission_obj = Permissions.query.filter_by(name=permission_name).first()
+            if permission_obj:
+                access = Accesses.query.filter_by(permissions_id=permission_obj.id).first()
+                
+                if access:
+                    module = Module.query.get(access.module_id)
+                    if module:
+                        user_access = UserAccess(user_id=user.user_id, access_id=access.id)
+                        db.session.add(user_access)
+        
         try:
             db.session.commit()
-            return True ,"user updated successfully." , 200
+            return True, "User updated successfully with the specified accesses.", 200
         except Exception as e:
-            return False , f"update faild: {e}" , 400
-    return False , 'user not found' , 400
+            db.session.rollback() 
+            return False, f"Update failed: {e}", 400
+    
+    return False, 'User not found or password incorrect', 400
 
     
 def handle_delete_user(username):
