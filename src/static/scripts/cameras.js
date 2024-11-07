@@ -93,3 +93,62 @@ function closePopup() {
 
 // Attach close event to the close button
 closeButton.addEventListener("click", closePopup);
+
+
+closeButton.addEventListener("click", closePopup);
+
+// Sidebar form handling
+const formTitle = document.querySelector('.camera-title'); 
+const ipAddressInput = document.getElementById('ipAddress'); 
+const deviceNameInput = document.getElementById('deviceName'); 
+const deviceTypeInput = document.getElementById('deviceType'); 
+const cameraUsernameInput = document.getElementById('cameraUsername'); 
+const cameraPasswordInput = document.getElementById('cameraPassword'); 
+const buttonGroup = document.getElementById('buttonGroup');
+const cameraEditModal = document.getElementById('editCameraModal');
+
+// Fill form with selected row data
+function fillSidebarFormWithRowData(row) {
+    ipAddressInput.value = row.cells[1].innerText;
+    deviceNameInput.value = row.cells[2].innerText;
+    deviceTypeInput.value = row.cells[3].innerText;
+    formTitle.textContent = 'ویرایش دوربین: ' + deviceNameInput.value;
+
+    // Populate button group with edit and cancel buttons
+    buttonGroup.innerHTML = `
+        <button type="button" class="camera-edit-btn">ویرایش</button>
+        <button type="button" class="camera-cancel-btn">انصراف</button>
+    `;
+
+    // Attach event listeners to the new buttons
+    document.querySelector('.camera-edit-btn').addEventListener('click', openCameraEditModal);
+    document.querySelector('.camera-cancel-btn').addEventListener('click', resetSidebarForm);
+}
+
+// Attach event listeners to each row for sidebar form filling
+document.querySelectorAll('.camera-body-row').forEach(row => 
+    row.addEventListener('click', () => fillSidebarFormWithRowData(row))
+);
+
+// Reset sidebar form to initial state
+function resetSidebarForm() {
+    formTitle.textContent = 'افزودن دوربین جدید';
+    [ipAddressInput, deviceNameInput, deviceTypeInput, cameraUsernameInput, cameraPasswordInput].forEach(input => input.value = '');
+    buttonGroup.innerHTML = `<button type="submit" class="zone-add-btn">افزودن</button>`;
+}
+
+// Open the edit camera modal
+function openCameraEditModal() {
+    document.getElementById("editCameraModal").style.display = "flex";
+    document.querySelector(".cam-backdrop").style.display = "block";
+}
+
+// Hide modal
+function closeCameraEditModal() {
+    document.getElementById("editCameraModal").style.display = "none";
+    document.querySelector(".cam-backdrop").style.display = "none";
+}
+
+// Close modal on clicking the cancel button or backdrop
+document.querySelector(".cam-cancel-btn").addEventListener("click", closeCameraEditModal);
+document.querySelector(".cam-backdrop").addEventListener("click", closeCameraEditModal);
