@@ -123,9 +123,14 @@ def delete_camera(ip, name):
 def cameras():
     page = request.args.get('page', 1, type=int)
     zones = Zone.query.all()
-    cameras = Camera.query.all()
+    cameras_list = Camera.query.all()
     ai_properties = AiProperties.query.all()
-    return render_template('cameras.html',zones=zones, camera=cameras, ai_properties=ai_properties)
+
+    page = request.args.get('page', 1, type=int)  
+    per_page = 12  
+    cameras = Camera.query.paginate(page=page, per_page=per_page, error_out=False)
+
+    return render_template('cameras.html',zones=zones, camera=cameras_list, ai_properties=ai_properties , pagination=cameras , cameras=cameras.items)
 
 
 
@@ -260,7 +265,7 @@ def alerts():
 
 @camera_bp.route('/records', methods=['POST', 'GET'])
 @jwt_required()
-@permission_required(['create' , 'view' , 'playback'])
+# @permission_required(['create' , 'view' , 'playback'])
 def records():
     if request.method == 'POST':
         start_time = request.form.get('start-time')
