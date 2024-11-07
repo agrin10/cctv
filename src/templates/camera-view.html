@@ -96,20 +96,20 @@
         <nav aria-label="Page navigation example">
             <ul class="overall-pagination">
                 <!-- Previous Page Button -->
-                <li class="overall-view-page-item {% if not prev_page %}disabled{% endif %}">
-                    <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', layout=layout, page=prev_page) }}"><i class="arrow-left-circle"></i>قبلی</a>
+                <li class="overall-page-item {% if not prev_page %}disabled{% endif %}">
+                    <a class="overall-page-link" href="{{ url_for('camera.camera_view', layout=layout, page=prev_page) }}"><i class="arrow-left-circle"></i>قبلی</a>
                 </li>
                 
                 <!-- Page Number Links -->
                 {% for p in range(1, total_pages + 1) %}
-                    <li class="overall-view-page-item {% if p == current_page %}active{% endif %}">
-                        <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', layout=layout, page=p) }}">{{ p }}</a>
+                    <li class="overall-page-item {% if p == current_page %}active{% endif %}">
+                        <a class="overall-page-link" href="{{ url_for('camera.camera_view', layout=layout, page=p) }}">{{ p }}</a>
                     </li>
                 {% endfor %}
                 
                 <!-- Next Page Button -->
-                <li class="overall-view-page-item {% if not next_page %}disabled{% endif %}">
-                    <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', layout=layout, page=next_page) }}"><i class="arrow-right-circle"></i>بعدی</a>
+                <li class="overall-page-item {% if not next_page %}disabled{% endif %}">
+                    <a class="overall-page-link" href="{{ url_for('camera.camera_view', layout=layout, page=next_page) }}"><i class="arrow-right-circle"></i>بعدی</a>
                 </li>
             </ul>
         </nav>
