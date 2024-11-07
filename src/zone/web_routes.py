@@ -11,11 +11,11 @@ from src.zone.model import Zone
 @permission_required(['view'])
 @jwt_required()
 def zones():
-    zones= Zone.query.all()
-    page = request.args.get('page', 1 , type=int)
-    per_page= 8
-    pagination = Zone.query.paginate(page=page, per_page=per_page ,error_out=False)
-    return render_template('zones.html' , zones=zones , pagination=pagination)
+    page = request.args.get('page', 1, type=int)  
+    per_page = 12  
+    zones = Zone.query.paginate(page=page, per_page=per_page, error_out=False)
+    
+    return render_template('zones.html', zones=zones.items, pagination=zones)
 
 
 @zone_bp.route('/' , methods=['POST'])
