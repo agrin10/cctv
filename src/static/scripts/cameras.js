@@ -1,18 +1,23 @@
-
 // Dropdown elements and toggle functionality
 function setupDropdownToggle(dropdownButton, dropdownOptions, svgIcon) {
-    dropdownButton.addEventListener("click", () => {
-        dropdownOptions.style.display = dropdownOptions.style.display === "block" ? "none" : "block";
-        svgIcon.style.transform = svgIcon.style.transform === "rotate(180deg)" ? "rotate(0deg)" : "rotate(180deg)";
-    });
-
-    // Close dropdown on clicking outside
-    document.addEventListener("click", (event) => {
-        if (!dropdownButton.contains(event.target) && !dropdownOptions.contains(event.target)) {
-            dropdownOptions.style.display = "none";
-        }
+    dropdownButton.addEventListener("click", (event) => {
+        event.stopPropagation(); // Prevent click from bubbling to document
+        const isVisible = dropdownOptions.style.display === "block";
+        
+        // Close all dropdowns before opening the clicked one
+        document.querySelectorAll(".dropdown-options").forEach(option => option.style.display = "none");
+        
+        // Toggle current dropdown
+        dropdownOptions.style.display = isVisible ? "none" : "block";
+        svgIcon.style.transform = isVisible ? "rotate(0deg)" : "rotate(180deg)";
     });
 }
+
+// Close dropdown on clicking outside any dropdown
+document.addEventListener("click", () => {
+    document.querySelectorAll(".dropdown-options").forEach(option => option.style.display = "none");
+    document.querySelectorAll(".dropdown-button svg").forEach(icon => icon.style.transform = "rotate(0deg)");
+});
 
 // Checkbox selection behavior in dropdown
 function setupCheckboxSelection(dropdownOptions) {
@@ -20,13 +25,13 @@ function setupCheckboxSelection(dropdownOptions) {
         option.addEventListener("click", (event) => {
             const checkbox = option.querySelector(".checkbox");
             checkbox.checked = !checkbox.checked;
-            option.style.backgroundColor = checkbox.checked ? "#e9f5ff" : "";
-            event.stopPropagation();
+            option.classList.toggle("selected", checkbox.checked); // Apply a 'selected' CSS class
+            event.stopPropagation(); // Stop bubbling to avoid toggling dropdown
         });
     });
 }
 
-// Initialize the dropdown for both sections
+// Initialize dropdowns for specified sections
 setupDropdownToggle(
     document.getElementById("selectedObjectCameras"),
     document.getElementById("ObjectCameraOptions"),
@@ -46,3 +51,24 @@ const svgIcon = document.querySelector(".select-location-box svg");
 zoneSelect.addEventListener("focus", () => svgIcon.style.transform = "rotate(180deg)");
 zoneSelect.addEventListener("blur", () => svgIcon.style.transform = "rotate(0deg)");
 
+// Delete camera functionality
+function deleteCamera(button) {
+    const cameraIp = button.getAttribute('data-camera-ip');
+    const cameraName = button.getAttribute('data-camera-name');
+    const url = `/camera/delete-camera/ip=${cameraIp}&name=${cameraName}`;
+
+    fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
+        .then(response => {
+            if (!response.ok) throw new Error(`Failed to delete camera: ${response.statusText}`);
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                button.closest('tr').remove();
+                console.log(`Camera ${cameraName} deleted successfully.`);
+            } else {
+                console.log(`Failed to delete camera: ${data.message}`);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
