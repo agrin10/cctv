@@ -169,10 +169,13 @@ function fillSidebarFormWithRowData(row) {
     <button type="button" class="zone-cancel-btn">انصراف</button>
   `;
 
-  document.querySelector(".zone-edit-btn").addEventListener("click", () => {
-    openEditZoneModal(zoneName, zoneDescription);
-  document.querySelector('.zone-cancel-btn').addEventListener('click', resetSidebarForm());
-  });
+  // Inside the fillSidebarFormWithRowData function where the cancel button is set:
+document.querySelector(".zone-edit-btn").addEventListener("click", () => {
+  openEditZoneModal(zoneName, zoneDescription);
+});
+
+document.querySelector('.zone-cancel-btn').addEventListener('click', resetSidebarForm);  // Fix here
+
 }
 
 // Function to open the edit-zone modal with the selected data
