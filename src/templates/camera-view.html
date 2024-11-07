@@ -10,6 +10,7 @@
     <div class="overall-view-container">
         <div class="grid-container layout-{{ layout }}">
             {% if cameras %}
+                <!-- Display the actual cameras available in the database -->
                 {% for camera in cameras %}
                 <div class="grid-item">
                     <div class="overall-camera-container">
@@ -33,20 +34,43 @@
                     </div>
                 </div>
                 {% endfor %}
-            {% else %}
-                {% for i in range(0, layout) %}
+
+                <!-- Add placeholders for remaining slots to fill the grid layout -->
+                {% set placeholders_needed = layout - cameras|length %}
+                {% for _ in range(placeholders_needed) %}
                 <div class="grid-item">
                     <div class="overall-camera-container">
-                        <div class="placeholder">
-                            <div class="camera-header-overlay">
-                                <div class="camera-header-right">
-                                    <span class="camera-header-zone">{{ camera.zone_name or "ناحیه مشخص نشده" }}</span> -
-                                    <span class="camera-header-name">دوربین شماره {{ loop.index }}</span>
-                                </div>
-                                <div class="camera-header-left">
-                                    <span class="camera-header-time">09:45:12</span>
-                                </div>
+                        <div class="camera-header-overlay">
+                            <div class="camera-header-right">
+                                <span class="camera-header-zone">ناحیه مشخص نشده</span> -
+                                <span class="camera-header-name">دوربین شماره {{ cameras|length + loop.index }}</span>
                             </div>
+                            <div class="camera-header-left">
+                                <span class="camera-header-time">--:--:--</span>
+                            </div>
+                        </div>
+                        <div class="placeholder">
+                            <img src="{{ url_for('static', filename='images/image-not-found-1-scaled.svg') }}" alt="No Camera Connected" />
+                            <p>دوربینی متصل نشده است</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- If no cameras are available, display placeholders for the full layout -->
+                {% for i in range(layout) %}
+                <div class="grid-item">
+                    <div class="overall-camera-container">
+                        <div class="camera-header-overlay">
+                            <div class="camera-header-right">
+                                <span class="camera-header-zone">ناحیه مشخص نشده</span> -
+                                <span class="camera-header-name">دوربین شماره {{ i + 1 }}</span>
+                            </div>
+                            <div class="camera-header-left">
+                                <span class="camera-header-time">--:--:--</span>
+                            </div>
+                        </div>
+                        <div class="placeholder">
                             <img src="{{ url_for('static', filename='images/image-not-found-1-scaled.svg') }}" alt="No Camera Connected" />
                             <p>دوربینی متصل نشده است</p>
                         </div>
@@ -55,45 +79,40 @@
                 {% endfor %}
             {% endif %}
         </div>
-    
 
         <!-- Split view buttons -->
         <div class="split-buttons">
             <div class="split-buttons-group">
                 <button class="arrow-right-circle"></button>   
-                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=1) }}'">1</button>
-                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=4) }}'">4</button>
-                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=9) }}'">9</button>
-                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=16) }}'">16</button>
+                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=1) }}'" class="split-buttons-group-button">1</button>
+                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=4) }}'" class="split-buttons-group-button">4</button>
+                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=9) }}'" class="split-buttons-group-button">9</button>
+                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=16) }}'" class="split-buttons-group-button">16</button>
                 <button class="arrow-left-circle"></button>
             </div>
-            <button class="fullscreen-btn"><a href="">تمام صفحه</a></button>
+            <button class="fullscreen-btn"><a href="{{ url_for('camera.full_screen') }}">تمام صفحه</a></button>
         </div>
+
+        <!-- Pagination for camera views -->
         <nav aria-label="Page navigation example">
             <ul class="overall-pagination">
-              <li class="overall-view-page-item">
-                <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', camera_ip=next_camera_ip) }}">بعدی</a>
-              </li>
-              <li class="overall-view-page-item disabled">
-              </li>
-  
-              <li class="overall-view-page-item"><a class="overall-view-page-link" href="#">1 </a></li>
-              <li class="overall-view-page-item active" aria-current="page">
-                <span class="overall-view-page-link">2</span>
-              </li>
-              <li class="overall-view-page-item disabled">
-                <span class="overall-view-page-link">...</span>
-              </li>
-  
-              <li class="overall-view-page-item">
-                <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', camera_ip=prev_camera_ip) }}">قبلی</a>
-              </li>
-              <li class="overall-view-page-item disabled">
-              </li>
+                <li class="overall-view-page-item">
+                    <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', camera_ip=next_camera_ip) }}">بعدی</a>
+                </li>
+                <li class="overall-view-page-item disabled"></li>
+                <li class="overall-view-page-item"><a class="overall-view-page-link" href="#">1 </a></li>
+                <li class="overall-view-page-item active" aria-current="page">
+                    <span class="overall-view-page-link">2</span>
+                </li>
+                <li class="overall-view-page-item disabled">
+                    <span class="overall-view-page-link">...</span>
+                </li>
+                <li class="overall-view-page-item">
+                    <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', camera_ip=prev_camera_ip) }}">قبلی</a>
+                </li>
+                <li class="overall-view-page-item disabled"></li>
             </ul>
-          </nav>
-        </div>
-  
+        </nav>
     </div>
 </div>
 

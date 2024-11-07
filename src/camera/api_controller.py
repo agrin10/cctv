@@ -5,8 +5,8 @@ import cv2
 import pytz
 
 
-def build_rtsp_url(camera_ip, camera_username, camera_password , camera_port):
-    return f"rtsp://{camera_username}:{camera_password}@{camera_ip}:{camera_port}/cam/realmonitor?channel=1&subtype=1"
+def build_rtsp_url(camera_ip, camera_username, camera_password ):
+    return f"rtsp://{camera_username}:{camera_password}@{camera_ip}:554/cam/realmonitor?channel=1&subtype=1"
 
 
 def is_iso_format(date_string: str) -> bool:

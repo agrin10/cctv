@@ -1876,7 +1876,6 @@ Svg {
   color: #fff;
   height: 215px;
   width: 385px;
-  background: gray;
   border-radius: 10px;
 }
 
@@ -1930,6 +1929,7 @@ Svg {
 
 .camera-header-time {
   font-family: monospace;
+  font-size: 20px ;
 }
 
 
@@ -2049,6 +2049,38 @@ button.fullscreen-btn {
     color: white;
 }
 
+/* ///////////////////////////// full screen /////////////////////////// */
+.full-screen-container{
+  padding: 5px;
+}
+
+.full-grid-container{
+  display: grid;
+  gap: 10px;
+  height: 100%;
+  width: 100%;
+  /* margin: 20px; */
+}
+.full-grid-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: 100%;
+  background: var(--Main-Gray-Light---1, #BDBDBD);
+  border: 2.03px solid var(--Main-Gray-Dark---3, #828282);
+}
+.overall-fullscreen-container{
+  position: relative;
+  border: 1px solid var(--Main-Gray-Dark---3, #828282);
+  overflow: hidden;
+  margin: 10px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+.overall-fullscreen-container img{
+  width: 100%;
+}
 
 /* *************************** */
 
