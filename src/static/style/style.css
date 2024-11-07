@@ -1790,8 +1790,6 @@ Svg {
   box-shadow: 0px 0px 15px 0px #00000026;
   border-radius: 10px;
   margin: 30px;
-  padding: 20px;
-
 
 }
 
@@ -1800,7 +1798,7 @@ Svg {
   gap: 10px; 
   height: 100%;
   width: 100%;
-  /* margin: 20px ; */
+  margin: 20px ;
 }
 
 .grid-container .layout-1{
@@ -1897,8 +1895,8 @@ Svg {
 
 }
 .placeholder img {
-  width: 60%; /* Responsive width for the placeholder image */
-  height: auto; /* Maintain aspect ratio */
+  width: 60%;
+  height: auto;
 }
 
 
@@ -2017,7 +2015,7 @@ button.fullscreen-btn {
   filter: invert(100%) sepia(8%) saturate(31%) hue-rotate(268deg) brightness(106%) contrast(106%);
 }
 
-/* .overall view paginations */
+/* .overall view pagination */
 .overall-pagination {
   display: flex;
   justify-content: center;  
@@ -2043,10 +2041,13 @@ button.fullscreen-btn {
     cursor: pointer;
 }
 
-.overall-pagination .overall-view-page-item.active .page-link {
-    background-color: var(--Main-Green-Dark---2); 
-    color: white;
+.overall-pagination .overall-view-page-item.active .overall-view-page-link {
+  background: var(--Main-Green, #304D30);
+  color: white;
+    
 }
+
+
 
 /* ///////////////////////////// full screen /////////////////////////// */
 .full-screen-container{

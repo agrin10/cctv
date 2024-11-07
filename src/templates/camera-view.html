@@ -83,34 +83,34 @@
         <!-- Split view buttons -->
         <div class="split-buttons">
             <div class="split-buttons-group">
-                <button class="arrow-right-circle"></button>   
-                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=1) }}'" class="split-buttons-group-button">1</button>
-                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=4) }}'" class="split-buttons-group-button">4</button>
-                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=9) }}'" class="split-buttons-group-button">9</button>
-                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=16) }}'" class="split-buttons-group-button">16</button>
+                <button class="arrow-right-circle"></button>
+                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=1, page=1) }}'" class="split-buttons-group-button">1</button>
+                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=4, page=1) }}'" class="split-buttons-group-button">4</button>
+                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=9, page=1) }}'" class="split-buttons-group-button">9</button>
+                <button onclick="window.location.href='{{ url_for('camera.camera_view', layout=16, page=1) }}'" class="split-buttons-group-button">16</button>
                 <button class="arrow-left-circle"></button>
             </div>
             <button class="fullscreen-btn"><a href="{{ url_for('camera.full_screen') }}">تمام صفحه</a></button>
         </div>
 
-        <!-- Pagination for camera views -->
         <nav aria-label="Page navigation example">
             <ul class="overall-pagination">
-                <li class="overall-view-page-item">
-                    <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', camera_ip=next_camera_ip) }}">بعدی</a>
+                <!-- Previous Page Button -->
+                <li class="overall-view-page-item {% if not prev_page %}disabled{% endif %}">
+                    <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', layout=layout, page=prev_page) }}"><i class="arrow-left-circle"></i>قبلی</a>
                 </li>
-                <li class="overall-view-page-item disabled"></li>
-                <li class="overall-view-page-item"><a class="overall-view-page-link" href="#">1 </a></li>
-                <li class="overall-view-page-item active" aria-current="page">
-                    <span class="overall-view-page-link">2</span>
+                
+                <!-- Page Number Links -->
+                {% for p in range(1, total_pages + 1) %}
+                    <li class="overall-view-page-item {% if p == current_page %}active{% endif %}">
+                        <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', layout=layout, page=p) }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+                
+                <!-- Next Page Button -->
+                <li class="overall-view-page-item {% if not next_page %}disabled{% endif %}">
+                    <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', layout=layout, page=next_page) }}"><i class="arrow-right-circle"></i>بعدی</a>
                 </li>
-                <li class="overall-view-page-item disabled">
-                    <span class="overall-view-page-link">...</span>
-                </li>
-                <li class="overall-view-page-item">
-                    <a class="overall-view-page-link" href="{{ url_for('camera.camera_view', camera_ip=prev_camera_ip) }}">قبلی</a>
-                </li>
-                <li class="overall-view-page-item disabled"></li>
             </ul>
         </nav>
     </div>

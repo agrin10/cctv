@@ -180,17 +180,19 @@ def capture_image_route():
 
 @camera_bp.route('/camera-view')
 @jwt_required()
-@permission_required(['view' ,'overall view' , 'playback'])
+@permission_required(['view', 'overall view', 'playback'])
 def camera_view():
-    """Render camera view and display capture status."""
-    layout = request.args.get('layout', default=1, type=int)
+    """Render camera view and display capture status with pagination."""
+    layout = request.args.get('layout', default=4, type=int)  
+    page = request.args.get('page', default=1, type=int) 
     camera_ip = request.args.get('camera_ip')
-    filename = request.args.get('filename')  # Capture filename from URL args
+    filename = request.args.get('filename')
 
     if not camera_ip:
         first_camera = Camera.query.order_by(Camera.camera_id).first()
         if not first_camera:
             return render_template('camera-view.html', cameras=[], message="No cameras are currently online", layout=layout)
+
         camera_ip = first_camera.camera_ip
 
     camera = Camera.query.filter_by(camera_ip=camera_ip).first()
@@ -199,24 +201,40 @@ def camera_view():
 
     _, prev_camera_id, next_camera_id = get_camera_and_neighbors(camera_ip)
 
-    cameras_in_zone = Camera.query.filter_by(
-        camera_zone=camera.camera_zone).order_by(Camera.camera_id).all()
-    online_cameras = get_online_cameras(cameras_in_zone)
-    placeholders_needed = layout - len(online_cameras)
+    cameras_in_zone = Camera.query.filter_by(camera_zone=camera.camera_zone).order_by(Camera.camera_id).all()
+
+    
+    per_page = layout 
+    start = (page - 1) * per_page
+    paginated_cameras = cameras_in_zone[start:start + per_page] 
+
+    online_cameras = get_online_cameras(paginated_cameras)  
+    placeholders_needed = layout - len(online_cameras) 
+
+
+    total_pages = (len(cameras_in_zone) // per_page) + (1 if len(cameras_in_zone) % per_page != 0 else 0)
+
+
+    prev_camera_ip = Camera.query.get(prev_camera_id).camera_ip if prev_camera_id else None
+    next_camera_ip = Camera.query.get(next_camera_id).camera_ip if next_camera_id else None
+
 
     return render_template(
         'camera-view.html',
         camera=camera,
         cameras=online_cameras,
-        prev_camera_ip=Camera.query.get(
-            prev_camera_id).camera_ip if prev_camera_id else None,
-        next_camera_ip=Camera.query.get(
-            next_camera_id).camera_ip if next_camera_id else None,
+        prev_camera_ip=prev_camera_ip,
+        next_camera_ip=next_camera_ip,
         message=None,
         layout=layout,
         filename=filename,
-        placeholders_needed=placeholders_needed
+        placeholders_needed=placeholders_needed,
+        current_page=page, 
+        next_page=page + 1 if page < total_pages else None, 
+        prev_page=page - 1 if page > 1 else None, 
+        total_pages=total_pages 
     )
+
 
 @camera_bp.route('/alerts/')
 @jwt_required()
