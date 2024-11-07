@@ -72,3 +72,24 @@ function deleteCamera(button) {
         })
         .catch(error => console.error('Error:', error));
 }
+
+const popup = document.getElementById("specific_camera_popup");
+const closeButton = document.querySelector(".cameraPopup-return-btn");
+document.querySelectorAll(".camera-body-row").forEach(row => {
+    const viewButton = row.querySelector(".view-btn");
+    viewButton?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        document.getElementById("modal-camera-name").innerText = row.querySelector('td:nth-child(3)').innerText;
+        document.getElementById("modal-camera-zone").innerText = row.querySelector('td:nth-child(5)').innerText;
+        document.getElementById("modal-camera-timestamp").innerText = new Date().toLocaleString();
+        popup.style.display = "block";
+    });
+});
+
+// Popup close behavior
+function closePopup() {
+    popup.style.display = "none";
+}
+
+// Attach close event to the close button
+closeButton.addEventListener("click", closePopup);
