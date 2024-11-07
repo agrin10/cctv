@@ -136,23 +136,21 @@ document.getElementById('cancelEditModal').addEventListener('click', closeEditMo
 
 /// delete users 
 function deleteUser(button) {
-  const username = button.getAttribute('data-username'); // Get the username from the button's data attribute
-  const url = `/users/delete-users/${username}`; // Construct the URL for the DELETE request
+  const username = button.getAttribute('data-username'); 
+  const url = `/users/delete-users/${username}`;
 
-  // Send DELETE request to the backend
   fetch(url, {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' }
   })
-  .then(response => response.json()) // Parse the JSON response
+  .then(response => response.json()) 
   .then(data => {
       if (data.success) {
-          // If deletion is successful, remove the corresponding row from the table
           button.closest('tr').remove();
           console.log(`User ${username} deleted successfully.`);
       } else {
           console.log(`Failed to delete user: ${data.message}`);
       }
   })
-  .catch(error => console.error('Error:', error)); // Handle any errors
+  .catch(error => console.error('Error:', error));
 }
