@@ -27,18 +27,19 @@
     
     {% block header %}{% endblock header %}
     {% if current_user.is_authenticated %}
-    <header class="container">
+    <header class="container" id="mainContainer">
       <nav>
-          <h3 id="nav-title"></h3>
-        <div class="menu-btns">
-         
+          <div class="right-container">
+            <h3 id="nav-title"></h3>
+            <button  id="toggleDashboardBtn" class="toggle-icon">
+              <i class="fa-solid fa-bars"></i>
+             </button>
+          </div>
+
         </div>
       </nav>
       <div class="backdrop hidden"></div>
-      <div class="dashboard">
-        <div class="arrow-icon">
-          <i class="dasboard-icon"></i>
-        </div>
+      <div class="dashboard" id="dashboard">
         <div class="dashboard-logo">
           <a href="#">
             <img src="{{url_for('static' , filename='images/setra.svg')}}" alt="">
@@ -116,21 +117,8 @@
       {% endif %}
     </header>
 
-    {% block messages %}{% endblock messages %}
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-          {{ message }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
 
-    <div class="main-style">
+    <div class="main-style" id="mainStyle">
       {% block content %}
       {% if not current_user.is_authenticated %}
         {{url_for(users.login)}}
