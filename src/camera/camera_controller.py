@@ -2,7 +2,7 @@ from .model import  db ,  Camera , AiProperties
 import json
 from datetime import datetime
 import cv2
-from .api_controller import check_ai_module_api , check_modules_status , add_camera_api,check_recording_api , delete_camera_api , edit_camera , toggle_record_option_for_all , toggle_recording_specific_camera , get_all_cameras_from_record_module ,get_alerts_from_api , get_records_from_api , build_rtsp_url
+from .api_controller import check_ai_module_api , check_modules_status , add_camera_api,check_recording_api , delete_camera_api , edit_camera , toggle_record_option_for_all ,get_all_cameras_from_record_module ,get_alerts_from_api , get_records_from_api , build_rtsp_url , toggle_recording_specific_camera
 from src.zone.model import Zone
 import os
 
@@ -12,9 +12,7 @@ import os
 
 
     
-def handle_add_camera(
-        camera_ip:str, camera_name:str, camera_username:str, camera_type:str, camera_password:str, zone_name:str, camera_image:str , recording:bool , ai_properties:list , camera_port:int
-        ):
+def handle_add_camera(camera_ip:str, camera_name:str, camera_username:str, camera_type:str, camera_password:str, zone_name:str, recording:bool , ai_properties:list):
     existing_camera = Camera.query.filter_by(camera_ip=camera_ip).first()
     if existing_camera:
         return False, "Camera already exists."
@@ -25,18 +23,18 @@ def handle_add_camera(
     
     label = camera_ip+'-'+camera_name
     run_detection = False if ai_properties == [] else True
-    if recording:
-        success , message , status_code = toggle_recording_specific_camera(ip=camera_ip , name=camera_name ,bool='true')
-        if status_code == 500:
-            recording = False
+    # if recording:
+        # success , message , status_code = toggle_recording_specific_camera(ip=camera_ip , name=camera_name ,bool='true')
+        # if status_code == 500:
+        #     recording = False
 
 
-        if status_code == 500:
-            return False, "Modules are not available."
+        # if status_code == 500:
+        #     return False, "Modules are not available."
         
-    response ,status_code = add_camera_api(camera_ip=camera_ip ,camera_name=camera_name , username=camera_username , password=camera_password , ai_properties=ai_properties,run_detection=run_detection)
-    if status_code in range(400 , 600):
-        return False , response
+    # response ,status_code = add_camera_api(camera_ip=camera_ip ,camera_name=camera_name , username=camera_username , password=camera_password , ai_properties=ai_properties,run_detection=run_detection)
+    # if status_code in range(400 , 600):
+    #     return False , response
 
     
     new_camera = Camera(
@@ -44,11 +42,9 @@ def handle_add_camera(
         camera_name=label,
         camera_username=camera_username,
         camera_type=camera_type,
-        camera_zone=zone_name, 
-        camera_image_path=camera_image, 
+        camera_zone=zone.zone_id, 
         camera_password = camera_password,
         camera_record = recording,
-        camera_port = camera_port
     )
     
     for ai_property in ai_properties:
@@ -65,37 +61,41 @@ def handle_add_camera(
 
 
     
-def handle_edit_camera(camera_ip: str, new_ip: str, name: str, new_name: str, username: str, new_username:str, password: str,new_password:str , camera_type: str, camera_zone: str, recording: bool, ai_properties: list):
+def handle_edit_camera(camera_ip: str, new_ip: str, name: str, new_name: str, username: str, new_username:str, password: str,new_password:str , camera_zone: str, recording: bool, ai_properties: list):
     camera = Camera.query.filter_by(camera_ip=camera_ip).first()
-    
     if not camera:
+        print('camera not found ')
         return False, "Camera not found."
+    zone = Zone.query.filter_by(zone_name=camera_zone).first()
+    if not zone:
+        return False, "Zone not found."
+    
 
     run_detection = False if ai_properties == [] else True
+    new_name = camera_ip+'-'+new_name
 
     # Fetch the AI properties from the database
     ai_property_instances = AiProperties.query.filter(AiProperties.name.in_(ai_properties)).all()
 
-    response, status_code = edit_camera(camera_ip=camera_ip,
-    camera_new_ip=new_ip,
-    camera_name=name,
-    camera_new_name=new_name,
-    username=username,
-    new_username=new_username,
-    password=password,
-    new_password=new_password,
-    recording=recording,
-    ai_properties=ai_property_instances,
-    run_detection=run_detection
-    )
+    # response, status_code = edit_camera(camera_ip=camera_ip,
+    # camera_new_ip=new_ip,
+    # camera_name=name,
+    # camera_new_name=new_name,
+    # username=username,
+    # new_username=new_username,
+    # password=password,
+    # new_password=new_password,
+    # recording=recording,
+    # ai_properties=ai_property_instances,
+    # run_detection=run_detection
+    # )
     
-    if status_code in range(400, 600):
-        return response, status_code  
+    # if status_code in range(400, 600):
+    #     return response, status_code  
     
     camera.camera_ip = new_ip
     camera.camera_name = new_name
-    camera.camera_type = camera_type
-    camera.camera_zone = camera_zone
+    camera.camera_zone = zone.zone_id  
     camera.camera_record = recording
     camera.ai_properties = ai_property_instances   
 
@@ -104,17 +104,20 @@ def handle_edit_camera(camera_ip: str, new_ip: str, name: str, new_name: str, us
         return True, "Camera updated successfully."
     except Exception as e:
         db.session.rollback()
-        return False, f"Update failed: {str(e)}"
+        return False, f"Update failed: {str(e)}"    
 
 
 
 def handle_delete_camera(ip:str , name:str):
     # TODO: we cant delete camera from the recording API
-    status_code , success ,response   = delete_camera_api(ip , name)
-    if status_code in range(400, 600):
-        return response , status_code
+    # status_code , success ,response   = delete_camera_api(ip , name)
+    # if status_code in range(400, 600):
+        # return response , status_code
     
     camera = Camera.query.filter_by(camera_ip = ip ).first()
+    print('camera is:' + str(camera))
+    if not camera:
+        return False , 'camera not found'
     try:
         db.session.delete(camera)
         db.session.commit()
@@ -146,10 +149,9 @@ def handle_retrieves_camera():
 
 
 
-latest_frame = None
 
-import cv2
-import os
+
+latest_frame = None
 
 latest_frame = None
 
@@ -168,16 +170,13 @@ def generate_frames(rtsp_url):
         if not success:
             break
         
-        # Store the latest frame globally
         latest_frame = frame
 
-        # Encode frame to JPEG
         ret, buffer = cv2.imencode('.jpg', frame)
         if not ret:
             continue
         frame = buffer.tobytes()
 
-        # Yield the frame to the client
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     
@@ -209,7 +208,7 @@ def get_online_cameras(cameras):
             camera_ip=camera.camera_ip,
             camera_username=camera.camera_username,
             camera_password=camera.camera_password,
-            camera_port=camera.camera_port
+            # camera_port=camera.camera_port
         )
         
         cap = cv2.VideoCapture(rtsp_url)

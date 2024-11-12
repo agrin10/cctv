@@ -1,7 +1,7 @@
 // Dropdown elements and toggle functionality
 function setupDropdownToggle(dropdownButton, dropdownOptions, svgIcon) {
     dropdownButton.addEventListener("click", (event) => {
-        event.stopPropagation(); // Prevent click from bubbling to document
+        event.stopPropagation(); 
         const isVisible = dropdownOptions.style.display === "block";
         
         // Close all dropdowns before opening the clicked one
@@ -25,8 +25,8 @@ function setupCheckboxSelection(dropdownOptions) {
         option.addEventListener("click", (event) => {
             const checkbox = option.querySelector(".checkbox");
             checkbox.checked = !checkbox.checked;
-            option.classList.toggle("selected", checkbox.checked); // Apply a 'selected' CSS class
-            event.stopPropagation(); // Stop bubbling to avoid toggling dropdown
+            option.classList.toggle("selected", checkbox.checked); 
+            event.stopPropagation(); 
         });
     });
 }
@@ -37,13 +37,35 @@ setupDropdownToggle(
     document.getElementById("ObjectCameraOptions"),
     document.getElementById("selectedObjectCameras").querySelector("svg")
 );
-setupDropdownToggle(
-    document.getElementById("selectedObjectEditCameras"),
-    document.getElementById("ObjectEditCameraOptions"),
-    document.getElementById("selectedObjectEditCameras").querySelector("svg")
-);
+
 setupCheckboxSelection(document.getElementById("ObjectCameraOptions"));
-setupCheckboxSelection(document.getElementById("ObjectEditCameraOptions"));
+
+
+
+const popup = document.getElementById("specific_camera_popup");
+const closeButton = document.querySelector(".cameraPopup-return-btn");
+document.querySelectorAll(".camera-body-row").forEach(row => {
+    const viewButton = row.querySelector(".view-btn");
+    viewButton?.addEventListener("click", (event) => {
+        event.stopPropagation();
+        document.getElementById("modal-camera-name").innerText = row.querySelector('td:nth-child(3)').innerText;
+        document.getElementById("modal-camera-zone").innerText = row.querySelector('td:nth-child(5)').innerText;
+        document.getElementById("modal-camera-timestamp").innerText = new Date().toLocaleString();
+        popup.style.display = "block";
+    });
+});
+
+// Popup close behavior
+function closePopup() {
+    popup.style.display = "none";
+}
+
+// Attach close event to the close button
+closeButton.addEventListener("click", closePopup);
+
+
+closeButton.addEventListener("click", closePopup);
+
 
 // Zone dropdown behavior with icon rotation
 const zoneSelect = document.getElementById("zoneSelect");
@@ -73,45 +95,21 @@ function deleteCamera(button) {
         .catch(error => console.error('Error:', error));
 }
 
-const popup = document.getElementById("specific_camera_popup");
-const closeButton = document.querySelector(".cameraPopup-return-btn");
-document.querySelectorAll(".camera-body-row").forEach(row => {
-    const viewButton = row.querySelector(".view-btn");
-    viewButton?.addEventListener("click", (event) => {
-        event.stopPropagation();
-        document.getElementById("modal-camera-name").innerText = row.querySelector('td:nth-child(3)').innerText;
-        document.getElementById("modal-camera-zone").innerText = row.querySelector('td:nth-child(5)').innerText;
-        document.getElementById("modal-camera-timestamp").innerText = new Date().toLocaleString();
-        popup.style.display = "block";
-    });
-});
-
-// Popup close behavior
-function closePopup() {
-    popup.style.display = "none";
-}
-
-// Attach close event to the close button
-closeButton.addEventListener("click", closePopup);
 
 
-closeButton.addEventListener("click", closePopup);
-
-// Sidebar form handling
 const formTitle = document.querySelector('.camera-title'); 
 const ipAddressInput = document.getElementById('ipAddress'); 
 const deviceNameInput = document.getElementById('deviceName'); 
 const deviceTypeInput = document.getElementById('deviceType'); 
-const cameraUsernameInput = document.getElementById('cameraUsername'); 
-const cameraPasswordInput = document.getElementById('cameraPassword'); 
+const zoneInput = document.getElementById('zoneSelect');
 const buttonGroup = document.getElementById('buttonGroup');
-const cameraEditModal = document.getElementById('editCameraModal');
 
 // Fill form with selected row data
 function fillSidebarFormWithRowData(row) {
     ipAddressInput.value = row.cells[1].innerText;
     deviceNameInput.value = row.cells[2].innerText;
     deviceTypeInput.value = row.cells[3].innerText;
+    zoneInput.value = row.cells[4].innerText; // Assigning zone data
     formTitle.textContent = 'ویرایش دوربین: ' + deviceNameInput.value;
 
     // Populate button group with edit and cancel buttons
@@ -121,65 +119,33 @@ function fillSidebarFormWithRowData(row) {
     `;
 
     // Attach event listeners to the new buttons
-    document.querySelector('.camera-edit-btn').addEventListener('click', openCameraEditModal);
+    document.querySelector('.camera-edit-btn').addEventListener('click', () => sendPatchRequest(row));
     document.querySelector('.camera-cancel-btn').addEventListener('click', resetSidebarForm);
 }
 
-// Attach event listeners to each row for sidebar form filling
-document.querySelectorAll('.camera-body-row').forEach(row => 
-    row.addEventListener('click', () => fillSidebarFormWithRowData(row))
-);
-
-// Reset sidebar form to initial state
-function resetSidebarForm() {
-    formTitle.textContent = 'افزودن دوربین جدید';
-    [ipAddressInput, deviceNameInput, deviceTypeInput, cameraUsernameInput, cameraPasswordInput].forEach(input => input.value = '');
-    buttonGroup.innerHTML = `<button type="submit" class="zone-add-btn">افزودن</button>`;
-}
-
-// Open the edit camera modal
-function openCameraEditModal() {
-    document.getElementById("editCameraModal").style.display = "flex";
-    document.querySelector(".cam-backdrop").style.display = "block";
-}
-
-// Hide modal
-function closeCameraEditModal() {
-    document.getElementById("editCameraModal").style.display = "none";
-    document.querySelector(".cam-backdrop").style.display = "none";
-}
-
-// Close modal on clicking the cancel button or backdrop
-document.querySelector(".cam-cancel-btn").addEventListener("click", closeCameraEditModal);
-document.querySelector(".cam-backdrop").addEventListener("click", closeCameraEditModal);
-
-document.getElementById('camConfirmEditBtn').addEventListener('click', () => {
-    // Gather data from form inputs
-    const oldIpAddress = document.getElementById('EdiCamIpAddress').dataset.old;
-    const newIpAddress = document.getElementById('EditcamNewIpAddress').value;
-    const deviceName = document.getElementById('EditcamDeviceName').value;
-    const deviceType = document.getElementById('EditCamDeviceType').value;
-    const cameraUsername = document.getElementById('EditCamCameraUsername').value;
-    const cameraPassword = document.getElementById('EditCamCameraPassword').value;
-    const zoneName = document.getElementById('EditzoneSelect').value;
+// Send PATCH request to update camera details
+function sendPatchRequest(row) {
+    // Collect data from the form inputs
+    const newIpAddress = ipAddressInput.value;
+    const deviceName = deviceNameInput.value;
+    const deviceType = deviceTypeInput.value;
+    const zoneName = zoneInput.value;
     const isRecording = document.getElementById('recordingSelectEdit').value === "1";
     const aiProperties = Array.from(document.querySelectorAll('#ObjectEditCameraOptions .checkbox:checked')).map(cb => cb.value);
 
-    // Create the data payload
+    // Create data payload based on backend expectations
     const data = {
-        oldIpAddress: oldIpAddress,
+        oldIpAddress: row.cells[1].innerText,  // original IP from row
         newIpAddress: newIpAddress,
         deviceName: deviceName,
         deviceType: deviceType,
-        camera_username: cameraUsername,
-        camera_password: cameraPassword,
         camera_zones: zoneName,
-        recording: isRecording,
+        recording: isRecording ? "yes" : "no",
         ai_properties: aiProperties
     };
 
     // Send PATCH request to the Flask endpoint
-    fetch('/camera/edit-camera', {
+    fetch('/camera/', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -187,37 +153,32 @@ document.getElementById('camConfirmEditBtn').addEventListener('click', () => {
     .then(response => response.json())
     .then(result => {
         if (result.success) {
-            // Update the camera row in the table
-            updateCameraRow(newIpAddress, deviceName, deviceType, cameraUsername, cameraPassword, zoneName, isRecording, aiProperties);
-            alert('Camera updated successfully!');
-            closeCameraEditModal();  // Close the modal after successful edit
+            // Update the table row with new values
+            row.cells[1].innerText = newIpAddress;
+            row.cells[2].innerText = deviceName;
+            row.cells[3].innerText = deviceType;
+            row.cells[4].innerText = zoneName; // Update zone cell
+            // row.cells[5].innerText = isRecording ? 'Yes' : 'No';
+            // row.cells[6].innerText = aiProperties.join(', ');
+
+            console.log('Camera updated successfully!');
+            resetSidebarForm(); // Reset the form after successful edit
         } else {
-            alert(`Error: ${result.message}`);
+            console.log(`Error: ${result.message}`);
         }
     })
     .catch(error => console.error('Error:', error));
-});
-
-// Function to update the camera row in the table
-function updateCameraRow(ip, name, type, username, password, zone, recording, aiProps) {
-    const row = document.querySelector(`tr[data-camera-ip="${ip}"]`);
-    if (row) {
-        row.cells[1].innerText = ip;
-        row.cells[2].innerText = name;
-        row.cells[3].innerText = type;
-        row.cells[4].innerText = username;
-        row.cells[5].innerText = password;
-        row.cells[6].innerText = zone;
-        row.cells[7].innerText = recording ? 'Yes' : 'No';
-        row.cells[8].innerText = aiProps.join(', ');
-    }
 }
 
-// Function to close the edit modal
-function closeCameraEditModal() {
-    document.getElementById("editCameraModal").style.display = "none";
-    document.querySelector(".cam-backdrop").style.display = "none";
+// Reset sidebar form to initial state
+function resetSidebarForm() {
+    formTitle.textContent = 'افزودن دوربین جدید';
+    [ipAddressInput, deviceNameInput, deviceTypeInput, zoneInput].forEach(input => input.value = '');
+    buttonGroup.innerHTML = `<button type="submit" class="zone-add-btn">افزودن</button>`;
 }
 
-// Open and close the modal based on edit button and cancel button
-document.querySelector(".cam-cancel-btn").addEventListener("click", closeCameraEditModal);
+// Attach event listeners to each row for sidebar form filling
+document.querySelectorAll('.camera-body-row').forEach(row => 
+    row.addEventListener('click', () => fillSidebarFormWithRowData(row))
+);
+

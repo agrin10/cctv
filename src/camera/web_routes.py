@@ -76,10 +76,14 @@ def edit_camera():
             return jsonify({"success": False, "message": "Camera not found"}), 404
 
         camera_new_ip = data.get('newIpAddress', old_camera_data['camera_ip'])
+        
         camera_new_name = data.get('deviceName', old_camera_data['device_name'])
         camera_new_username = data.get('camera_username', old_camera_data['username'])
         camera_new_password = data.get('camera_password', old_camera_data['password'])
+
         camera_zone = data.get('camera_zones', old_camera_data['zones'])
+        print(f'{camera_zone} , and the username of camera {camera_new_username}  ')
+
         recording = data.get('recording', old_camera_data['recording'])
         ai_properties = data.get('ai_properties', old_camera_data['ai_properties'])
         
