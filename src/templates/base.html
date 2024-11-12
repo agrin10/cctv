@@ -31,10 +31,7 @@
       <nav>
           <h3 id="nav-title"></h3>
         <div class="menu-btns">
-          <button class="user-icon"><a href="{{url_for('users.login')}}" ></a></button>
-          <button class="help-icon"><a href="#"></a></button>
-          <button class="ticket-icon"><a href="#"></a></button>
-          <button class="bell-icon"><a href="{{url_for('camera.alerts')}}"></a></button>
+         
         </div>
       </nav>
       <div class="backdrop hidden"></div>
@@ -44,7 +41,7 @@
         </div>
         <div class="dashboard-logo">
           <a href="#">
-            <img src="{{url_for('static' , filename='images/Group 119.svg')}}" alt="">
+            <img src="{{url_for('static' , filename='images/setra.svg')}}" alt="">
           </a>
         </div>
         <ul class="dashboard-list">
@@ -59,7 +56,6 @@
             <a href="{{url_for('camera.alerts')}}">
               <i class="alert-icon"></i>
               <p class="header-title">هشدار ها</p>
-              <i class="item-icon"></i>
             </a>
           </li>
 
@@ -67,7 +63,6 @@
             <a href="{{url_for('camera.cameras')}}">
               <i class="camera-icon"></i>
               <p class="header-title">دوربین ها</p>
-              <i class="item-icon"></i>
             </a>
           </li>
 
@@ -75,28 +70,24 @@
             <a href="{{url_for('zone.zones')}}">
               <i class="zone-icon"></i>
               <p class="header-title">منطقه</p>
-              <i class="item-icon"></i>
             </a>
           </li>
           <li class="dashboard-item">
             <a>
               <i class="hr-icon"></i>
               <p class="header-title">منابع انسانی</p>
-              <i class="item-icon"></i>
             </a>
           </li>
           <li class="dashboard-item">
             <a>
               <i class="useraction-icon"></i>
               <p class="header-title">اقدامات کاربر</p>
-              <i class="item-icon"></i>
             </a>
           </li>
           <li class="dashboard-item">
             <a>
               <i class="backup-icon"></i>
               <p class="header-title">پشتیبانی</p>
-              <i class="item-icon"></i>
             </a>
           </li>
           <li class="dashboard-item">
@@ -152,7 +143,6 @@
     
     <!-- cdn -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment/2.29.1/moment.min.js"></script>
-    <script src="jalali.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -160,9 +150,8 @@
     
     <!--js files -->
     <script src="{{url_for('static' ,filename='scripts/app.js')}}"></script>
-    <script src="{{url_for('static' ,filename='scripts/domchanges.js')}}"></script>
-    <script src="{{url_for('static' ,filename='scripts/dropdown.js')}}"></script>
-    
+    <script src="{{url_for('static' ,filename='scripts/dom-changes.js')}}"></script>
+
     {% block scripts %}{% endblock scripts %}
   </body>
 </html>
