@@ -104,46 +104,7 @@
   </div>
 </div>
 
-{% for zone in zones  %}
-<div class="backdrop-modal" id="modalBackdrop"></div>
-<div class="edit-form-modal" id="editFormModal">
-  <div class="edit-form" id="editForm_odal">
-    <form action="#" id="editForm">
-      <h3 id="modalTitle" class="modal-title">ویرایش منطقه</h3>
-      <!-- Add hidden fields for old zone name and description -->
-      <input type="hidden" id="oldZoneName" name="old_zone_name" />
-      <input type="hidden" id="oldZoneDesc" name="old_zone_desc" />
-
-      <div class="zone-edit-inputs">
-        <label for="newZoneName">نام منطقه</label>
-        <input
-          type="text"
-          id="newZoneName"
-          class="zone-input"
-          placeholder="نام منطقه"
-          data-old-zone-name="{{zone.zone_name}}" 
-
-        <label for="newZoneDescription">توضیحات</label>
-        <textarea
-          type="text"
-          id="newZoneDescription"
-          class="zone-input-desc"
-          placeholder="توضیحات"
-          data-old-zone-desc="{{zone.zone_desc}}" 
-        ></textarea>
-      </div>
-      <div class="edit-button-group" id="editButtonGroup">
-        <button type="button" class="cancel-edit-btn">انصراف</button>
-        <button type="button" class="confirm-edit-btn">تایید</button>
-      </div>
-    </form>
-  </div>
-</div>
-{% endfor %}
-</div>
-
 <script src="{{url_for('static' ,filename='scripts/zones.js')}}"></script>
-<script>
-</script>
+
 
 {% endblock content %}
