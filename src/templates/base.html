@@ -26,7 +26,6 @@
   <body>
     
     {% block header %}{% endblock header %}
-    {% if current_user.is_authenticated %}
     <header class="container" id="mainContainer">
       <nav>
           <div class="right-container">
@@ -42,7 +41,7 @@
       <div class="dashboard" id="dashboard">
         <div class="dashboard-logo">
           <a href="#">
-            <img src="{{url_for('static' , filename='images/setra.svg')}}" alt="">
+            <img src="{{url_for('static' , filename='images/sepand 4 (1).svg')}}" alt="">
           </a>
         </div>
         <ul class="dashboard-list">
@@ -114,7 +113,6 @@
           </li>
         </ul>
       </div>
-      {% endif %}
     </header>
 
 

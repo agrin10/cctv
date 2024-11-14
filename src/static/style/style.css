@@ -480,6 +480,22 @@ input:focus{
   margin-top: 20px;
 }
 
+.dashboard-logo {
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  width: 85px;
+  height: 85px; 
+}
+
+.dashboard-logo img {
+  width: 100%; 
+  height: auto; 
+  opacity: 1;   
+  visibility: visible;
+}
+
+
 .dashboard li a:hover {
   background-color: var(--Main-Green-Light---3);
 }
@@ -2426,7 +2442,7 @@ svg {
   left: 0;
   top: 0;
   width: 100%;
-  height: 100%;
+  height: auto;
   overflow: auto;
   background-color: rgba(0, 0, 0, 0.4);
 }
@@ -2454,9 +2470,19 @@ svg {
   margin-bottom: 10px;
 }
 
+
+.calendar-popup {
+  display: none;
+  position: absolute;
+  top: 140.6px;
+  left: 640.6px;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 2;
+}
+
 .popup-camera-frame{
   width: 100%;
-  background: var(--Main-Green-Light---3, #8BA38B);
   height: 300px;
   margin: 20px auto;
   border-radius: 10px;
@@ -2464,10 +2490,12 @@ svg {
 
 }
 .popup-camera-frame img {
-  width: 90%;
+  width: 100%;
   max-height: 250px;
   object-fit: cover;
-
+  aspect-ratio: 16 / 9;
+  height: 100%;
+  margin-top: 20px;
 }
 
 .cam-modal-buttons{
@@ -2760,10 +2788,11 @@ svg {
   font-weight: bo
   ld;
 }
-.clock-item{
+.clock-item input{
   padding: 10px 5px;
   background: var(--Main-Green-Light---4, #C8DDC8);
   border-radius: 50px;
+  border: none;
 }
 
 
@@ -2798,7 +2827,7 @@ svg {
   font-weight: bo
   ld;
 }
-.calendar-item{
+.calendar-item {
   padding: 10px 5px;
   background: var(--Main-Green-Light---4, #C8DDC8);
   border-radius: 50px;
