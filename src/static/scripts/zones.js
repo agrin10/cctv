@@ -189,7 +189,6 @@ function populateCameraList(data) {
               <td>${camera.camera_name}</td>
               <td>${camera.camera_type}</td>
               <td>${data.zone.zone_name}</td>
-              <td class="view-btn zone-view-btn"></td>
           `;
           cameraListBody.appendChild(row);
       });
