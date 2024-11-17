@@ -1,95 +1,60 @@
-{% extends "base.html" %} {% block title %}بازنشانی{% endblock title %} {% block
-  content %}
-  <div class="video_container">
-    <div class="video-player">
-      <div class="grid-container">
-        <div class="grid-item">
-          {% if videos %}
-           {% for video in videos %}
-          <video controls width="640" height="480">
-            <source src="{{ video.output }}" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          <p>Started At: {{ video.startedAt }}</p>
-          <p>Stopped At: {{ video.stoppedAt }}</p>
-          <hr />
-          {% endfor %} 
-          {% else %}
-          <p>No videos found for the specified criteria.</p>
-          {% endif %}
+{% extends "base.html" %} {% block content %}
+
+<!-- Backdrop for the Modal -->
+<div class="backdrop-modal" id="recordBackdrop" style="display:block;"></div>
+
+<!-- Modal Popup -->
+<div class="record-calendar-modal" id="calendarModal">
+  <div class="pick-calendar">
+    <p>بازنشانی</p>
+    <p>برای بازنشانی ویدیو زمان و ساعت مورد نظر خود را وارد نمایید...</p>
+  </div>
+
+  <div class="times-container">
+    <!-- Date Section in calendar-container -->
+    <div class="calendars-container">
+      <p>تاریخ:</p>
+      <div class="calendar-items">
+        <!-- Start Date Selection -->
+        <div class="calendar-item">
+          <b id="startDate">1403/08/12</b>
+          <button class="calendar-icon" id="openCalendarButton1"></button>
+        </div>
+        <span>تا</span>
+        <!-- End Date Selection -->
+        <div class="calendar-item">
+          <b id="endDate">1403/08/12</b>
+          <button class="calendar-icon" id="openCalendarButton2"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="clock-container">
+      <p>ساعت:</p>
+      <div class="clock-items">
+        <!-- Start Time Selection -->
+        <div class="clock-item">
+          <span class="clock-icon"></span>
+          <input type="time" id="startTime" placeholder="-:-:-" />
+        </div>
+        <span>تا</span>
+        <!-- End Time Selection -->
+        <div class="clock-item">
+          <span class="clock-icon"></span>
+          <input type="time" id="endTime" placeholder="-:-:-" />
         </div>
       </div>
     </div>
   </div>
-  <div class="controls">
-    <button onclick="showPopup()"><i class="fa-regular fa-calendar"></i></button>
-  
-    <p><b>{{start_time}}</b>:زمان شروع</p>
-    <a href="#" class="view-btn"><i class="fa-solid fa-forward"></i></a>
-  
-    <div class="buttons">
-      <button onclick="#" class="control-btn">1</button>
-      <button onclick="#" class="control-btn">4</button>
-      <button onclick="#" class="control-btn">9</button>
-      <button onclick="#" class="control-btn">16</button>
-    </div>
-    <a href="#" class="view-btn"><i class="fa-solid fa-backward"></i></a>
-    <p><b>{{end_time}}</b>:زمان پایان</p>
-    <p></p>
+
+  <!-- Action Buttons -->
+  <div class="record-button-group">
+    <button class="record-cancel-btn" id="closeModalBtn">انصراف</button>
+    <button class="record-save-btn">تایید</button>
   </div>
-  
-  <div id="timePopup" class="get-time">
-    <div class="time-content">
-        <h4><b>تاریخ</b></h4>
-        <form id="camera-form" onsubmit="submitForm(event)" action="{{url_for('camera.records' )}}" method="POST">
-         
-            <label for="startTime">زمان شروع:</label>
-            <input type="text" id="startTime" name="startTime" placeholder="YYYY/MM/DD HH:MM" required>
-            <br /><br />
-            <label for="endTime">زمان پایان:</label>
-            <input type="text" id="endTime" name="endTime" placeholder="YYYY/MM/DD HH:MM" required>
-            <br /><br />
-            <button type="submit">ثبت</button>
-            <button type="button" onclick="closePopup()">لغو</button>
-        </form>
-    </div>
 </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      flatpickr("#startTime", {
-          enableTime: true,
-          dateFormat: "Y/m/d H:i",
-          locale: {
-              firstDayOfYear: 1399,   
-              weekdays: {
-                  shorthand: ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'],
-                  longhand: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه']
-              },
-              months: {
-                  shorthand: ['فرو', 'ارد', 'خرد', 'تیر', 'مرد', 'شه', 'مهر', 'آبا', 'آذر', 'دی', 'بهمن', 'اسف'],
-                  longhand: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
-              }
-          }
-      });
 
-      flatpickr("#endTime", {
-          enableTime: true,
-          dateFormat: "Y/m/d H:i",
-          locale: {
-              firstDayOfYear: 1399,
-              weekdays: {
-                  shorthand: ['ش', 'ی', 'د', 'س', 'چ', 'پ', 'ج'],
-                  longhand: ['شنبه', 'یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه']
-              },
-              months: {
-                  shorthand: ['فرو', 'ارد', 'خرد', 'تیر', 'مرد', 'شه', 'مهر', 'آبا', 'آذر', 'دی', 'بهمن', 'اسف'],
-                  longhand: ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
-              }
-          }
-      });
-  });
-</script>
 
-  {% endblock %}
-  
-  
+<script src="{{ url_for('static', filename='scripts/record.js') }}"></script>
+
+{% endblock content %}

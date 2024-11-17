@@ -1,4 +1,6 @@
 @import url();
+
+
 *,
 *::after,
 *::before {
@@ -46,7 +48,6 @@
   --content-margin: 20px;
   --content-padding: 10px;
 }
-
 
 html {
   font-size: 62.5%; 
@@ -271,6 +272,8 @@ input:focus{
   opacity: 0;
 }
 
+
+
 /* customize scroll bar  */
 ::-webkit-scrollbar {
     width: 5px; 
@@ -403,23 +406,23 @@ input:focus{
   display: flex;
   justify-content: start;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 10px !important;
   flex-direction: column;
   width: 15%;
 
 }
 .main-style {
-  margin-right: 250px;
-  margin-bottom: 10px;
+  margin-right: 250px !important;
+  margin-bottom: 10px !important;
   height: 100%;
   transition: margin-right 0.3s ease;
 }
 .main-style-full {
-  margin-right: 0;
+  margin-right: 0 !important;
 }
 /* When dashboard is hidden */
 .dashboard-hidden .main-style {
-  margin-right: 0;
+  margin-right: 0 !important; 
   width: 100%;
 }
 
@@ -439,20 +442,20 @@ input:focus{
 
 .dashboard li i {
   font-size: 2.5rem;
-  margin-inline: 10px;
+  margin-inline: 10px !important;
   color: var(--clr-font-light);
 }
 
 .dashboard .dashboard-list {
   width: 100%;
-  margin-top: 50px;
+  margin-top: 50px !important;
 }
 
 .dashboard .dahboard-list-down {
   border-top: 2px solid var(--clr-font-light);
   width: 100%;
-  margin-top: auto;
-  margin-bottom: 20px;
+  margin-top: auto !important;
+  margin-bottom: 20px !important;
 }
 
 .dashboard li {
@@ -463,9 +466,9 @@ input:focus{
   display: flex;
   justify-content: start;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 15px !important;
   cursor: pointer;
-  padding: 5px;
+  padding: 5px !important;
   transition: all 0.3s;
   border-radius: 5px;
 }
@@ -477,7 +480,7 @@ input:focus{
 }
 
 .dashboard-logo {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
 
 .dashboard-logo {
@@ -508,7 +511,7 @@ input:focus{
 .custom-dropdown {
   position: relative;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 15px ;
 }
 
 .custom-checkbox{
@@ -2788,12 +2791,15 @@ svg {
   font-weight: bo
   ld;
 }
+
+
 .clock-item input{
   padding: 10px 5px;
   background: var(--Main-Green-Light---4, #C8DDC8);
   border-radius: 50px;
   border: none;
 }
+
 
 
 
@@ -2837,14 +2843,15 @@ svg {
   display: flex;
   align-items: center;
   flex-direction: row-reverse;
-  margin-top: 40px;
+  margin-top: 40px !important ; 
+
 }
 
 .record-button-group button {
   text-align: center;
-  padding: 10px;
+  padding: 10px !important;
   width: 20%;
-  margin: 10px;
+  margin: 10px !important;
   border-radius: 10px;
 }
 
@@ -2858,17 +2865,21 @@ svg {
   border: 1px solid var(--Main-Green, #304D30)
 }
 
-/* -calendar styles  */
-/* Mini version adjustments */
-.mini-version {
-  width: 250px; 
+.calendar-submit-btn{
   padding: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  text-align: left;
+  position: absolute;
+  bottom: 28px;
+  left: 30px;
+  margin-left: 29px;
+  background: var(--accent-color);
+  color: #ffff;
 }
 
-.mini-version table {
-  font-size: 12px;
-}
+
+
+
 
 
 /*icons */
