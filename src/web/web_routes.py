@@ -12,13 +12,13 @@ def home_page():
     if current_user is None:
         return redirect(url_for('users.login'))
 
-    return render_template('base.html', camera_id=camera_id)
+    return render_template('camera-view.html')
 
 
 @web_bp.route('/', methods=['GET'])
 def index():
     try:
         verify_jwt_in_request()
-        return render_template('index.html')
+        return render_template('camera-view.html')
     except Exception as e:
         return redirect(url_for('users.login'))
