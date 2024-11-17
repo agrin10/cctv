@@ -1,0 +1,52 @@
+<div class="records-container">
+    <div class="grid-container layout-{{ layout }}">
+        {% if devices %}
+            <!-- Loop through devices and display them -->
+            {% for device in devices %}
+            <div class="grid-item">
+                <div class="device-container">
+                    <div class="device-header">
+                        <span>Zone: {{ device.zone_name or "Unknown" }}</span> -
+                        <span>Camera: {{ device.camera_name or "Unnamed" }}</span>
+                    </div>
+                    <div class="device-body">
+                        {% if device.camera_ip %}
+                        <img src="{{ url_for('camera.video_feed', camera_ip=device.camera_ip) }}" 
+                             alt="{{ device.camera_name }}" />
+                        {% else %}
+                        <div class="placeholder">
+                            <img src="{{ url_for('static', filename='images/image-not-found-1-scaled.svg') }}" 
+                                 alt="No Camera Connected" />
+                            <p>No Camera Connected</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="device-footer">
+                        <span>Last Updated: {{ device.last_updated or "N/A" }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <!-- Show a message if no devices are available -->
+            <p>No records found for the selected time range.</p>
+        {% endif %}
+    </div>
+
+    <!-- Pagination -->
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item {% if not prev_page %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('camera.records', layout=layout, page=prev_page) }}">Previous</a>
+            </li>
+            {% for p in range(1, total_pages + 1) %}
+            <li class="page-item {% if p == current_page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('camera.records', layout=layout, page=p) }}">{{ p }}</a>
+            </li>
+            {% endfor %}
+            <li class="page-item {% if not next_page %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('camera.records', layout=layout, page=next_page) }}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
