@@ -157,6 +157,7 @@ def get_all_cameras_from_record_module():
     response.raise_for_status()
     return response.json(), response.status_code
     
+
 def toggle_recording_specific_camera(ip:str , name:str , bool:bool):
     payload = {"recording" :bool}
     camera_label = f'{ip}-{name}'
@@ -186,6 +187,8 @@ def get_alerts_from_api():
     data = response.json()
 
     return data , response.status_code
+
+
 def get_records_from_api(ip: str, name: str, start_time, end_time):
     if not start_time or not end_time:
         return "error: Start time or end time is missing", 400  

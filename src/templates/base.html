@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Camera Feed{% endblock title %}</title>
+
     <link
       rel="stylesheet"
       href="{{url_for('static' , filename='style/style.css')}}"
     />
     <link
       href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
+      rel="stylesheet"  
     />
     <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet" type="text/css">
     
-    <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.rtl.min.css" rel="stylesheet" type="text/css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&display=swap" rel="stylesheet">
@@ -22,6 +22,7 @@
       src="https://kit.fontawesome.com/fa4b072534.js"
       crossorigin="anonymous"
     ></script>
+    
   </head>
   <body>
     
@@ -91,7 +92,7 @@
             </a>
           </li>
           <li class="dashboard-item">
-            <a>
+            <a href="{{url_for('camera.records')}}">
               <i class="monitoring-icon"></i>
               <p class="header-title">بازنشانی</p>
             </a>

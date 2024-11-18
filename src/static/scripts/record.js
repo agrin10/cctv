@@ -70,7 +70,7 @@ function submitDateData() {
   };
 
   // Show loading indicator (e.g., a spinner or text)
-  document.querySelector(".record-save-btn").textContent = "Saving...";
+  document.querySelector(".record-save-btn").textContent = "در حال ذخیره...";
 
   fetch("/camera/records", {
     method: "POST",
@@ -88,7 +88,7 @@ function submitDateData() {
     })
     .finally(() => {
       isSubmitting = false;
-      document.querySelector(".record-save-btn").textContent = "Save";
+      document.querySelector(".record-save-btn").textContent = "ذخیره شد";
     });
 }
 

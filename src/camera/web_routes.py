@@ -2,7 +2,7 @@ from flask import redirect, url_for, render_template, request, flash, session, R
 import os
 from werkzeug.utils import secure_filename
 from flask_jwt_extended import jwt_required
-from .camera_controller import generate_frames, handle_add_camera, handle_retrieves_camera, get_camera_and_neighbors, get_online_cameras, build_rtsp_url, search_recorded_files, get_all_alerts  ,capture_image_from_latest_frame , handle_edit_camera, handle_delete_camera
+from .camera_controller import generate_frames, handle_add_camera, handle_retrieves_camera, get_camera_and_neighbors, get_online_cameras, build_rtsp_url, search_recorded_files, get_all_alerts  ,capture_image_from_latest_frame , handle_edit_camera, handle_delete_camera , get_all_camera_record_with_time
 from .model import Camera, AiProperties
 from src.zone.model import Zone
 from src.camera import camera_bp
@@ -162,6 +162,7 @@ def video_feed():
     return Response(generate_frames(rtsp_url),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+
 @camera_bp.route('/capture_image', methods=['POST'])
 @jwt_required()
 @permission_required(['create' , 'playback' , 'overall view'])
@@ -191,57 +192,45 @@ def capture_image_route():
 @jwt_required()
 @permission_required(['view', 'overall view', 'playback'])
 def camera_view():
-    """Render camera view and display capture status with pagination."""
-    layout = request.args.get('layout', default=4, type=int)  
-    page = request.args.get('page', default=1, type=int) 
+    layout = request.args.get('layout', default=1, type=int)
+    page = request.args.get('page', default=1, type=int)
     camera_ip = request.args.get('camera_ip')
-    filename = request.args.get('filename')
+    zone_id = request.args.get('zone_id')
 
-    if not camera_ip:
-        first_camera = Camera.query.order_by(Camera.camera_id).first()
-        if not first_camera:
-            return render_template('camera-view.html', cameras=[], message="No cameras are currently online", layout=layout)
+    if not camera_ip and not zone_id:
+        latest_camera = Camera.query.order_by(Camera.camera_id.desc()).first()
+        if latest_camera:
+            camera_ip = latest_camera.camera_ip
+            zone_id = latest_camera.camera_zone
+        else:
+            return render_template('camera-view.html', cameras=[], message="No cameras available", layout=layout)
 
-        camera_ip = first_camera.camera_ip
+    if camera_ip:
+        camera = Camera.query.filter_by(camera_ip=camera_ip).first()
+        if camera:
+            zone_id = camera.camera_zone  
 
-    camera = Camera.query.filter_by(camera_ip=camera_ip).first()
-    if not camera:
-        return render_template('camera-view.html', cameras=[], message="Camera not found", layout=layout)
+    cameras_in_zone = Camera.query.filter_by(camera_zone=zone_id).order_by(Camera.camera_id).all()
 
-    _, prev_camera_id, next_camera_id = get_camera_and_neighbors(camera_ip)
-
-    cameras_in_zone = Camera.query.filter_by(camera_zone=camera.camera_zone).order_by(Camera.camera_id).all()
-
-    
-    per_page = layout 
+    per_page = layout
     start = (page - 1) * per_page
-    paginated_cameras = cameras_in_zone[start:start + per_page] 
+    paginated_cameras = cameras_in_zone[start:start + per_page]
 
-    online_cameras = get_online_cameras(paginated_cameras)  
-    placeholders_needed = layout - len(online_cameras) 
-
-
+    online_cameras = get_online_cameras(paginated_cameras)
+    placeholders_needed = layout - len(online_cameras)
     total_pages = (len(cameras_in_zone) // per_page) + (1 if len(cameras_in_zone) % per_page != 0 else 0)
-
-
-    prev_camera_ip = Camera.query.get(prev_camera_id).camera_ip if prev_camera_id else None
-    next_camera_ip = Camera.query.get(next_camera_id).camera_ip if next_camera_id else None
-
 
     return render_template(
         'camera-view.html',
         camera=camera,
         cameras=online_cameras,
-        prev_camera_ip=prev_camera_ip,
-        next_camera_ip=next_camera_ip,
         message=None,
         layout=layout,
-        filename=filename,
         placeholders_needed=placeholders_needed,
-        current_page=page, 
-        next_page=page + 1 if page < total_pages else None, 
-        prev_page=page - 1 if page > 1 else None, 
-        total_pages=total_pages 
+        current_page=page,
+        next_page=page + 1 if page < total_pages else None,
+        prev_page=page - 1 if page > 1 else None,
+        total_pages=total_pages
     )
 
 
@@ -265,35 +254,51 @@ def alerts():
         page=page,
         total_pages=total_pages
     )
-
-
 @camera_bp.route('/records', methods=['POST', 'GET'])
 @jwt_required()
-# @permission_required(['create' , 'view' , 'playback'])
 def records():
     if request.method == 'POST':
-        start_time = request.form.get('start-time')
-        end_time = request.form.get('end-time')
-        camera_ip = request.args.get('ip')
-        camera_name = request.args.get('name')
+        try:
+            data = request.get_json()
+            print("Data type:", type(data))  
+            print("Data:", data)
 
-        session['start_time'] = start_time
-        session['end_time'] = end_time
+            start_date = data.get('start_date')
+            end_date = data.get('end_date')
+            start_time = data.get('start_time', "00:00:00") 
+            end_time = data.get('end_time', "23:59:59")     
+            
+            _from = f'{start_date} {start_time}'
+            _to = f'{end_date} {end_time}'
 
-        # videos, status = search_recorded_files(camera_ip=camera_ip, camera_name=camera_name, from_=start_time, to_=end_time)
-        data , status = search_recorded_files(camera_ip=camera_ip, camera_name=camera_name , from_=start_time , to_=end_time)
+            # devices, status_code = get_all_camera_record_with_time(from_=_from, to_=_to)
+            # print("Devices type:", type(devices))
 
-        if status == 200:
-            return redirect(url_for('camera.records', ip=camera_ip, name=camera_name , videos=data))
-        else:
-            return render_template('records.html', videos=[], start_time=start_time, end_time=end_time)
+            # return jsonify({"status": "success", "devices": devices}), status_code
+            return jsonify('devices')
 
+        except Exception as e:
+            print("Error:", e)
+            return jsonify({"status": "error", "message": "Failed to process data"}), 500
     else:
-        start_time = session.get('start_time')
-        end_time = session.get('end_time')
-    
+        
+        # devices, _ = get_all_camera_record_with_time(from_=None, to_=None)  # Get all records
+        layout = request.args.get('layout', 4, type=int)  
+        page = request.args.get('page', 1, type=int)     
+        total_pages = 2 
+        # total_pages = len(devices)
 
-        return render_template('records.html', start_time=start_time, end_time=end_time)
+        return render_template(
+            'records.html',
+            layout=layout,
+            page=page,
+            total_pages=total_pages,
+            current_page=page,
+            # devices=devices,
+            prev_page=page - 1 if page > 1 else None,
+            next_page=page + 1 if page < total_pages else None,
+        )
+
     
     
 @camera_bp.route('/full-screen')
@@ -313,4 +318,9 @@ def full_screen():
         placeholders_needed=placeholders_needed
     )
 
+@camera_bp.route('/calendar')
+def calendar():
+    return render_template('calendar.html')
 # 2024-08-27 15:58:31
+
+
