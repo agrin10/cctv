@@ -216,7 +216,9 @@
             </div>
             
             <!-- Camera view -->
-            <img id="modal-camera-image" src="#" alt="camera view" class="camera-view-image">
+             {% for cam in camera  %}
+            <img src="{{ url_for('camera.video_feed', camera_ip=cam.camera_ip) }}" alt="{{ cam.camera_name }}" />
+            {% endfor %}
             <!-- Bottom Icons -->
             <div class="camera-footer-icons">
                 <div class="cam-footer-left">
