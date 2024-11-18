@@ -5,9 +5,7 @@ import cv2
 from .api_controller import check_ai_module_api , check_modules_status , add_camera_api,check_recording_api , delete_camera_api , edit_camera , toggle_record_option_for_all ,get_all_cameras_from_record_module ,get_alerts_from_api , get_records_from_api , build_rtsp_url , toggle_recording_specific_camera
 from src.zone.model import Zone
 import os
-
-
-
+import concurrent.futures
 
 
 
@@ -145,9 +143,6 @@ def handle_retrieves_camera():
     except Exception as e:
         db.session.rollback()
         return False, f'An error occurred: {str(e)}'
-    
-
-
 
 
 
@@ -183,7 +178,6 @@ def generate_frames(rtsp_url):
     cap.release()
 
 def capture_image_from_latest_frame(output_filename='captured_image.png'):
-    """Capture the most recent frame and save it as a PNG file."""
     global latest_frame
 
     if latest_frame is None:
@@ -200,26 +194,30 @@ def capture_image_from_latest_frame(output_filename='captured_image.png'):
     cv2.imwrite(output_file_path, latest_frame)
     
     return output_file_path
-     
+
+
+def check_camera_online(camera):
+    rtsp_url = build_rtsp_url(
+        camera_ip=camera.camera_ip,
+        camera_username=camera.camera_username,
+        camera_password=camera.camera_password,
+        # camera_port=camera.camera_port
+    )
+    cap = cv2.VideoCapture(rtsp_url)
+    online = cap.isOpened()
+    cap.release()
+    return camera if online else None
+
 def get_online_cameras(cameras):
     online_cameras = []
-    for camera in cameras:
-        rtsp_url = build_rtsp_url(
-            camera_ip=camera.camera_ip,
-            camera_username=camera.camera_username,
-            camera_password=camera.camera_password,
-            # camera_port=camera.camera_port
-        )
-        
-        cap = cv2.VideoCapture(rtsp_url)
-        if cap.isOpened():
-            online_cameras.append(camera)
-            print(f"Camera Online: {camera.camera_ip}")  
-        else:
-            print(f"Camera Offline: {camera.camera_ip}")  
-        cap.release()
-    
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        future_to_camera = {executor.submit(check_camera_online, camera): camera for camera in cameras}
+        for future in concurrent.futures.as_completed(future_to_camera):
+            camera = future.result()
+            if camera:
+                online_cameras.append(camera)
     return online_cameras
+
 
 def get_camera_and_neighbors(camera_ip):
     camera = Camera.query.get(camera_ip)
@@ -261,6 +259,7 @@ def get_all_camera_record_with_time(from_ , to_):
     else:
         return [] , 500
     
+
 
 def recording_status_specific_camera(ip:str , name:str , bool:bool):
     success , message , status = toggle_recording_specific_camera(ip , name , bool)
