@@ -1,0 +1,127 @@
+@import './zones.css';
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style-type: none;
+}
+
+/* importing fonts*/
+@font-face {
+  font-family: 'vazir';
+  src: url('../fonts/Vazirmatn-VariableFont_wght.ttf');
+}
+
+:root {
+
+  --Main-Green :#304D30;
+  --Black:#02060C;
+  --accent-color: #124076;
+
+  --Main-Green-Dark---1: #131F13;
+  --Main-Green-Dark---2: #1D2E1D;
+  --Main-Green-Dark---3: #263E26;
+  --Main-Green-Light---1: #4E6A4E;
+  --Main-Green-Light---2: #6D876D;
+  --Main-Green-Light---3: #8BA38B;
+
+  --Main-Gray-Dark---1: #383838;
+  --Main-Gray-Dark---2: #646464;
+  --Main-Gray-Dark---3: #828282;
+
+
+  --Main-Gray-Light---1: #BDBDBD;
+  --Main-Gray-Light---2: #D7D7D7;
+  --Main-Gray-Light---3: #EBEBEB;
+
+  --font-family-fa: "vazir", sans-serif; 
+  --font-family-en: "Rubik", sans-serif;     
+
+  --clr-font-dark: #000;
+  --clr-font-light: #fff;
+
+  --content-margin: 20px;
+  --content-padding: 10px;
+}
+
+html {
+  font-size: 62.5%; 
+}
+
+body {
+  font-size: 1.7rem; 
+  direction: rtl;    
+  font-family: var(--font-family-fa) !important; 
+  position: relative;
+  transition: all 0.3s;
+  color: var(--clr-font-dark);
+  padding: 0;
+  margin: 0;
+  direction: rtl;
+}
+
+.english-text {
+  font-family: var(--font-family-en);
+}
+
+
+h1, h2, h3, h4, h5, h6, p {
+  color: var(--clr-font-dark);
+}
+a{
+  color: var(--clr-font-light);
+}
+
+
+button {
+  all: unset;
+  cursor: pointer;
+  font-family: var(--font-family-fa) !important
+
+}
+/* header */
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding:10px;
+  border: 1px solid var(--Main-Gray-Dark---3);
+  background-color: var(--Main-Gray-Light---2);
+  position: sticky;
+}
+
+input:focus{
+  outline: none;
+  border: none;
+}
+
+.main-style {
+  margin-right: 250px !important;
+  margin-bottom: 10px !important;
+  height: 100%;
+  transition: margin-right 0.3s ease;
+}
+.main-style-full {
+  margin-right: 0 !important;
+}
+
+
+
+
+.backdrop-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 500;
+  background-color: #00000083;
+  backdrop-filter: blur(3px);
+}
+
