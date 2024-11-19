@@ -1,0 +1,395 @@
+
+/*icons */
+
+.home-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/home 1 (1).svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .item-icon{
+    width: 30px;     
+    height: 30px;     
+    background-image: url('../images/arrow-down.svg'); 
+    background-size: contain;    
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+  }
+  .arrow-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/arrow-right.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+    margin-left: 0;
+    position: absolute; 
+    left: 0; 
+    transform: translateY(-50%);
+    padding-bottom: 10px;
+  }
+  
+  .alert-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/danger.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .camera-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/security-camera\ 1\ \(1\).svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .zone-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/pin 1.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .hr-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/people.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .useraction-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/shield-tick.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .backup-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/public-service 1.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .monitoring-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/monitor-recorder.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .setting-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/setting-2.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .logout-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/user-minus.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .bell-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/8541621_bell_alert_icon 1.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .user-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/Ellipse 5.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  .help-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/Frame 88.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  
+  .ticket-icon{
+    width: 20px;      
+    height: 20px;     
+    background-image: url('../images/ticket.svg');
+    background-size: contain;    
+    background-repeat: no-repeat;  
+    background-position: center;
+    border: none;      
+    background-color: transparent; 
+    cursor: pointer;   
+    color: #000;
+  }
+  
+  .view-btn {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/eye.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  
+  .edit-btn-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/edit-2.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  
+  .delete-btn {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/trash.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .filter-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/setting-5.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .share-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/share.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .recording-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/record-circle.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .doc-download-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/document-download.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .gallery-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/gallery.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .search-zoom-in-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/search-zoom-in.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .search-zoom-out-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/search-zoom-out.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .maximize-size-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/maximize-3.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .group-icon {
+      width: 20px;      
+      height: 20px;     
+      background-image: url('../images/Group\ 121.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .arrow-left-circle{
+      width: 10px;      
+      height: 10px;     
+      background-image: url('../images/Arrow\ left-circle.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+      color: #000;
+  }
+  .arrow-right-circle{
+      width: 10px;      
+      height: 10px;     
+      background-image: url('../images/Arrow\ right-circle.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+  }
+  .clock-icon{
+      width: 10px;      
+      height: 10px;     
+      background-image: url('../images/clock.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+  }
+  .calendar-icon{
+      width: 10px;      
+      height: 10px;     
+      background-image: url('../images/calendar-add.svg');
+      background-size: contain;    
+      background-repeat: no-repeat;  
+      background-position: center;
+      border: none;      
+      background-color: transparent; 
+      cursor: pointer;   
+  }
+  
+  
