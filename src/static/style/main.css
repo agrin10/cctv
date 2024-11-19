@@ -1,5 +1,7 @@
 @import './zones.css';
 @import './icons.css';
+@import './pagination.css';
+
 *,
 *::after,
 *::before {

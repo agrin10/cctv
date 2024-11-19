@@ -1,0 +1,45 @@
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    background: var(--Main-Gray-Light---1, #BDBDBD);
+    border-top: 1px solid var(--Main-Gray-Dark---3, #828282);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 0px 0px 5px 5px;
+  }
+  
+  .overall-pagination {
+    display: flex;
+    justify-content: center;  
+    background: var(--Main-Gray-Light---1, #BDBDBD);
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 0px 0px 5px 5px;
+  }
+  
+  .overall-pagination .overall-view-page-item {
+      margin: 0 5px;
+  }
+  
+  .overall-pagination .overall-page-link {
+      display: inline-block;
+      padding: 10px 15px;
+      color: var(--Main-Green-Dark---2 );
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+  }
+  
+  .overall-pagination .overall-page-item.active .overall-page-link {
+    background: var(--Main-Green, #304D30);
+    color: white;
+      
+  }
+  
+  
