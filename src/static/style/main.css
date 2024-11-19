@@ -4,6 +4,8 @@
 @import './calendar.css';
 @import './customized.css';
 @import './drop-down.css';
+@import './dashboard.css';
+
 *,
 *::after,
 *::before {
