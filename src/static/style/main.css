@@ -2,6 +2,7 @@
 @import './icons.css';
 @import './pagination.css';
 @import './calendar.css';
+@import './customized.css';
 *,
 *::after,
 *::before {
