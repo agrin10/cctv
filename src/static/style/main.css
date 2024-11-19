@@ -7,6 +7,7 @@
 @import './dashboard.css';
 @import './header.css';
 @import './cameras.css';
+@import './records.css';
 
 *,
 *::after,
