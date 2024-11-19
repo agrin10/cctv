@@ -1,0 +1,368 @@
+
+/* dropdwons style  */
+.custom-dropdown {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px ;
+  }
+  
+  .custom-checkbox{
+    display: block;
+      padding: 8px;
+      margin-top: 10px;
+  }
+  .custom-checkbox:hover{
+    background-color: #b1cef0;
+  }
+  .dropdown-label {
+    margin-bottom: 5px;
+  }
+  
+  .bottom-options{
+    display: flex;
+    margin-top: 40px;
+    flex-direction: column;
+  }
+  .selected {
+    border: 1px solid var(--Main-Gray-Light---1);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--Main-Gray-Light---3);
+    font-size: 14px;
+  }
+  
+  .options {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .options div {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .options div:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .checkbox {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  
+  .selected-location{
+    width: 100% ;
+    padding: 10px;
+  }
+  
+  
+  .label-checkbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+  }
+  
+  svg {
+    transition: all 0.3s;
+  }
+  
+  /* Custom Dropdown */
+  .custom-dropdown {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .selected {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    /* background: var(--Main-Gray-Light---3, #EBEBEB); */
+  }
+  
+  .options {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    z-index: 100;
+  }
+  
+  .options div {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .options div:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .custom-dropdown {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .dropdown-label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .selected {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    /* background-color: white; */
+    font-size: 13px;
+  }
+  
+  .options {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    overflow: scroll;
+    height: 200px ;
+  }
+  
+  .custom-select select {
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none; 
+    border: none;
+    padding: 8px;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    width: 100%;
+  }
+  
+  
+  .select-location-box{
+    position: relative;
+    margin-bottom: 10px;
+  }
+  
+  .select-location-box>svg{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+  }
+
+  
+  .option {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .option:hover {
+    background-color: #ccc; 
+  }
+  
+  .custom-select.active .options {
+    display: block;
+  }
+  
+  .select-location:focus{
+    outline: none;
+  }
+  
+  .options div {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .options div:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .checkbox {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  .select-location-box {
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .select-location-box svg {
+    fill: rgb(0, 0, 0);
+    transform: rotate(0deg);
+  }
+  
+  /* Custom focus style (removes black outline) */
+  .custom-select select:focus {
+    outline: none;
+  
+  }
+  
+  .options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  /* Option styling with custom hover */
+  .option {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .option:hover {
+    background-color: #e9f5ff; 
+  }
+  
+  .checkbox {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  /* Rotate SVG icon when dropdown is active */
+  .custom-select.active svg {
+    transform: rotate(180deg);
+  }
+  
+
+  .custom-dropdown {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  
+  .custom-checkbox{
+    display: block;
+      padding: 8px;
+      margin-top: 10px;
+  }
+  .custom-checkbox:hover{
+    background-color: #b1cef0;
+  }
+  .dropdown-label {
+    margin-bottom: 5px;
+  }
+  
+  .bottom-options{
+    display: flex;
+    margin-top: 40px;
+    flex-direction: column;
+  }
+  .selected {
+    border: 1px solid var(--Main-Gray-Light---1);
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--Main-Gray-Light---3);
+    font-size: 14px;
+  }
+  
+  .options {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  
+  .options div {
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .options div:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .checkbox {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  
+  
+  .selected-location{
+    width: 100% ;
+    padding: 10px;
+  }
+  
+  
+  .label-checkbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+  }
+  
+  svg {
+    transition: all 0.3s;
+  }
+/* Custom Dropdown */
+.custom-dropdown {
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .selected {
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .options {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    z-index: 100;
+  }
+  
+  .options div {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .options div:hover {
+    background-color: #f0f0f0;
+  }
+    
