@@ -10,6 +10,7 @@
 @import './records.css';
 @import './setting.css';
 @import './users.css';
+@import './overall-view.css';
 
 *,
 *::after,
