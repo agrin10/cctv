@@ -8,6 +8,7 @@
 @import './header.css';
 @import './cameras.css';
 @import './records.css';
+@import './setting.css';
 
 *,
 *::after,
