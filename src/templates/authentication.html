@@ -1,4 +1,6 @@
+{% block styles %}
 <link rel="stylesheet" href="{{url_for('static' , filename='style/authentication.css')}}">
+{% endblock styles %}
     <div class="login_container">
         <div class="first_page">
           <div class="right">
@@ -45,27 +47,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-      function openTab(event, tabName) {
-        let i, tabcontent, tablinks;
-
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-
-        tablinks = document.getElementsByClassName("tab-link");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-
-        document.getElementById(tabName).style.display = "block";
-        event.currentTarget.className += " active";
-    }
-
-    // Set default active tab
-    document.getElementById("login").style.display = "block";
-
-    </script>
-
+    {% block scripts %}
+      <script src="{{url_for('static' ,filename='scripts/authentication.js')}}"></script>
+    {% endblock scripts %}

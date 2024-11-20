@@ -22,7 +22,7 @@
       src="https://kit.fontawesome.com/fa4b072534.js"
       crossorigin="anonymous"
     ></script>
-    
+    {% block styles %}{% endblock styles %}
   </head>
   <body>
     
@@ -138,7 +138,7 @@
     <!--js files -->
     <script src="{{url_for('static' ,filename='scripts/app.js')}}"></script>
     <script src="{{url_for('static' ,filename='scripts/dom-changes.js')}}"></script>
-
+    
     {% block scripts %}{% endblock scripts %}
   </body>
 </html>

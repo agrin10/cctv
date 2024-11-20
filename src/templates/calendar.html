@@ -1,11 +1,14 @@
 <!-- Quasar and Vue Libraries -->
-<link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet" type="text/css">
-<link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.rtl.min.css" rel="stylesheet" type="text/css">
-<script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/lang/fa-ir.umd.min.js"></script>
+{% block styles %}
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.rtl.min.css" rel="stylesheet" type="text/css">
+{% endblock styles %}
 
-
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/lang/fa-ir.umd.min.js"></script>
+{% endblock scripts %}
 
   <!-- Calendar Popup with Scoped Quasar Styles -->
   <div class="calendar-popup" id="calendarPopUp" style="display: none;">
