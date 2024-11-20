@@ -11,6 +11,7 @@
 @import './setting.css';
 @import './users.css';
 @import './overall-view.css';
+@import './search-box.css';
 
 *,
 *::after,
@@ -107,6 +108,10 @@ header nav {
   position: sticky;
 }
 
+input {
+  border: none;
+  
+}
 input:focus{
   outline: none;
   border: none;
