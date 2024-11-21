@@ -49,12 +49,12 @@ function fillSidebarFormWithRowData(row) {
 }
 
 // Function to handle adding a new zone (POST request)
+// Function to handle adding a new zone (POST request)
 function addZone() {
   const zoneName = zoneNameInput.value.trim();
   const zoneDescription = zoneDescriptionInput.value.trim();
 
   if (zoneName && zoneDescription) {
-    // Send POST request to add new zone
     fetch('/zones/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -63,10 +63,12 @@ function addZone() {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        // Optionally, update the UI to show the new zone in the list
-        resetSidebarForm();  // Reset sidebar to "Add" mode
+        console.log('Zone added successfully:', data.message);
+        resetSidebarForm();
+        addRowToTable({ zone_name: zoneName, zone_desc: zoneDescription });
       } else {
         console.error(`Failed to add zone: ${data.message}`);
+        alert(`Error: ${data.message}`);
       }
     })
     .catch(error => console.error('Error:', error));
@@ -75,7 +77,19 @@ function addZone() {
   }
 }
 
-// Function to handle editing an existing zone (PATCH request)
+function addRowToTable(zone) {
+  const table = document.getElementById('zoneTable');
+  const newRow = table.insertRow(-1);
+
+  const cell2 = newRow.insertCell(1);
+  const cell3 = newRow.insertCell(2);
+
+  cell1.textContent = zone.zone_name;
+  cell2.textContent = zone.zone_desc;
+  cell3.innerHTML = `<button onclick="editZone('${zone.zone_name}')">Edit</button>
+                     <button onclick="deleteZone('${zone.zone_name}')">Delete</button>`;
+}
+
 function editZone() {
   const newZoneName = zoneNameInput.value.trim();
   const newZoneDescription = zoneDescriptionInput.value.trim();

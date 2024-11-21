@@ -7,7 +7,7 @@
   <div class="zone-container">
     <div class="zone-body">
       <div class="zone-main-content">
-        <table class="zone-table">
+        <table class="zone-table" , id="zoneTable">
           <thead>
             <tr>
               <th class="numbers-list"></th>
@@ -63,7 +63,7 @@
       <!-- Sidebar Form Section -->
       <div class="zone-sidebar">
         <h3 class="zone-title">افزودن منطقه جدید</h3>
-        <form id="zoneForm" action="{{ url_for('zone.add_zone') }}" method="post">
+        <form id="zoneForm" action="#" method="post">
           <input type="text" id="zoneName" class="zone-input" name="zone_name" placeholder="نام منطقه" />
           <textarea id="zoneDescription" class="zone-description" name="zone_desc" placeholder="توضیحات"></textarea>
           

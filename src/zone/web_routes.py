@@ -5,7 +5,8 @@ from .controller import handle_add_zone , handle_retrieves_zone , handle_edit_zo
 from src.zone import zone_bp
 from src.permissions import permission_required
 from src.zone.model import Zone
-
+from src.zone.schema import AddZoneSchema
+from marshmallow import ValidationError
 
 @zone_bp.route('/')
 @permission_required(['view'])
@@ -18,23 +19,36 @@ def zones():
     return render_template('zones.html', zones=zones.items, pagination=zones)
 
 
-@zone_bp.route('/' , methods=['POST'])
+from flask import request
+
+@zone_bp.route('/', methods=['POST'])
 @permission_required(['create'])
 @jwt_required()
 def add_zone():
-    zone_name = request.form.get('zone_name')
-    zone_desc = request.form.get('zone_desc')
+    schema = AddZoneSchema()
+    try:
+        if request.is_json:
+            data = request.get_json()
+        else:
+            data = request.form.to_dict()
+        print(data)
+        validated_data = schema.load(data) 
+    except ValidationError as err:
+        return jsonify({"success": False, "errors": err.messages}), 400
 
-    print(zone_name)
-    print(zone_desc)
-    success , message = handle_add_zone(zone_name , zone_desc)
+    success, message = handle_add_zone(
+        zone_name=validated_data["zone_name"],
+        zone_desc=validated_data.get("zone_desc")
+    )
+    
     if success:
-        flash(message=message)
+        if request.is_json:
+            return jsonify(message=message , success=success)
         return redirect(url_for('zone.zones'))
     else:
-        flash(message=message)
+        if request.is_json:
+            return jsonify(message=message , success=success)
         return redirect(url_for('zone.zones'))
-
 
 @zone_bp.route('/' ,methods=["PATCH"])
 @permission_required(['edit'])
