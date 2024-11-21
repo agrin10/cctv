@@ -53,6 +53,15 @@
   
   
   /*****/
+  .add-form-container input[type="text"] , input[type="password"]{
+    width: 98%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background: var(--Main-Gray-Light---3, #EBEBEB);    
+}
   .camera-sidebar {
       width: 30%;
       background-color: var(--Main-Gray-Light---2, #D7D7D7);
@@ -72,26 +81,21 @@
       text-align: right;
   }
   
-  .camera-sidebar input[type="text"], .camera-sidebar textarea  , camera-sidebar input[type="password"]{
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      box-sizing: border-box;
-      font-size: 16px;
-      background: var(--Main-Gray-Light---3, #EBEBEB);
-  
-  }
+  /* .camera-sidebar input[type="text"],  camera-sidebar input[type="password"]{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    background: var(--Main-Gray-Light---3, #EBEBEB);
+} */
   
   .cam-table-btns{
     display: flex;
     justify-content: space-evenly;
   }
-  
-  .camera-sidebar textarea {
-      height: 400px;
-  }
-  
+
   .camera-sidebar button {
       padding: 10px;
       background-color: var(--accent-color);
