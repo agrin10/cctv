@@ -8,44 +8,46 @@ from src.zone.model import Zone
 from src.camera import camera_bp
 import time
 from src.permissions import permission_required
+from src.camera.schema import AddCameraSchema 
+from marshmallow import ValidationError
+
+
 
 @camera_bp.route('/', methods=['POST'])
 @permission_required(['create'])
 @jwt_required()
 def add_camera():
-    print(request.form)
-    camera_ip = request.form.get('ipAddress')
-    camera_name = request.form.get('deviceName')
-    camera_username = request.form.get('camera_username')
-    camera_password = request.form.get('camera_password')  
-    camera_type = request.form.get('deviceType')
+    schema = AddCameraSchema()
+    try:
+        form_data = request.form.to_dict(flat=True)  
+        
+        form_data["ai_properties"] = request.form.getlist("ai_properties") 
 
-    zone_name = request.form.get('zone_name')  
-    is_record = request.form.get('is_record')  
-    ai_properties_list = request.form.getlist('ai_properties[]') 
-    is_record = True if is_record == '1' else False
-
-    print(f'{camera_ip} , {camera_name} , {camera_password} , {camera_username} , {camera_type} , {zone_name} , {ai_properties_list}, {is_record}')
+        
+        if "is_record" in form_data:
+            form_data["is_record"] = form_data["is_record"].lower() in ["true", "1", "yes"]
+        print(form_data)
+        data = schema.load(form_data)
+    except ValidationError as err:
+        return jsonify({"success": False, "errors": err.messages}), 400
 
     success, message = handle_add_camera(
-        camera_ip=camera_ip,
-        camera_name=camera_name,
-        camera_username=camera_username,
-        camera_type=camera_type,
-        camera_password=camera_password,
-        zone_name=zone_name,
-        recording=is_record,
-        ai_properties=ai_properties_list
+        camera_ip=data["ipAddress"],
+        camera_name=data["deviceName"],
+        camera_username=data["camera_username"],
+        camera_type=data["deviceType"],
+        camera_password=data["camera_password"],
+        zone_name=data["zone_name"],
+        recording=data["is_record"],
+        ai_properties=data["ai_properties"],  
     )
 
     if success:
         flash(message=message)
-        return redirect(url_for('camera.cameras'))
+        return redirect(url_for("camera.cameras"))
     else:
         flash(message=message)
         return message, 400
-
-
 
 def get_camera_by_ip(camera_ip):
     camera = Camera.query.filter_by(camera_ip=camera_ip).first()
