@@ -111,21 +111,21 @@ function editZone() {
     })
     .then(response => response.json())
     .then(data => {
+      console.log('Response from server:', data);  // Log server response
       if (data.success) {
         // Update the selected row in the table
         selectedRow.setAttribute('data-zone-name', newZoneName);
         selectedRow.setAttribute('data-zone-description', newZoneDescription);
         selectedRow.cells[1].innerText = newZoneName;
         selectedRow.cells[2].innerText = newZoneDescription;
-
-        resetSidebarForm();  // Reset sidebar to "Add" mode
+    
+        resetSidebarForm(); 
       } else {
         console.error(`Failed to edit zone: ${data.message}`);
       }
     })
     .catch(error => console.error('Error:', error));
-  } else {
-    alert("Please fill in all fields.");
+    
   }
 }
 
