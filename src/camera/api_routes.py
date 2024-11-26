@@ -18,14 +18,12 @@ def api_add_camera():
     camera_password = data.get('camera_password')
     camera_type = data.get('camera_type')
     zone_name = data.get('zone')
-    camera_port = data.get('port')
-    camera_image= None
     recording =data.get('recording', False)
     ai_properties = data.get('ai_properties', [])
     
 
 
-    success, message = handle_add_camera(camera_ip=camera_ip, camera_name=camera_name, camera_username=camera_username, camera_type=camera_type, camera_password=camera_password, zone_name=zone_name, camera_image=camera_image , recording=recording,ai_properties=ai_properties , camera_port=camera_port)
+    success, message = handle_add_camera(camera_ip=camera_ip, camera_name=camera_name, camera_username=camera_username, camera_type=camera_type, camera_password=camera_password, zone_name=zone_name,  recording=recording,ai_properties=ai_properties)
 
     return jsonify(message=message, success=success )
 

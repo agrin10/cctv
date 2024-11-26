@@ -122,33 +122,30 @@ function fillSidebarFormWithRowData(row) {
     document.querySelector('.camera-edit-btn').addEventListener('click', () => sendPatchRequest(row));
     document.querySelector('.camera-cancel-btn').addEventListener('click', resetSidebarForm);
 }
-
-// Send PATCH request to update camera details
 function sendPatchRequest(row) {
     // Collect data from the form inputs
     const newIpAddress = ipAddressInput.value;
     const deviceName = deviceNameInput.value;
     const deviceType = deviceTypeInput.value;
-    const zoneName = zoneInput.value;
-    const isRecording = document.getElementById('recordingSelectEdit').value === "1";
-    const aiProperties = Array.from(document.querySelectorAll('#ObjectEditCameraOptions .checkbox:checked')).map(cb => cb.value);
+    const zoneName = zoneInput.value; 
+    const isRecording = document.getElementById('recordingSelect').value === "1";
+    
+    const aiProperties = Array.from(document.querySelectorAll('#ObjectCameraOptions .checkbox:checked')).map(cb => cb.value);
 
-    // Create data payload based on backend expectations
     const data = {
-        oldIpAddress: row.cells[1].innerText,  // original IP from row
+        oldIpAddress: row.cells[1].innerText,
         newIpAddress: newIpAddress,
         deviceName: deviceName,
         deviceType: deviceType,
-        camera_zones: zoneName,
-        recording: isRecording ? "yes" : "no",
+        camera_zones: zoneName,  
+        recording: isRecording ? "yes" : "no", 
         ai_properties: aiProperties
     };
 
-    // Send PATCH request to the Flask endpoint
     fetch('/camera/', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data)  // Send JSON payload
     })
     .then(response => response.json())
     .then(result => {
@@ -157,12 +154,10 @@ function sendPatchRequest(row) {
             row.cells[1].innerText = newIpAddress;
             row.cells[2].innerText = deviceName;
             row.cells[3].innerText = deviceType;
-            row.cells[4].innerText = zoneName; // Update zone cell
-            // row.cells[5].innerText = isRecording ? 'Yes' : 'No';
-            // row.cells[6].innerText = aiProperties.join(', ');
+            row.cells[4].innerText = zoneName.join(', ');  // Update zone cell (if it's an array, join into a string)
 
             console.log('Camera updated successfully!');
-            resetSidebarForm(); // Reset the form after successful edit
+            resetSidebarForm();  // Reset the form after successful edit
         } else {
             console.log(`Error: ${result.message}`);
         }

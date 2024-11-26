@@ -8,7 +8,7 @@ from src.zone.model import Zone
 from src.camera import camera_bp
 import time
 from src.permissions import permission_required
-from src.camera.schema import AddCameraSchema 
+from src.camera.schema import AddCameraSchema , EditCameraSchema
 from marshmallow import ValidationError
 
 
@@ -28,6 +28,7 @@ def add_camera():
             form_data["is_record"] = form_data["is_record"].lower() in ["true", "1", "yes"]
         print(form_data)
         data = schema.load(form_data)
+        
     except ValidationError as err:
         return jsonify({"success": False, "errors": err.messages}), 400
 
@@ -65,48 +66,55 @@ def get_camera_by_ip(camera_ip):
     else:
         return None
 
-@camera_bp.route('/', methods=["PATCH"])  
+@camera_bp.route('/' , methods=["PATCH"])
+@jwt_required()
+@permission_required(['edit' , 'view'])
 def edit_camera():
-    if request.method == "PATCH":
-        data = request.json
-        print('Received data:', data)
-        
-        camera_ip = data.get('oldIpAddress')
-        print(camera_ip)
-        old_camera_data = get_camera_by_ip(camera_ip)
-        if not old_camera_data:
-            return jsonify({"success": False, "message": "Camera not found"}), 404
+    schema = EditCameraSchema() 
 
-        camera_new_ip = data.get('newIpAddress', old_camera_data['camera_ip'])
-        
-        camera_new_name = data.get('deviceName', old_camera_data['device_name'])
-        camera_new_username = data.get('camera_username', old_camera_data['username'])
-        camera_new_password = data.get('camera_password', old_camera_data['password'])
-
-        camera_zone = data.get('camera_zones', old_camera_data['zones'])
-        print(f'{camera_zone} , and the username of camera {camera_new_username}  ')
-
-        recording = data.get('recording', old_camera_data['recording'])
-        ai_properties = data.get('ai_properties', old_camera_data['ai_properties'])
-        
-        recording= True if recording == 'yes' else False
-        success, message = handle_edit_camera(
-            camera_ip=camera_ip, new_ip=camera_new_ip,
-            name=old_camera_data['device_name'], new_name=camera_new_name,
-            username=old_camera_data['username'], new_username=camera_new_username,
-            password=old_camera_data['password'], new_password=camera_new_password,
-            camera_zone=camera_zone,
-            recording=recording, ai_properties=ai_properties
-        )
-
-        if not success:
-            return jsonify({"success": False, "message": message}), 400
-
-        return jsonify({"success": True, "message": "Camera updated successfully!"}), 200
-    
+    if request.is_json:
+        data = request.json  
+        print("Received data:", data)
     else:
-        return jsonify({"success": False, "message": "Invalid request method."}), 405
-    
+        data = request.form.to_dict()
+
+    try:
+        validated_data = schema.load(data)
+        print("Validated data:", validated_data)
+    except ValidationError as err:
+        print(f'success: {False} , error: {err.messages}')
+        return jsonify({"success": False, "errors": err.messages}), 400
+
+    # Extract old and new data
+    old_ip = validated_data.get("oldIpAddress")
+    new_ip = validated_data.get("newIpAddress")
+    new_name = validated_data.get("deviceName")
+    new_username = validated_data.get("camera_username")
+    new_password = validated_data.get("camera_password")
+    new_zones = validated_data.get("camera_zones", [])
+    new_recording = validated_data.get("recording") == "yes"
+    new_ai_properties = validated_data.get("ai_properties", [])
+
+    old_camera_data = get_camera_by_ip(old_ip)
+    if not old_camera_data:
+        return jsonify({"success": False, "message": "Camera not found"}), 404
+
+    old_name = old_camera_data.get("device_name")
+    old_username = old_camera_data.get("username")
+    old_password = old_camera_data.get("password")
+
+    # Handle camera update
+    success, message = handle_edit_camera(
+        camera_ip=old_ip, name=old_name, username=old_username,
+        password=old_password, camera_zone =new_zones , 
+        new_ip=new_ip, new_name=new_name, new_username=new_username,
+        new_password=new_password, recording=new_recording,ai_properties=new_ai_properties 
+    )
+
+    if not success:
+        return jsonify({"success": False, "message": message}), 400
+
+    return jsonify({"success": True, "message": message}), 200
 
 
 @camera_bp.route('/delete-camera/ip=<ip>&name=<name>', methods=['DELETE'])

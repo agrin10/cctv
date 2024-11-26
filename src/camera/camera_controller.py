@@ -70,9 +70,8 @@ def handle_edit_camera(camera_ip: str, new_ip: str, name: str, new_name: str, us
     
 
     run_detection = False if ai_properties == [] else True
-    new_name = camera_ip+'-'+new_name
+    new_name = new_ip +'-'+ new_name
 
-    # Fetch the AI properties from the database
     ai_property_instances = AiProperties.query.filter(AiProperties.name.in_(ai_properties)).all()
 
     # response, status_code = edit_camera(camera_ip=camera_ip,
@@ -158,7 +157,7 @@ def generate_frames(rtsp_url):
     
     if not cap.isOpened():
         print(f"Cannot open camera with URL: {rtsp_url}")
-        cap = cv2.VideoCapture(rtsp_url, apiPreference=cv2.CAP_ANY, params=[cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, 2000])
+        cap = cv2.VideoCapture(rtsp_url, apiPreference=cv2.CAP_ANY, params=[cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, 1000])
     
     while True:
         success, frame = cap.read()
