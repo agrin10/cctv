@@ -23,7 +23,6 @@
             <thead class="table-header">
               <tr class="header-row">
                 <th class="header-cell-numbers"></th>
-                <th class="header-cell">تصویر</th>
                 <th class="header-cell">نام </th>
                 <th class="header-cell">نام خانوادگی</th>
                 <th class="header-cell">نام کاربری</th>
@@ -34,25 +33,28 @@
             <tbody class="table-body">
               {% for user in users_list %}
               {% if loop.index >= 1 %}  {# Jinja2 loop index starts from 1 #}
-                <tr class="body-row" data-username="{{ user.username }}" 
-                data-password="{{ user.password_hash }}" 
-                data-firstname="{{ user.first_name }}" 
-                data-lastname="{{ user.last_name }}">
-                
-                    <td class="body-cell-number"><span class="row-number" lang="fa">{{ loop.index| persian }} </span></td>
-                    <td class="body-cell"><img src="#" alt="pic"></td>
-                    <td class="body-cell">{{user.name}}</td>
-                    <td class="body-cell"> {{user.last_name}}</td>
-                    <td class="body-cell">{{user.username}}</td>
-                    <td class="body-cell">
-                        <button class="edit-user-edit-btn edit-btn-icon"></button>
-
-                    </td>
-                    <td class="body-cell">
-                        <button class="delete-user-btn delete-btn" data-username="{{ user.username }}" onclick="deleteUser(this)">
-                        </button>
-                    </td>
+                <tr class="body-row" 
+                    data-username="{{ user.username }}" 
+                    data-password="{{ user.password_hash }}" 
+                    data-firstname="{{ user.name }}" 
+                    data-lastname="{{ user.last_name }}">
+                  <td class="body-cell-number">
+                    <span class="row-number" lang="fa">{{ loop.index|persian }}</span>
+                  </td>
+                  <td class="body-cell">{{ user.name }}</td>
+                  <td class="body-cell">{{ user.last_name }}</td>
+                  <td class="body-cell">{{ user.username }}</td>
+                  <td class="body-cell">
+                    <button class="edit-user-edit-btn edit-btn-icon"></button>
+                  </td>
+                  <td class="body-cell">
+                    <button class="delete-user-btn delete-btn" 
+                            data-username="{{ user.username }}" 
+                            onclick="deleteUser(this)">
+                    </button>
+                  </td>
                 </tr>
+          
                 {% endif %}
                 {% endfor %}
             </tbody>
@@ -129,7 +131,7 @@
     {% for access in accesses %}
       {% if access.module.module_id == 2 %}
         <label class="custom-checkbox">
-          <input type="checkbox" name="camera_access[]" value="{{ access.permission.name }}" />
+          <input type="checkbox" name="camera_access" value="{{ access.permission.name }}" />
           <span>{{ access.permission.label }}</span>
         </label>
       {% endif %}
@@ -148,7 +150,7 @@
     {% for access in accesses %}
       {% if access.module.module_id == 3 %}
         <label class="custom-checkbox">
-          <input type="checkbox" name="zone_access[]" value="{{ access.permission.name }}" />
+          <input type="checkbox" name="zone_access" value="{{ access.permission.name }}" />
           <span>{{ access.permission.label }}</span>
         </label>
       {% endif %}
@@ -167,7 +169,7 @@
     {% for access in accesses %}
       {% if access.module.module_id ==1 %}
         <label class="custom-checkbox">
-          <input type="checkbox" name="user_access[]" value="{{ access.permission.name }}" />
+          <input type="checkbox" name="user_access" value="{{ access.permission.name }}" />
           <span>{{ access.permission.label }}</span>
         </label>
       {% endif %}
@@ -243,15 +245,15 @@
 </div>
   
 
-
-<!--edit user form -->
 <div class="backdrop-modal" id="editUserBackdrop"></div>
 <div id="editUserModal" >
   <form id="editUserForm" class="edit-user-form-modal" style="display:none;" method="post">
     <h2>ویرایش حساب کاربر</h2>  
     {% for user in users_list  %}
-        <input type="hidden" name="old_username" value="{{user.username}}" >
-        <input type="hidden" name="old_password" value="{{user.password_hash}}" >
+    <input type="hidden" name="old_username" data-oldusername="{{ user.username }}">
+    <input type="hidden" name="old_password" data-oldpassword="{{ user.password_hash.check_password }}">
+    <input type="hidden" name="old_firstname" data-oldfirstname="{{ user.name }}">
+    <input type="hidden" name="old_lastname" data-oldlastname="{{ user.last_name }}">
         {% endfor %}
         <div class="input-group-text">
           <div class="input-field">
@@ -445,14 +447,17 @@
 </div>
 </div>
     <div class="edit-form-actions">
-      <button type="submit" class="edit-save-btn">تایید</button>
+      <button type="submit" class="edit-save-btn" id="submitEditUserButton">تایید</button>
       <button type="button" class="cancel-btn" id="cancelEditModal">انصراف</button>
   </div>
 
   </form>
 </div>
 
+
 <script src="{{url_for('static' ,filename='scripts/users.js')}}"></script>
+
+
 
       
         

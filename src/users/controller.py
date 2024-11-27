@@ -37,8 +37,6 @@ def handle_registration(username, password, email):
 def handle_login(username, password):
     user = Users.query.filter_by(username=username).first()
     if user and user.check_password(password) :
-        print('valid password')
-        print("Hashed password:", user.password_hash)
         access_token = create_access_token(identity=user.user_id)
         refresh_token = create_refresh_token(identity=user.user_id, expires_delta=timedelta(days=1))
         
@@ -58,7 +56,7 @@ def handle_refresh_token():
     user_id = get_jwt_identity()
     access_token = create_access_token(identity=user_id)
     resp = 'refresh : true'
-    set_access_cookies(resp, access_token)
+    set_access_cookies(resp, access_token)  
     return resp, 200
     
 def handle_logout():
@@ -101,21 +99,22 @@ def handle_add_users(firstname, lastname,username, password, permission_names):
                     user_access = UserAccess(user_id=new_user.user_id, access_id=access.id)
                     db.session.add(user_access)
 
-    db.session.commit()
+    db.session.commit() 
 
     return True, 'User added successfully with the specified accesses.', 200
 
 
 
-
-def handle_edit_user(username, new_username, password, new_password, new_permission_names):
+def handle_edit_user(oldfisrtname,fisrtname,old_lastname , lastname,username, new_username, password, new_password, new_permission_names):
     user = Users.query.filter_by(username=username).first()
-    
-    if user and user.check_password(password):
+
+    if user and user.check_password:
         user.username = new_username
+        user.name = fisrtname
+        user.last_name = lastname
         if new_password:
             user.set_password(new_password)
-        
+
         # Clear current permissions and accesses
         UserAccess.query.filter_by(user_id=user.user_id).delete()
         
@@ -132,14 +131,14 @@ def handle_edit_user(username, new_username, password, new_password, new_permiss
         
         try:
             db.session.commit()
-            return True, "User updated successfully with the specified accesses.", 200
+            return (True, "User updated successfully with the specified accesses.", 200)
         except Exception as e:
             db.session.rollback() 
-            return False, f"Update failed: {e}", 400
+            return (False, f"Update failed: {e}", 400)
     
-    return False, 'User not found or password incorrect', 400
+    return (False, 'User not found or password incorrect', 400)
 
-    
+        
 def handle_delete_user(username):
     user = Users.query.filter_by(username=username).first()
     try:

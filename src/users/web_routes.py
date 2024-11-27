@@ -1,13 +1,15 @@
-from flask import redirect, url_for, render_template, request, flash
+from flask import redirect, url_for, render_template, request, flash , jsonify
 from flask_login import login_user, logout_user
 import os
 from flask_jwt_extended import jwt_required
-from .controller import handle_login, handle_registration, handle_logout, handle_add_users, handle_delete_user, handle_edit_user, user_list
+from .controller import handle_login, handle_registration, handle_logout, handle_add_users, handle_delete_user, handle_edit_user, user_list 
 from src.users import users_bp
 from .model import Accesses, Permissions, UserAccess, Module, Users
 from src.permissions import permission_required
 from src.camera.model import Camera
 from src.zone.model import Zone
+from src.users.schema import AddUserSchema , EditUserSchema
+from marshmallow import ValidationError
 
 
 
@@ -79,7 +81,7 @@ def user_manage():
 
     
 @users_bp.route('/delete-users/<username>', methods=["DELETE"])
-# @permission_required(['delete'])
+@permission_required(['delete'])
 @jwt_required()
 def delete_user(username):
     success, message, status = handle_delete_user(username)
@@ -93,20 +95,30 @@ def delete_user(username):
 @permission_required(['create'])
 @jwt_required()
 def add_user():
-    first_name = request.form.get('firstName')
-    last_name = request.form.get('lastName')
-    username = request.form.get('username')
-    password = request.form.get('password')
+    schema = AddUserSchema()
+    try:
+        if request.is_json:
+            form_data = request.get_json()
+        else:
+            form_data = request.form.to_dict(flat=True)
+        
+        form_data["camera_access"] = request.form.getlist('camera_access')
+        form_data["zone_access"] = request.form.getlist('zone_access')
+        form_data["user_access"] = request.form.getlist('user_access')
+        data =schema.load(form_data)
+    except ValidationError as err:
+        return jsonify({"success": False, "errors": err.messages}), 400
+        
+            
+    all_permissions = data["camera_access"] + data["zone_access"] + data["user_access"]
 
-    camera_access = request.form.getlist('camera_access')
-    zone_access = request.form.getlist('zone_access')
-    user_access = request.form.getlist('user_access')
-
-    all_permissions = camera_access + zone_access + user_access
-
-    success, message, status = handle_add_users(first_name , last_name,
-        username, password, all_permissions)
-
+    success , message , status = handle_add_users(
+        firstname=data["firstName"], 
+        lastname=data["lastName"],
+        username=data["username"],
+        password=data["password"],
+        permission_names=all_permissions
+    )
     if success:
         return redirect(url_for('users.user_manage'))
     return [{'message':message}]
@@ -117,26 +129,35 @@ def add_user():
 @permission_required(['edit'])
 @jwt_required()
 def edit_user():
-    user_data = request.get_json()
-    print(user_data)
-    username= user_data.get('old_username')
-    new_username = user_data.get('new_username')
-    password = user_data.get('old_password')
-    new_password = user_data.get('password')
-    print(f'old{username} , new{new_username}\npassword:{new_password} new_password   {password}')
-    camera_access = user_data.get('camera_access', [])
-    zone_access = user_data.get('zone_access', [])
-    user_access = user_data.get('user_access', [])
+    schema = EditUserSchema()
+    if request.is_json:
+        data = request.get_json()
+    else:
+        data = request.form.to_dict()
+    
+    validated_data = schema.load(data)
+    camera_access = validated_data.get('camera_access', [])
+    zone_access = validated_data.get('zone_access', [])
+    user_access = validated_data.get('user_access', [])
     
     new_permission_names = camera_access + zone_access + user_access
 
-    success, message, status_code = handle_edit_user(
-        username, new_username, password, new_password, new_permission_names)
-
+    success, message, status = handle_edit_user(
+        oldfisrtname=validated_data.get('old_firstname'),
+        fisrtname=validated_data.get('firstname'),
+        old_lastname=validated_data.get('old_lastname'),
+        lastname=validated_data.get('lastname'),
+        username=validated_data.get('old_username'),
+        new_username=validated_data.get('new_username'),
+        password=validated_data.get('old_password'),
+        new_password=validated_data.get('new_password'),
+        new_permission_names=new_permission_names
+    )
     if success:
         flash(message, 'success')
         return {"message": message}, 200
     else:
         flash(message, 'error')
         return {'message': message}, 400
+
 
