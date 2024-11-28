@@ -19,13 +19,14 @@ class Config:
     JWT_REFRESH_COOKIE_PATH = os.getenv('JWT_REFRESH_COOKIE_PATH')
     JWT_ACCESS_COOKIE_NAME = os.getenv('JWT_ACCESS_COOKIE_NAME')
     JWT_REFRESH_COOKIE_NAME = os.getenv('JWT_REFRESH_COOKIE_NAME')
-    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=6)
-    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)
     JWT_COOKIE_SECURE = False 
-    PERMANENT_SESSION_LIFETIME=timedelta(minutes=30)
-    REMEMBER_COOKIE_DURATION=timedelta(days=7)
     JWT_COOKIE_CSRF_PROTECT = False
     JWT_CSRF_IN_COOKIES = False
+    PERMANENT_SESSION_LIFETIME = timedelta(days=1) 
+    REMEMBER_COOKIE_DURATION = timedelta(days=7)
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=6)  
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=30)  
+
 
 
     # api urls
