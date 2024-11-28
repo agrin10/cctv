@@ -199,11 +199,12 @@
   </div>
   <div class="options" id="cameraOptionsTwo">
     {% for camera in cameras  %}
-    <div>
+    <div class="custom-checkbox">
       <input
         type="checkbox"
         class="checkbox"
-        data-value="{{camera.camera_ip}}"
+        name = "access_to_cameras"
+        value="{{camera.camera_id}}"
       />
        {{camera.camera_name}}
     </div>
@@ -227,8 +228,8 @@
   </div>
   <div class="options" id="zoneOptionsTwo">
     {% for zone in zones  %}
-    <div>
-      <input type="checkbox" class="checkbox" data-value="zone.zone_name" />
+    <div class="custom-checkbox">
+      <input type="checkbox" class="checkbox" name="access_to_zones" value="{{zone.zone_id}}" />
       {{zone.zone_name}} 
     </div>
     {% endfor %}
@@ -245,6 +246,8 @@
 </div>
   
 
+
+<!-- edit uaer form-->
 <div class="backdrop-modal" id="editUserBackdrop"></div>
 <div id="editUserModal" >
   <form id="editUserForm" class="edit-user-form-modal" style="display:none;" method="post">
@@ -387,30 +390,17 @@
     دوربین ها
   </div>
   <div class="options" id="EditUserCameraOptionsTwo">
-    <div>
+    {% for camera in cameras  %}
+    <div class="custom-checkbox">
       <input
         type="checkbox"
         class="checkbox"
-        data-value="camera1"
+        name = "access_to_cameras[]"
+        value="{{camera.camera_id}}"
       />
-      شماره یک
+       {{camera.camera_name}}
     </div>
-    <div>
-      <input
-        type="checkbox"
-        class="checkbox"
-        data-value="camera2"
-      />
-      شماره دو
-    </div>
-    <div>
-      <input
-        type="checkbox"
-        class="checkbox"
-        data-value="camera3"
-      />
-      شماره سه
-    </div>
+      {% endfor %}
   </div>
 </div>
 <!-- Zone Dropdown -->
@@ -429,18 +419,12 @@
     مناطق
   </div>
   <div class="options" id="EditUserZoneOptionsTwo">
-    <div>
-      <input type="checkbox" class="checkbox" data-value="zone1" />
-      شماره یک
+    {% for zone in zones  %}
+    <div class="custom-checkbox">
+      <input type="checkbox" class="checkbox" name="access_to_zones[]" value="{{zone.zone_id}}" />
+      {{zone.zone_name}} 
     </div>
-    <div>
-      <input type="checkbox" class="checkbox" data-value="zone2" />
-      شماره دو
-    </div>
-    <div>
-      <input type="checkbox" class="checkbox" data-value="zone3" />
-      شماره سه
-    </div>
+    {% endfor %}
   </div>
 </div>
 <!-- Users Dropdown -->
