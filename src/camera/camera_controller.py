@@ -153,8 +153,8 @@ def generate_frames(rtsp_url):
     """Generate frames from the video feed."""
     global latest_frame
 
-    cap = cv2.VideoCapture(rtsp_url)
-    
+    cap = cv2.VideoCapture(rtsp_url, cv2.CAP_FFMPEG)
+    cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)  # Reduce buffering    
     if not cap.isOpened():
         print(f"Cannot open camera with URL: {rtsp_url}")
         cap = cv2.VideoCapture(rtsp_url, apiPreference=cv2.CAP_ANY, params=[cv2.CAP_PROP_OPEN_TIMEOUT_MSEC, 1000])
@@ -200,12 +200,16 @@ def check_camera_online(camera):
         camera_ip=camera.camera_ip,
         camera_username=camera.camera_username,
         camera_password=camera.camera_password,
-        # camera_port=camera.camera_port
     )
-    cap = cv2.VideoCapture(rtsp_url)
+
+    cap = cv2.VideoCapture(rtsp_url, cv2.CAP_FFMPEG)
+    cap.set(cv2.CAP_PROP_BUFFERSIZE, 1) 
+    cap.set(cv2.CAP_PROP_POS_FRAMES, 0)  
+
     online = cap.isOpened()
     cap.release()
     return camera if online else None
+
 
 def get_online_cameras(cameras):
     online_cameras = []
