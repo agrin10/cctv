@@ -94,17 +94,19 @@ class Permissions(db.Model):
 class Accesses(db.Model):
     __tablename__ = "accesses"
 
-    id = db.Column(db.Integer, unique=True, primary_key=True,
-                   nullable=False, autoincrement=True)
-    module_id = db.Column(db.Integer, db.ForeignKey(
-        'modules.module_id'), nullable=False)
-    permissions_id = db.Column(db.Integer, db.ForeignKey(
-        'permissions.id'), nullable=False)
+    id = db.Column(db.Integer, unique=True, primary_key=True, autoincrement=True)
+    module_id = db.Column(db.Integer, db.ForeignKey('modules.module_id'), nullable=True)
+    permissions_id = db.Column(db.Integer, db.ForeignKey('permissions.id'), nullable=False)
 
-    # This provides access from Accesses back to Module
+    # Relationships to cameras and zones
+    camera_id = db.Column(db.String(225), db.ForeignKey('cameras.camera_id'), nullable=True)
+    zone_id = db.Column(db.String(225), db.ForeignKey('zones.zone_id'), nullable=True)
+
+    # Backreferences
     module = db.relationship('Module', back_populates='accesses')
     permission = db.relationship('Permissions', back_populates='accesses')
-
+    camera = db.relationship("Camera", back_populates="accesses") 
+    zone = db.relationship("Zone", back_populates="accesses") 
 
 class UserAccess(db.Model):
     __tablename__ = "user_accesses"

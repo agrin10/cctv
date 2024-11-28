@@ -37,6 +37,8 @@ class Zone(db.Model , SoftDeleteMixin):
 
     cameras = db.relationship("Camera", back_populates="zone")
 
+    accesses = db.relationship("Accesses", back_populates="zone")  # Matches Accesses.zone
+
     def toDict(self):
         zone_dict = {c.name: str(getattr(self, c.name)) for c in self.__table__.columns}
 
