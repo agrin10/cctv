@@ -9,6 +9,8 @@ class AddUserSchema(Schema):
     camera_access = fields.List(fields.String(), required=False, missing=[])  
     zone_access = fields.List(fields.String(), required=False, missing=[])  
     user_access = fields.List(fields.String(), required=False, missing=[])  
+    access_to_cameras = fields.List(fields.String(), required=False, missing=[])  
+    access_to_zones = fields.List(fields.String(), required=False, missing=[])  
 
 
 
@@ -25,3 +27,5 @@ class EditUserSchema(Schema):
     camera_access = fields.List(fields.String(), required=False, missing=[])  
     zone_access = fields.List(fields.String(), required=False, missing=[])  
     user_access = fields.List(fields.String(), required=False, missing=[])  
+    access_to_cameras = fields.List(fields.String(), required=False, missing=[])  
+    access_to_zones = fields.List(fields.String(), required=False, missing=[])  
