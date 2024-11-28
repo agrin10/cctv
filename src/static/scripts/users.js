@@ -92,6 +92,8 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
   const cameraAccess = Array.from(document.querySelectorAll('input[name="camera_access[]"]:checked')).map(input => input.value);
   const zoneAccess = Array.from(document.querySelectorAll('input[name="zone_access[]"]:checked')).map(input => input.value);
   const userAccess = Array.from(document.querySelectorAll('input[name="user_access[]"]:checked')).map(input => input.value);
+  const accessToCamera = Array.from(document.querySelectorAll('input[name="access_to_cameras[]"]:checked')).map(input => input.value);
+  const accessToZone = Array.from(document.querySelectorAll('input[name="access_to_zones[]"]:checked')).map(input => input.value);
 
   const data = {
     old_firstname: oldFirstName,
@@ -104,7 +106,9 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
     password: newPassword || null , 
     camera_access: cameraAccess,
     zone_access: zoneAccess,
-    user_access: userAccess
+    user_access: userAccess, 
+    access_to_cameras : accessToCamera,
+    access_to_zones :accessToZone
   };
 
   // Send PATCH request
