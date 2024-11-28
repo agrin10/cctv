@@ -101,10 +101,12 @@ def add_user():
             form_data = request.get_json()
         else:
             form_data = request.form.to_dict(flat=True)
-        
         form_data["camera_access"] = request.form.getlist('camera_access')
         form_data["zone_access"] = request.form.getlist('zone_access')
         form_data["user_access"] = request.form.getlist('user_access')
+        form_data["access_to_cameras"] = request.form.getlist('access_to_cameras')
+        form_data["access_to_zones"] = request.form.getlist('access_to_zones')
+
         data =schema.load(form_data)
     except ValidationError as err:
         return jsonify({"success": False, "errors": err.messages}), 400
@@ -117,7 +119,9 @@ def add_user():
         lastname=data["lastName"],
         username=data["username"],
         password=data["password"],
-        permission_names=all_permissions
+        permission_names=all_permissions,
+        camera_ids=data["access_to_cameras"],
+        zone_ids=data["access_to_zones"]
     )
     if success:
         return redirect(url_for('users.user_manage'))
@@ -134,8 +138,10 @@ def edit_user():
         data = request.get_json()
     else:
         data = request.form.to_dict()
-    
+    print('data' , data)
     validated_data = schema.load(data)
+    print('validated_data' , validated_data)
+    
     camera_access = validated_data.get('camera_access', [])
     zone_access = validated_data.get('zone_access', [])
     user_access = validated_data.get('user_access', [])
@@ -143,16 +149,20 @@ def edit_user():
     new_permission_names = camera_access + zone_access + user_access
 
     success, message, status = handle_edit_user(
-        oldfisrtname=validated_data.get('old_firstname'),
-        fisrtname=validated_data.get('firstname'),
+        old_firstname=validated_data.get('old_firstname'),
+        firstname=validated_data.get('firstname'),
         old_lastname=validated_data.get('old_lastname'),
         lastname=validated_data.get('lastname'),
         username=validated_data.get('old_username'),
         new_username=validated_data.get('new_username'),
         password=validated_data.get('old_password'),
         new_password=validated_data.get('new_password'),
-        new_permission_names=new_permission_names
+        new_permission_names=new_permission_names,
+        camera_ids=validated_data.get('access_to_cameras'),
+        zone_ids=validated_data.get('access_to_zones'),
     )
+    if not success:
+        print("message", message)
     if success:
         flash(message, 'success')
         return {"message": message}, 200
