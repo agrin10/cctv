@@ -21,7 +21,7 @@ def create_app():
     login_manager.init_app(app)
     JWT.init_app(app)
 
-
+    
     
     from src.users.seeder import seed_user_management
     from src.camera.seeder import seed_ai_properties
@@ -59,3 +59,8 @@ def register_blueprint(app):
 
         # Register the shared blueprint to the app with the appropriate URL prefix
         app.register_blueprint(getattr(blueprint_module, blueprint_name), url_prefix=url_prefixes[module])
+
+
+from src.zone.model import Zone 
+from src.camera.model import Camera 
+from src.users.model import Users 

@@ -1,4 +1,4 @@
-from .camera_controller import  handle_add_camera , handle_retrieves_camera , search_recorded_files , get_alerts_from_api , handle_edit_camera , handle_delete_camera , get_all_cameras_from_record_module, toggle_recording_camera , recording_status_specific_camera , build_rtsp_url
+from .camera_controller import  handle_add_camera , handle_retrieves_camera , search_recorded_files , get_alerts_from_api , handle_edit_camera , handle_delete_camera , get_all_cameras_from_record_module, toggle_recording_camera , recording_status_specific_camera , build_rtsp_url , get_all_camera_record_with_time
 from flask import request, jsonify
 from flask_jwt_extended import jwt_required
 from src.camera import camera_bp
@@ -18,14 +18,12 @@ def api_add_camera():
     camera_password = data.get('camera_password')
     camera_type = data.get('camera_type')
     zone_name = data.get('zone')
-    camera_port = data.get('port')
-    camera_image= None
     recording =data.get('recording', False)
     ai_properties = data.get('ai_properties', [])
     
 
 
-    success, message = handle_add_camera(camera_ip=camera_ip, camera_name=camera_name, camera_username=camera_username, camera_type=camera_type, camera_password=camera_password, zone_name=zone_name, camera_image=camera_image , recording=recording,ai_properties=ai_properties , camera_port=camera_port)
+    success, message = handle_add_camera(camera_ip=camera_ip, camera_name=camera_name, camera_username=camera_username, camera_type=camera_type, camera_password=camera_password, zone_name=zone_name,  recording=recording,ai_properties=ai_properties)
 
     return jsonify(message=message, success=success )
 
@@ -97,14 +95,19 @@ def api_alerts():
     data = get_alerts_from_api()
     return jsonify(data)
 
-@camera_bp.route('/api/search-files/<ip>-<name>')
+@camera_bp.route('/api/search-files')
 @jwt_required()
 @permission_required(['view'])
-def search_files(ip:str , name:str):
+def search_files():
     start_time = request.args.get('from')
     end_time = request.args.get('to')
-    data = search_recorded_files(camera_ip=ip , camera_name=name, from_=start_time , to_=end_time)
-    return jsonify(data=data)
+    try:
+        
+        # data = search_recorded_files(camera_ip=ip , camera_name=name, from_=start_time , to_=end_time)
+        data="something because server is not here "
+        return jsonify(data=data)       
+    except Exception as e:
+        return jsonify({"success": False, "message": str(e)}), 400
 
 
 @camera_bp.route('/api/get-all-cameras-record-module')

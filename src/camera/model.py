@@ -48,7 +48,6 @@ class Camera(db.Model):
     camera_ip = db.Column(db.String(150), nullable=False, unique=True)
     camera_type = db.Column(db.String(150), nullable=False)
     
-    # Updated to reference 'zone_id' instead of 'zone_name'
     camera_zone = db.Column(db.String(225), db.ForeignKey("zones.zone_id"), nullable=False)  
     
     camera_image_path = db.Column(db.String(255), nullable=True)
@@ -59,7 +58,9 @@ class Camera(db.Model):
 
     # Relationship to 'Zone'
     zone = db.relationship("Zone", back_populates="cameras") 
-    
+
+    accesses = db.relationship("Accesses", back_populates="camera")  
+
     # Relationship to 'AiProperties' through a secondary table
     ai_properties = db.relationship("AiProperties", secondary=camera_ai_relationship, back_populates="cameras")
 

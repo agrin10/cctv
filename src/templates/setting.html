@@ -1,25 +1,48 @@
 {% extends "base.html" %}
- {% block title %}تنظیمات{% endblock title %} {% block
-content %}
-
-<div class="main-setting-container">
-  <div class="setting-container">
-    <h2>تنظیمات</h2>
-    <div class="setting-items">
-      <div class="single-container">
-        <a href="{{url_for('users.user_manage')}}"><p>مدیریت کاربران</p></a>
-      </div>
-      <div class="single-container">
-        <a href="#"><p>ای پی ماژول هوش مصنوعی</p></a>
-      </div>
-      <div class="single-container">
-        <a href="#"><p>ای پی ماژول ضبط</p></a>
-      </div>
-      <div class="single-container">
-        <a href="#"><p>ضبط دوربین</p></a>
-      </div>
+{% block title %}تنظیمات{% endblock title %}
+ 
+{% block content %}
+<div class="setting-container">
+    <div class="content">
+        <a href="{{url_for('setting.setting')}}" class="load-content" ><p class="public-tit">عمومی</p></a>
+        <a href="{{url_for('users.user_manage')}}" class="load-content"><p>مدیریت کاربران</p></a>
     </div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="search-box">
+        <b>عمومی</b>
+    </div>
+    <div class="setting-options" id="setting-options">
+        <!-- This content will be dynamically replaced -->
+        <ul class="item-list">
+            <li class="item">
+                <span class="item-name">آی پی ماژول هوش مصنوعی</span>
+                <span class="item-url">http://192.168.10.107/</span>
+                <div class="item-actions">
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </div>
+            </li>
+            <li class="item">
+                <span class="item-name">آی پی ماژول ضبط</span>
+                <p class="item-url">http://192.168.10.108/</p>
+                <div class="item-actions">
+                    <button class="edit-btn"></button>
+                    <button class="delete-btn"></button>
+                </div>
+            </li>
+            <li class="item">
+                <span class="item-name">ضبط دوربین ها</span>
+                <div class="item-actions">
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </li>
+        </ul>
+        <div class></div>
+      </div>
   </div>
 </div>
-
 {% endblock content %}

@@ -1,43 +1,265 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="main-cam">
-    <div class="main-cam-list">
-        <h1>لیست دوربین ها </h1>
-        <div class="cam-list-container">
 
-            {% for camera in cameras %}
-            <div class="single-cam-container">
-                <div class="camera-image-container">
-                    {% if camera.camera_image_path %}
-                <img src="{{ url_for('static', filename='uploads/' + camera.camera_image_path) }}" alt="{{ camera.camera_name }}">
-            {% else %}
-                <p>No image available</p>
-            {% endif %}
+
+    <div class="camera-container">
+        <div class="camera-body">
+
+            <div class="camera-main-content">
+                <div class="camera-main-content-header">
+                    <b>لیست دوربین ها </b>
                 </div>
-                <div class="single-cam-list">
-                    <div class="single-cam">
-                        <p>IP دوربین : {{ camera.camera_ip }}</p>
+                <table class="camera-table">
+                    <thead>
+                        <tr>
+                            <th class="numbers-list"></th>
+                            <th class="camera-ip"> ادرس IP</th>
+                            <th class="camera-name">نام دستگاه</th>
+                            <th class="camera-type">نوع دستگاه</th>
+                            <th class="camera-zone-name">نام منطقه</th>
+                            <th class="camera-edit-btn-icon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cam in camera %}
+                        <tr class="camera-body-row"  data-camera-ip="{{camera.camera_ip}}">
+                            <td class="body-cell-number">
+                                <span class="row-number" lang="fa">{{ loop.index| persian }} </span>
+                              </td>                            
+                            <td style="color:red";> {{cam.camera_ip}}</td>
+                            <td>{{cam.camera_name}}</td>
+                            <td>{{cam.camera_type}}</td>
+                            <td>{{cam.zone.zone_name}}</td>
+                            <td>
+                                <div class="cam-table-btns">
+                                    <button class="camera-view-btn view-btn"></button>
+                                    <button class="camera-delete-btn delete-btn" 
+                                        data-camera-ip="{{ cam.camera_ip }}" 
+                                        data-camera-name="{{ cam.camera_name }}" 
+                                        onclick="deleteCamera(this)">
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- More rows here -->
+                    </tbody>
+                </table>
+                
+                <!-- Pagination Controls -->
+                <div class="pagination">
+                    <nav aria-label="Page navigation example">
+                        <ul class="overall-pagination">
+                            <!-- Previous Page Button -->
+                            <li class="overall-page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                                <a class="overall-page-link" href="{{ url_for('camera.cameras') }}?page={{ pagination.prev_num }}"><i class="arrow-left-circle"></i>قبلی</a>
+                            </li>
+                            
+                            <!-- Page Number Links -->
+                            {% for p in range(1, pagination.pages + 1) %}
+                                <li class="overall-page-item {% if p == pagination.page %}active{% endif %}">
+                                    <a class="overall-page-link" href="{{ url_for('camera.cameras') }}?page={{ p }}">{{ p }}</a>
+                                </li>
+                            {% endfor %}
+                            
+                            <!-- Next Page Button -->
+                            <li class="overall-page-item {% if not pagination.has_next %}disabled{% endif %}">
+                                <a class="overall-page-link" href="{{ url_for('camera.cameras') }}?page={{ pagination.next_num }}"><i class="arrow-right-circle"></i>بعدی</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+          
+            </div>
+        
+
+            <!--add form -->
+            <div class="camera-sidebar">
+                <h3 class="camera-title">افزودن دوربین جدید</h3>
+                <div class="add-form-container">
+                <form action="{{url_for('camera.add_camera')}}" method="POST">
+                    <input type="text" id="ipAddress"name="ipAddress"placeholder="آدرس IP" required class="input-camera-add-modal"/>
+
+                    <div class="input-group-text">
+                          
+                        <div class="input-field">
+                          <input
+                            type="text"
+                            id="deviceName"
+                            name="deviceName"
+                            placeholder=" نام دستکاه"
+                            class="input-camera-add-modal"
+                          />
+                        </div>
+                      <div class="input-field">
+                          <input
+                          type="text"
+                          id="deviceType"
+                          name="deviceType"
+                          placeholder="نوع دستگاه"
+                          required
+                          class="input-camera-add-modal"
+                        />
+                      </div>
                     </div>
-                    <div class="single-cam">
-                        <p>نام دستگاه: {{ camera.camera_name }}</p>
+
+                    <div class="input-group-text">
+                        <div class="input-field">
+                        <input
+                        type="text"
+                        id="cameraUsername"
+                        name="camera_username"
+                        placeholder=" نام کاربری"
+                        class="input-camera-add-modal"
+                        />
+                        </div>  
+                        <div class="input-field">
+                              <input
+                              type="password"
+                              id="cameraPassword"
+                              name="camera_password"
+                              placeholder=" رمز عبور"
+                              required
+                              class="input-camera-add-modal"
+                            />
+                        </div>
                     </div>
-                    <div class="single-cam">
-                        <p>نوع دستگاه: {{ camera.camera_type }}</p>
+                  
+                      <!-- Zone Dropdown -->
+
+
+                      <div class="select-location-box">
+                        <div class="custom-select">
+                            <div class="selected label-checkbox">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                                    <path d="m11.998 17 7-8h-14z"></path>
+                                </svg>  
+                                <select id="zoneSelect" name="zone_name">
+                                    <option value="" selected disabled class="options">انتخاب منطقه</option>
+                                    {% for zone in zones %}
+                                        <option value="{{ zone.zone_name }}">{{ zone.zone_name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="single-cam">
-                        <p>منطقه: {{ camera.zone.zone_name}}</p> 
+        
+
+                  
+                        <!-- Object Detection Section -->
+                        <div class="bottom-options">
+                            <div class="custom-dropdown">
+                                <label class="dropdown-label" for="objectDetection">
+                                    <h5>تشخیص اشیاء</h5>
+                                </label>
+                                <div class="selected label-checkbox" id="selectedObjectCameras">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                                        <path d="m11.998 17 7-8h-14z"></path>
+                                    </svg> تشخیص اشیا
+                                </div>
+                                <div class="options" id="ObjectCameraOptions">
+                                    {% for ai in ai_properties %}
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" name="ai_properties" value="{{ ai.name }}" class="checkbox" />
+                                            <span>{{ ai.label }}</span>
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                          <!-- Recording Section -->
+                          <div class="select-recording-box">
+                            <label for="recordingSelect"><h5>ضبط</h5></label>
+                            <div class="custom-select">
+                                <select id="recordingSelect" name="is_record">
+                                    <option value="" selected disabled>ضبط</option>
+                                    <option value="1">بله</option>
+                                    <option value="0">خیر</option>
+                                </select>
+                            </div>
+              
+                        </div>
+                                          
+                      <!-- Form Actions -->
+                        <div class="button-group" id="buttonGroup">
+                            <!-- Initially hidden; will replace "افزودن" button -->
+                            <button class="camera-add-btn">افزودن</button>
+
+                        </div>
                     </div>
+                  </form>
                 </div>
             </div>
+
+                                  
+<div class="backdrop-modal"></div>
+<!-- Camera Modal Popup -->
+<div id="specific_camera_popup" class="specific_camera_popup">
+    <div class="popup-content">
+        <div class="cam-modal-header">
+            <h4>دوربین: <span id="modal-camera-name">Camera Name</span></h4>
+            <p>تاریخ و زمان: <span id="modal-camera-timestamp">Time</span></p>
+        </div>
+        <p>مشاهده موقعیت دوربین</p>
+        <div class="popup-camera-frame">
+            <!-- Overlay header -->
+            <div class="camera-header-overlay">
+                
+                <div class="camera-header-right">
+                    <span class="camera-header-zone" id="modal-camera-zone">اتاق مدیریت</span> - 
+                    <span class="camera-header-name" id="modal-camera-name-header">دوربین test</span>
+                </div>
+                <div class="camera-header-left">
+                    <span class="camera-header-time" id="modal-camera-timestamp">12:24:43</span>
+                </div>
+            </div>
+            
+            <!-- Camera view -->
+             {% for cam in camera  %}
+            <img src="{{ url_for('camera.video_feed', camera_ip=cam.camera_ip) }}" alt="{{ cam.camera_name }}" />
             {% endfor %}
-            
-            <div class='add-cam'>
-                <a href="{{ url_for('camera.add_camera') }}">
-                    <button class='btn'>افزودن دوربین</button>
-                </a>
+            <!-- Bottom Icons -->
+            <div class="camera-footer-icons">
+                <div class="cam-footer-left">
+                    <button>
+                        <li class="share-icon"></li>
+                    </button>
+                </div>
+                <div class="cam-footer-right">
+                    <button>
+                        <li class="group-icon"></li>
+                    </button>                    
+                    <button>
+                        <li class="maximize-size-icon"></li>
+                    </button>                    
+                    <button>
+                        <li class="search-zoom-out-icon"></li>
+                    </button>                    
+                    <button>
+                        <li class="search-zoom-in-icon"></li>
+                    </button>                    
+                    <button>
+                        <li class="gallery-icon"></li>
+                    </button>                    
+                    <button>
+                        <li class="doc-download-icon"></li>
+                    </button>                    
+                    <button>
+                        <li class="recording-icon"></li>
+                    </button>                    
+
+                </div>
             </div>
-            
+        </div>
+        <div class="cam-modal-buttons">
+            <button class="cameraPopup-return-btn">بازگشت</button>
         </div>
     </div>
 </div>
-{% endblock %}
+
+<script src="{{url_for('static' ,filename='scripts/cameras.js')}}"></script>
+
+    
+
+{% endblock content %}

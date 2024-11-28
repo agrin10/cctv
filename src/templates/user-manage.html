@@ -1,111 +1,453 @@
 {% extends "base.html" %}
-{% block title %}مدیریت کاربران{% endblock title %}
+{% block title %}مدیریت کاربران 
+{% endblock title %}
+ 
 {% block content %}
-<div class="user-manage-container">
-    <div class="users-container">
-        <h2>لیست کاربران</h2>
-        <div class="user-info">
-            <div class="single-info-label info-id"><b>ID</b></div>
-            <div class="single-info-label info-username"><b>نام کاربری</b></div>
-            <div class="single-info-label info-password"><b>رمز عبود</b></div>
-            <div class="single-info-label"><b>دسترسی به دوربین</b></div>
-            <div class="single-info-label"><b>دسترسی به منطقه</b></div>
-            <div class="single-info-label"><b>دسترسی به کاربر</b></div>
-            <div class="single-info-label info-giar"><b><i class="fa-solid fa-gear"></i></b></div>
+<div class="setting-container">
+  <div class="content">
+      <a href="{{url_for('setting.setting')}}" class="load-content" ><p class="public-titl">عمومی</p></a>
+      <a href="{{url_for('users.user_manage')}}" class="load-content"><p>مدیریت کاربران</p></a>
+  </div>
+<!-- Sidebar -->
+<div class="sidebar">
+  <div class="search-box">
+      <b>مدیریت کاربران</b>
+  </div>
+  <div class="setting-options" id="setting-options">
+      <div class="users-container">
+          <div class="users-header-option">
+              <h4 class="table-title">لیست کاربران</h4>
+              <button id="add-user-button" class="add-user-btn">افزودن کاربر+</button>
+          </div>
+          <table class="main-table">
+            <thead class="table-header">
+              <tr class="header-row">
+                <th class="header-cell-numbers"></th>
+                <th class="header-cell">نام </th>
+                <th class="header-cell">نام خانوادگی</th>
+                <th class="header-cell">نام کاربری</th>
+                <th class="header-cell">ویرایش</th>
+                    <th class="header-cell">حذف</th>
+                  </tr>
+            </thead>
+            <tbody class="table-body">
+              {% for user in users_list %}
+              {% if loop.index >= 1 %}  {# Jinja2 loop index starts from 1 #}
+                <tr class="body-row" 
+                    data-username="{{ user.username }}" 
+                    data-password="{{ user.password_hash }}" 
+                    data-firstname="{{ user.name }}" 
+                    data-lastname="{{ user.last_name }}">
+                  <td class="body-cell-number">
+                    <span class="row-number" lang="fa">{{ loop.index|persian }}</span>
+                  </td>
+                  <td class="body-cell">{{ user.name }}</td>
+                  <td class="body-cell">{{ user.last_name }}</td>
+                  <td class="body-cell">{{ user.username }}</td>
+                  <td class="body-cell">
+                    <button class="edit-user-edit-btn edit-btn-icon"></button>
+                  </td>
+                  <td class="body-cell">
+                    <button class="delete-user-btn delete-btn" 
+                            data-username="{{ user.username }}" 
+                            onclick="deleteUser(this)">
+                    </button>
+                  </td>
+                </tr>
+          
+                {% endif %}
+                {% endfor %}
+            </tbody>
+            
+          </table>
         </div>
-
-        {% for user in users %} 
-        <div class="info-value">
-            <div class="single-value"><p>{{ user.user_id }}</p></div>
-            <div class="single-value"><p>{{ user.username }}</p></div>
-            <div class="single-value"><p>{{ user.password }}</p></div>
-            <div class="single-value"><p> user.password </p></div>
-            <div class="single-value"><p> user.password </p></div>
-            <div class="single-value"><p> user.password </p></div>
-            <div class="single-value">
-                <button onclick="showUserPopup('{{ user.username }}', '{{ user.email }}', '{{ user.password }}')">
-                    <i class="fa fa-edit"></i>
-                </button>
-                <button class="delete-user-btn" data-username="{{ user.username }}">
-                    <i class="fa fa-trash"></i>
-                </button>
+                <!-- Pagination Controls -->
+                <div class="pagination">
+                  <nav aria-label="Page navigation example">
+                    <ul class="overall-pagination">
+                        <!-- Previous Page Button -->
+                        <li class="overall-page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                            <a class="overall-page-link" href="{{ url_for('users.user_manage') }}?page={{ pagination.prev_num }}"><i class="arrow-left-circle"></i>قبلی</a>
+                        </li>
+                        
+                        <!-- Page Number Links -->
+                        {% for p in range(1, pagination.pages + 1) %}
+                            <li class="overall-page-item {% if p == pagination.page %}active{% endif %}">
+                                <a class="overall-page-link" href="{{ url_for('users.user_manage') }}?page={{ p }}">{{ p }}</a>
+                            </li>
+                        {% endfor %}
+                        
+                        <!-- Next Page Button -->
+                        <li class="overall-page-item {% if not pagination.has_next %}disabled{% endif %}">
+                            <a class="overall-page-link" href="{{ url_for('users.user_manage') }}?page={{ pagination.next_num }}"><i class="arrow-right-circle"></i>بعدی</a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-        </div>
-        {% endfor %}
-
-        <a href="{{url_for('users.add_user')}}" class="add-user-btn"><i class="fa-solid fa-user-plus"></i></a>
-    </div>
-
-    <div id="edit-user-popup" class="user-popup">
-        <div class="edit-user-content">
-            <h1>ویرایش کاربر</h1>
-            <form id="editUserForm" action="#" method="POST">
-                <label for="new_username">نام کاربری جدید</label>
-                <input type="text" id="new_username" name="new_username" required>
-                <label for="new_email">ایمیل جدید</label>
-                <input type="email" id="new_email" name="new_email" required>
-                <label for="password">رمز فعلی</label>
-                <input type="password" id="password" name="password" required>
-                <label for="new_password">رمز جدید :</label>
-                <input type="password" id="new_password" name="new_password">
-                <div class="access-form">
-                    <h2>دسترسی ها</h2>
-        
-                    <!-- Camera Access Drop-down List -->
-                    <div class="custom-select">
-                        <h3>دسترسی دوربین</h3>
-                        <div class="options-container" id="cameraOptionsContainer">
-                            {% for access in accesses %}
-                                {% if access.module.module_id == 18 %}
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="camera_access" value="{{ access.permission.name }}">
-                                        <span>{{ access.permission.label }}</span>
-                                    </label>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    
-                    <div class="custom-select">
-                        <h3>دسترسی منطقه</h3>
-                        <div class="options-container" id="zoneOptionsContainer">
-                            {% for access in accesses %}
-                                {% if access.module.module_id == 16 %}
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="zone_access" value="{{ access.permission.name}}">
-                                        <span>{{ access.permission.label }}</span>
-                                    </label>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    
-                    <div class="custom-select">
-                        <h3>دسترسی کاربر</h3>
-                        <div class="options-container" id="userOptionsContainer">
-                            {% for access in accesses %}
-                                {% if access.module.module_id == 17 %}
-                                    <label class="custom-checkbox">
-                                        <input type="checkbox" name="user_access" value="{{ access.permission.name }}">
-                                        <span>{{ access.permission.label }}</span>
-                                    </label>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                <button type="submit">ذخیره تغییرات</button>
-                <button type="button" onclick="closeUserPopup()">بستن</button>
-            </form>
-        </div>
-    </div>
+  </div>
+  
 </div>
+
+
+<!--add user form -->
+<div class="backdrop-modal" id="addUserBackdrop"></div>
+<form id="AddUserForm" class="add-user-form-modal" action="{{url_for('users.add_user')}}" style="display:none;" method="post">
+  <h2>افزودن حساب کاربر</h2>
+
+  <div class="input-group-text">
+    <div class="input-field">
+      <label for="firstName" class="lable-input">نام </label>
+      <input type="text" id="firstName" name="firstName" placeholder="نام" required />
+    </div>
+    <div class="input-field">
+      <label for="lastName" class="lable-input">نام خانوادگی </label>
+      <input type="text" id="lastName" name="lastName" placeholder="نام خانوادگی" required />
+    </div>
+  </div>
+
+  <div class="input-group-text">
+    <div class="input-field">
+      <label for="username" class="lable-input">نام کاربری</label>
+      <input type="text" id="username" name="username" placeholder="نام کاربری" />
+    </div>
+    <div class="input-field">
+      <label for="password" class="lable-input">رمز عبور</label>
+      <input type="password" id="password" name="password" placeholder="رمز عبور" />
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label class="lable-input">دسترسی ها</label>
+    <div class="accesses">
+      
+<!-- Camera Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedCameras">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> دوربین ها
+  </div>
+  <div class="options" id="cameraOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id == 2 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="camera_access" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Zone Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedZones">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> مناطق
+  </div>
+  <div class="options" id="zoneOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id == 3 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="zone_access" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Users Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedUsers">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> کاربران
+  </div>
+  <div class="options" id="userOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id ==1 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="user_access" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</div>
+</div>
+
+<div class="input-group">
+<label class="lable-input">دسترسی به دوربین ها</label>
+<div class="accesses">
+<!-- Camera Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedCamerasTwo">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style="fill: rgba(0, 0, 0, 1)"
+    >
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg>
+
+    دوربین ها
+  </div>
+  <div class="options" id="cameraOptionsTwo">
+    {% for camera in cameras  %}
+    <div class="custom-checkbox">
+      <input
+        type="checkbox"
+        class="checkbox"
+        name = "access_to_cameras"
+        value="{{camera.camera_id}}"
+      />
+       {{camera.camera_name}}
+    </div>
+      {% endfor %}
+        </div>
+</div>
+<!-- Zone Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="selectedZonesTwo">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style="fill: rgba(0, 0, 0, 1)"
+      class="down-icon"
+    >
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg>
+    مناطق
+  </div>
+  <div class="options" id="zoneOptionsTwo">
+    {% for zone in zones  %}
+    <div class="custom-checkbox">
+      <input type="checkbox" class="checkbox" name="access_to_zones" value="{{zone.zone_id}}" />
+      {{zone.zone_name}} 
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<!-- Users Dropdown -->
+</div>
+</div>
+  <div class="add-form-actions">
+    <button type="submit" class="save-btn">تایید</button>
+    <button type="button" class="cancel-btn" id="cancelAddModal">انصراف</button>
+  </div>
+</form>
+</div>
+  
+
+
+<!-- edit uaer form-->
+<div class="backdrop-modal" id="editUserBackdrop"></div>
+<div id="editUserModal" >
+  <form id="editUserForm" class="edit-user-form-modal" style="display:none;" method="post">
+    <h2>ویرایش حساب کاربر</h2>  
+    {% for user in users_list  %}
+    <input type="hidden" name="old_username" data-oldusername="{{ user.username }}">
+    <input type="hidden" name="old_password" data-oldpassword="{{ user.password_hash.check_password }}">
+    <input type="hidden" name="old_firstname" data-oldfirstname="{{ user.name }}">
+    <input type="hidden" name="old_lastname" data-oldlastname="{{ user.last_name }}">
+        {% endfor %}
+        <div class="input-group-text">
+          <div class="input-field">
+            <label for="firstName" class="lable-input"
+              >نام <span style="color: red">*</span></label
+            >
+            <input
+              type="text"
+              id="EditUserFirstName"
+              name="firstName"
+              placeholder="نام"
+              required
+            />
+          </div>
+          <div class="input-field">
+            <label for="lastName" class="lable-input"
+              >نام خانوادگی <span style="color: red">*</span></label
+            >
+            <input
+              type="text"
+              id="EditUserLastName"
+              name="lastName"
+              placeholder="نام خانوادگی"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="input-group-text">
+          <div class="input-field">
+            <label for="username" class="lable-input">نام کاربری</label>
+            <input
+              type="text"
+              id="EditUserUsername"
+              name="username"
+              placeholder="نام کاربری"
+            />
+          </div>
+
+          <div class="input-field">
+            <label for="password" class="lable-input">رمز عبور</label>
+            <input
+              type="password"
+              id="editUsePassword"
+              name="password"
+              placeholder="رمز عبور"
+            />
+          </div>
+        </div>
+          <div class="input-group">
+            <!-- Accesses Section -->
+            <label class="lable-input">دسترسی ها</label>
+            <div class="accesses">
+
+
+<!-- Camera Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedCameras">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> دوربین ها
+  </div>
+  <div class="options" id="EditUserCameraOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id == 2 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="camera_access[]" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Zone Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedZones">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> مناطق
+  </div>
+  <div class="options" id="EditUserZoneOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id == 3 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="zone_access[]" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Users Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedUsers">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg> کاربران
+  </div>
+  <div class="options" id="EditUserUserOptions">
+    {% for access in accesses %}
+      {% if access.module.module_id ==1 %}
+        <label class="custom-checkbox">
+          <input type="checkbox" name="user_access[]" value="{{ access.permission.name }}" />
+          <span>{{ access.permission.label }}</span>
+        </label>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+</div>
+</div>
+
+<div class="input-group">
+<label class="lable-input">دسترسی به دوربین ها</label>
+<div class="accesses">
+<!-- Camera Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedCamerasTwo">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style="fill: rgba(0, 0, 0, 1)"
+    >
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg>
+
+    دوربین ها
+  </div>
+  <div class="options" id="EditUserCameraOptionsTwo">
+    {% for camera in cameras  %}
+    <div class="custom-checkbox">
+      <input
+        type="checkbox"
+        class="checkbox"
+        name = "access_to_cameras[]"
+        value="{{camera.camera_id}}"
+      />
+       {{camera.camera_name}}
+    </div>
+      {% endfor %}
+  </div>
+</div>
+<!-- Zone Dropdown -->
+<div class="custom-dropdown">
+  <div class="selected lable-cheekbox" id="EditUserSelectedZonesTwo">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      style="fill: rgba(0, 0, 0, 1)"
+      class="down-icon"
+    >
+      <path d="m11.998 17 7-8h-14z"></path>
+    </svg>
+    مناطق
+  </div>
+  <div class="options" id="EditUserZoneOptionsTwo">
+    {% for zone in zones  %}
+    <div class="custom-checkbox">
+      <input type="checkbox" class="checkbox" name="access_to_zones[]" value="{{zone.zone_id}}" />
+      {{zone.zone_name}} 
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<!-- Users Dropdown -->
+</div>
+</div>
+    <div class="edit-form-actions">
+      <button type="submit" class="edit-save-btn" id="submitEditUserButton">تایید</button>
+      <button type="button" class="cancel-btn" id="cancelEditModal">انصراف</button>
+  </div>
+
+  </form>
+</div>
+
+
+<script src="{{url_for('static' ,filename='scripts/users.js')}}"></script>
+
+
+
+      
+        
+      
+{% endblock content %}  
+
+
 
     
-<div id="confirmModal" class="modal">
-    <div class="modal-content">
-        <p id="confirmMessage"></p>
-        <button id="confirmYes">Yes</button>
-        <button id="confirmNo">Cancel</button>
-    </div>
-</div>
-{% endblock content %}

@@ -1,0 +1,245 @@
+.calendar-modal p{
+    font-size: 20px;
+    margin: 10px  ;
+  }
+  .record-calendar-modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--Main-Gray-Light---2, #D7D7D7);
+    box-shadow: 0px 0px 15px 2px #00000026;
+    padding: 20px;
+    z-index: 1001;
+    border-radius: 10px;
+    width: 50%;
+    height: 50%; 
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: right;
+  }
+  .times-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .clock-items{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }  
+  .clock-container{
+    padding: 20px;
+    background: var(--Main-Gray-Light---3, #EBEBEB);
+    border-radius: 10PX;
+    margin: 5px;
+    width: 50%;
+  }
+  .clock-container p{
+    text-align: right;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .clock-items button{
+    width: 30px;
+    padding: 10px;
+  }
+  
+  .clock-items span{
+    text-align: center;
+    font-size: 15px;
+    font-weight: bo
+    ld;
+  }
+
+  .clock-item input{
+    padding: 10px 5px;
+    background: var(--Main-Green-Light---4, #C8DDC8);
+    border-radius: 50px;
+    border: none;
+  }
+
+  .calendars-container{
+    padding: 20px;
+    background: var(--Main-Gray-Light---3, #EBEBEB);
+    border-radius:10PX;
+    margin: 5px;
+    width: 50%;
+  }
+  
+  .calendar-items{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .calendars-container p{
+    text-align: right;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .calendar-items button{
+    width: 30px;
+    padding: 10px;
+  }
+  
+  .calendar-items span{
+    text-align: center;
+    font-size: 15px;
+    font-weight: bo
+    ld;
+  }
+  .calendar-item {
+    padding: 10px 5px;
+    background: var(--Main-Green-Light---4, #C8DDC8);
+    border-radius: 50px;
+  }
+  
+  .record-button-group{
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+    margin-top: 40px !important ; 
+  }
+  
+  .record-button-group button {
+    text-align: center;
+    padding: 10px !important;
+    width: 20%;
+    margin: 10px !important;
+    border-radius: 10px;
+  }
+
+  .record-save-btn{
+    background: var(--accent-color);
+    color: var(--clr-font-light);
+  }
+  .record-cancel-btn{
+    color: var(--Main-Green);
+    border: 1px solid var(--Main-Green, #304D30)
+  }
+  .calendar-submit-btn{
+    padding: 10px;
+    border-radius: 10px;
+    text-align: left;
+    position: absolute;
+    bottom: 28px;
+    left: 30px;
+    margin-left: 29px;
+    background: var(--accent-color);
+    color: #ffff;
+  }
+
+
+  .records-container {
+    background: var(--Main-Gray-Light---2, #D7D7D7);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0px 0px 15px 0px #00000026;
+    margin: 30px auto;
+    width: 90%;
+    position: relative;
+  }
+  
+  .records-grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+  
+  .record-card {
+    background: var(--Main-Gray-Light---1, #BDBDBD);
+    border: 2px solid var(--Main-Gray-Dark---3, #828282);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    box-shadow: 0px 0px 10px 0px #00000026;
+  }
+  
+  .record-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  
+  .record-info {
+    padding: 10px;
+    color: var(--clr-font-dark, #333);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .record-info h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .record-info p {
+    font-size: 14px;
+    margin: 4px 0;
+    color: var(--clr-font-light-dark, #555);
+  }
+  
+  .record-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: var(--Main-Green-Light---1, #A6D2A6);
+  }
+  
+  .record-actions button {
+    background: var(--Main-Green, #304D30);
+    color: var(--clr-font-light, #fff);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .record-actions button:hover {
+    background: var(--Main-Green-Light---2, #6D876D);
+  }
+    .no-records-placeholder {
+    text-align: center;
+    font-size: 18px;
+    color: var(--clr-font-light-dark, #555);
+    padding: 50px;
+  }
+    .records-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    background: var(--Main-Gray-Light---1, #BDBDBD);
+    padding: 10px 0;
+    border-top: 2px solid var(--Main-Gray-Dark---3, #828282);
+    border-radius: 0 0 5px 5px;
+  }
+  
+  .records-pagination .page-item {
+    margin: 0 5px;
+  }
+  
+  .records-pagination .page-link {
+    color: var(--Main-Green-Dark---2, #304D30);
+    padding: 8px 12px;
+    text-decoration: none;
+    border: 1px solid var(--Main-Gray-Dark---3, #828282);
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+  }
+  
+  .records-pagination .page-link:hover {
+    background: var(--Main-Green-Light---1, #A6D2A6);
+  }
+  
+  .records-pagination .page-item.active .page-link {
+    background: var(--Main-Green, #304D30);
+    color: var(--clr-font-light, #fff);
+  }
+  

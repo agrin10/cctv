@@ -1,0 +1,125 @@
+
+/* side menu */
+
+.dashboard {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--Main-Green);
+    width: 250px;
+    z-index: 200;
+    transition: all 0.8s;
+    font-size: 2rem;
+}
+  
+.show-menu {
+    transform: translateX(0); 
+}
+
+  
+.dashboard {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-top: 10px !important;
+    flex-direction: column;
+    width: 15%;
+
+}
+.main-style {
+    margin-right: 250px !important;
+    margin-bottom: 10px !important;
+    height: 100%;
+    transition: margin-right 0.3s ease;
+}
+.main-style-full {
+    margin-right: 0 !important;
+}
+  /* When dashboard is hidden */
+.dashboard-hidden .main-style {
+    margin-right: 0 !important; 
+    width: 100%;
+}
+  
+.dashboard-hidden {
+    display: none; /* Hide the dashboard */
+}
+.hidden {
+    display: none;
+}
+
+.dashboard ul {
+    flex-direction: column;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+  
+.dashboard li i {
+    font-size: 2.5rem;
+    margin-inline: 10px !important;
+    color: var(--clr-font-light);
+}
+  
+.dashboard .dashboard-list {
+    width: 100%;
+    margin-top: 50px !important;
+}
+
+.dashboard .dahboard-list-down {
+    border-top: 2px solid var(--clr-font-light);
+    width: 100%;
+    margin-top: auto !important;
+    margin-bottom: 20px !important;
+}
+
+.dashboard li {
+    width: 90%;
+}
+
+.dashboard li a {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 15px !important;
+    cursor: pointer;
+    padding: 5px !important;
+    transition: all 0.3s;
+    border-radius: 5px;
+}
+  
+.dashboard li p {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--clr-font-light);
+}
+  
+.dashboard-logo {
+    margin-top: 20px !important;
+}
+  
+.dashboard-logo {
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    width: 85px;
+    height: 85px; 
+}
+
+.dashboard-logo img {
+    width: 100%; 
+    height: auto; 
+    opacity: 1;   
+    visibility: visible;
+}
+
+
+.dashboard li a:hover {
+    background-color: var(--Main-Green-Light---3);
+}
+
+.dashboard-moblie i {
+    font-size: 2.5rem;  
+}
+  

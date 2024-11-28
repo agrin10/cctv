@@ -1,13 +1,12 @@
 from datetime import datetime, timedelta , timezone
 import re
-# from app import app
 import requests
 import cv2
 import pytz
 
 
-def build_rtsp_url(camera_ip, camera_username, camera_password , camera_port):
-    return f"rtsp://{camera_username}:{camera_password}@{camera_ip}:{camera_port}/cam/realmonitor?channel=1&subtype=1"
+def build_rtsp_url(camera_ip, camera_username, camera_password ):
+    return f"rtsp://{camera_username}:{camera_password}@{camera_ip}:554/cam/realmonitor?channel=1&subtype=1"
 
 
 def is_iso_format(date_string: str) -> bool:
@@ -144,11 +143,11 @@ def delete_camera_api(camera_ip:str , camera_name:str):
     if not check_modules_status():
         return 500
     
-    #sending delete requeest to ai api
+    #sending delete request to ai api
     ai_response = requests.delete(ai_url + "devices/" + label , headers=header)
     ai_response.raise_for_status()
 
-    return ai_response , True , "camera deleted successfuly."
+    return ai_response , True , "camera deleted successfully."
 
 
 def get_all_cameras_from_record_module():
@@ -158,6 +157,7 @@ def get_all_cameras_from_record_module():
     response.raise_for_status()
     return response.json(), response.status_code
     
+
 def toggle_recording_specific_camera(ip:str , name:str , bool:bool):
     payload = {"recording" :bool}
     camera_label = f'{ip}-{name}'
@@ -187,6 +187,8 @@ def get_alerts_from_api():
     data = response.json()
 
     return data , response.status_code
+
+
 def get_records_from_api(ip: str, name: str, start_time, end_time):
     if not start_time or not end_time:
         return "error: Start time or end time is missing", 400  

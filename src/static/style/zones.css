@@ -1,0 +1,776 @@
+/* zones */
+/* ************************** */
+.zone-body-row {
+    background: var(--Main-Gray-Light---1, #BDBDBD);
+    }
+
+    .zone-body-row:nth-child(even) {
+        background: var(--Main-Gray-Light---2, #D7D7D7);
+    } 
+
+    .zone-body-row:nth-child(odd) {
+        background: var(--Main-Gray-Light---3, #EBEBEB);
+    }
+
+    .zone-body-row:hover {
+        background: var(--Main-Green-Light---4, #C8DDC8);
+    }
+
+    .zone-body-row:hover .row-number {
+        background:  #FBFBFB;
+    
+    }
+    .cam-list-zone-body-row {
+    background: var(--Main-Gray-Light---1, #BDBDBD);
+    }
+
+    .cam-list-zone-body-row:nth-child(even) {
+        background: var(--Main-Gray-Light---2, #D7D7D7);
+    } 
+
+    .cam-list-zone-body-row:nth-child(odd) {
+        background: var(--Main-Gray-Light---3, #EBEBEB);
+    }
+
+    .cam-list-zone-body-row:hover {
+        background: var(--Main-Green-Light---4, #C8DDC8);
+    }
+
+    .cam-list-zone-body-row:hover .row-number {
+        background:  #FBFBFB;
+    
+    }
+    .body-cell {
+        padding: 10px; 
+        text-align: center;
+        border: 1px solid var(--Main-Gray-Light---1); 
+    }
+
+    .row-number{
+        padding: 5px 10px;
+        border-radius: 30px;
+        background: var(--Main-Gray-Light---1, #BDBDBD);
+    }
+    .camera-list-view-btn{
+      width: 5%;
+    }
+
+/*****/
+.zone-sidebar {
+    width: 30%;
+    background-color: var(--Main-Gray-Light---2, #D7D7D7);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px 2px #00000026;
+}
+
+.zone-sidebar h3 {
+  text-align: right;
+}
+
+.zone-sidebar label {
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+  text-align: right;
+}
+
+.zone-sidebar input[type="text"], .zone-sidebar textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background: var(--Main-Gray-Light---3, #EBEBEB);
+
+}
+
+.zone-sidebar textarea {
+  height: 400px;  
+}
+
+.zone-sidebar button {
+  padding: 10px;
+  background-color: var(--accent-color);
+  color: var(--clr-font-light);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  width: 94%;
+  margin: 0 5px;
+}
+.cancel-btn {
+  background-color: var(--Main-Gray-Dark---2);
+  border: 1px solid  #124076;
+  color:   #124076;
+} 
+.zone-container {
+  max-width: 100%;
+  padding: 20px;
+}
+
+.zone-header {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+
+.zone-body {
+  display: flex;
+  gap: 20px;
+}
+
+.zone-title {
+  text-align: right;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.zone-description {
+  width: 100%;
+  height: 50%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.zone-description {
+  height: 400px;
+  resize: none;
+}
+
+
+.zone-main-content {
+  width: 70%;
+  height: 70  0px;
+  background: var(--Main-Gray-Light---2, #D7D7D7);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px 2px #00000026;
+  position: relative;
+}
+
+.zone-table {
+  width: 100%;
+  border-collapse: collapse; 
+  margin-bottom: 20px;
+  border-radius: 10px; 
+  overflow: scroll;
+  text-align: right;
+}
+
+.zone-table th, .zone-table td {
+  padding: 10px;
+  text-align: right;
+  border: 1px solid var(--Main-Gray-Light---1, #BDBDBD);
+  text-align: center;
+}
+
+
+.zone-table th {
+  border-bottom: 1px solid var(--Accent-Color, #304D30);
+  background: var(--Main-Green-Dark---3, #263E26);
+  color: var(--clr-font-light);
+  text-align: right;
+  font-size: small;
+}
+
+
+.zone-desc{
+  width: 50%;
+}
+.zone-name{
+  width: 20%;
+}
+
+.numbers-list{
+  width: 2%;
+}
+.view-cameras-list{
+  width: 15%;
+}
+/* zones */
+/* ************************** */
+.zone-body-row {
+    background: var(--Main-Gray-Light---1, #BDBDBD);
+    }
+
+    .zone-body-row:nth-child(even) {
+        background: var(--Main-Gray-Light---2, #D7D7D7);
+    } 
+
+    .zone-body-row:nth-child(odd) {
+        background: var(--Main-Gray-Light---3, #EBEBEB);
+    }
+
+    .zone-body-row:hover {
+        background: var(--Main-Green-Light---4, #C8DDC8);
+    }
+
+    .zone-body-row:hover .row-number {
+        background:  #FBFBFB;
+    
+    }
+    .cam-list-zone-body-row {
+    background: var(--Main-Gray-Light---1, #BDBDBD);
+    }
+
+    .cam-list-zone-body-row:nth-child(even) {
+        background: var(--Main-Gray-Light---2, #D7D7D7);
+    } 
+
+    .cam-list-zone-body-row:nth-child(odd) {
+        background: var(--Main-Gray-Light---3, #EBEBEB);
+    }
+
+    .cam-list-zone-body-row:hover {
+        background: var(--Main-Green-Light---4, #C8DDC8);
+    }
+
+    .cam-list-zone-body-row:hover .row-number {
+        background:  #FBFBFB;
+    
+    }
+    .body-cell {
+        padding: 10px; 
+        text-align: center;
+        border: 1px solid var(--Main-Gray-Light---1); 
+    }
+
+    .row-number{
+        padding: 5px 10px;
+        border-radius: 30px;
+        background: var(--Main-Gray-Light---1, #BDBDBD);
+    }
+    .camera-list-view-btn{
+      width: 5%;
+    }
+
+/*****/
+.zone-sidebar {
+    width: 30%;
+    background-color: var(--Main-Gray-Light---2, #D7D7D7);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px 2px #00000026;
+}
+
+.zone-sidebar h3 {
+  text-align: right;
+}
+
+.zone-sidebar label {
+  font-weight: bold;
+  margin-top: 10px;
+  display: block;
+  text-align: right;
+}
+
+.zone-sidebar input[type="text"], .zone-sidebar textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background: var(--Main-Gray-Light---3, #EBEBEB);
+
+}
+
+.zone-sidebar textarea {
+  height: 400px;  
+}
+
+.zone-sidebar button {
+  padding: 10px;
+  background-color: var(--accent-color);
+  color: var(--clr-font-light);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  width: 94%;
+  margin: 0 5px;
+}
+.cancel-btn {
+  background-color: var(--Main-Gray-Dark---2);
+  border: 1px solid  #124076;
+  color:   #124076;
+} 
+.zone-container {
+  max-width: 100%;
+  padding: 20px;
+}
+
+.zone-header {
+  text-align: right;
+  margin-bottom: 20px;
+}
+
+
+.zone-body {
+  display: flex;
+  gap: 20px;
+}
+
+.zone-title {
+  text-align: right;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.zone-description {
+  width: 100%;
+  height: 50%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.zone-description {
+  height: 400px;
+  resize: none;
+}
+
+
+.zone-main-content {
+  width: 70%;
+  height: 70  0px;
+  background: var(--Main-Gray-Light---2, #D7D7D7);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 15px 2px #00000026;
+  position: relative;
+}
+
+.zone-table {
+  width: 100%;
+  border-collapse: collapse; 
+  margin-bottom: 20px;
+  border-radius: 10px; 
+  overflow: scroll;
+  text-align: right;
+}
+
+.zone-table th, .zone-table td {
+  padding: 10px;
+  text-align: right;
+  border: 1px solid var(--Main-Gray-Light---1, #BDBDBD);
+  text-align: center;
+}
+
+
+.zone-table th {
+  border-bottom: 1px solid var(--Accent-Color, #304D30);
+  background: var(--Main-Green-Dark---3, #263E26);
+  color: var(--clr-font-light);
+  text-align: right;
+  font-size: small;
+}
+
+
+.zone-desc{
+  width: 50%;
+}
+.zone-name{
+  width: 20%;
+}
+
+.numbers-list{
+  width: 2%;
+}
+.view-cameras-list{
+  width: 15%;
+}
+
+.zone-pagination {
+  text-align: center;
+}
+
+.zone-page-btn {
+  margin: 0 5px;
+  background-color:  var(--accent-color, #124076);
+  border: 1px solid var(--Black);
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.zone-page-btn.active {
+  background-color: var(--accent-color);
+  color: var(--clr-font-light);
+}
+
+.zone-page-btn:hover {
+  background-color: #ddd;
+}
+
+.zone-view-btn{
+  margin: 30px;
+  padding: 30px;
+}
+.down-nav{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  
+}
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20%;
+}
+
+
+
+.edit-btn {
+  background-color: #124076;
+  color: white;
+}
+
+/*camera list popup */
+.zone-camera-list{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  z-index: 20; 
+  padding: 30px;
+  border-radius: 8px;
+  width: 50%; 
+  max-width: 800px;
+  height: 80%;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  z-index: 600;
+}
+
+.backdrop-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 500;
+  background-color: #00000083;
+  backdrop-filter: blur(3px);
+}
+.cam-list-table{
+  height: 450px;      
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  border-radius: 20px;
+  background: var(--Main-Gray-Light---3, #EBEBEB);
+  margin-top: 20px;
+}
+
+
+.close-modal-btn{
+  background-color: none;
+  border: 1px solid var(--accent-color, #124076);
+  color: var(--accent-color, #124076);
+  padding: 10px ;
+  width: 20%;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  margin: 5px;
+}
+
+/* *********************************** */
+/* edit zone modal */
+.edit-form-modal {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.zone-edit-inputs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  margin-top:10px ;
+}
+
+.edit-form {
+  background: var(--Main-Gray-Light---2, #D7D7D7);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 30%;
+  max-width: 100%;
+  position: relative;
+  z-index: 1000;
+  height: 55%;
+}
+.edit-button-group{
+  display: flex;
+  align-content: center;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.edit-button-group button {
+  padding: 5px 20px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--accent-color, #124076);
+  color: white;
+  border-radius: 5px;
+  width: 30%;
+}
+
+.zone-input-desc{
+  width: 100%;
+  padding: 10px;
+  height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-align: right;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background: var(--Main-Gray-Light---3, #EBEBEB);
+  resize: none;
+
+}
+
+.edit-button-group .cancel-edit-btn {
+  background-color: white;
+  border: 1px solid var(--accent-color, #124076);
+  color: var(--accent-color, #124076);
+}
+
+
+/* Input Fields */
+.zone-input {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 5px;
+font-size: 1.5rem;
+box-sizing: border-box;
+background: var(--Main-Gray-Light---3, #EBEBEB);
+text-align: right;
+}
+
+
+.zone-sidebar .cancel-btn{
+    background-color: var(--Main-Gray-light---2);
+    border: 1px solid var(--accent-color, #124076);
+    color: var(--accent-color, #124076);
+}
+/* ******************************** */
+/* ****************************************setting *************************** */
+.zone-pagination {
+  text-align: center;
+}
+
+.zone-page-btn {
+  margin: 0 5px;
+  background-color:  var(--accent-color, #124076);
+  border: 1px solid var(--Black);
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.zone-page-btn.active {
+  background-color: var(--accent-color);
+  color: var(--clr-font-light);
+}
+
+.zone-page-btn:hover {
+  background-color: #ddd;
+}
+
+.zone-view-btn{
+  margin: 30px;
+  padding: 30px;
+}
+.down-nav{
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  
+}
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20%;
+}
+
+
+
+.edit-btn {
+  background-color: #124076;
+  color: white;
+}
+
+/*camera list popup */
+.zone-camera-list{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  z-index: 20; 
+  padding: 30px;
+  border-radius: 8px;
+  width: 50%; 
+  max-width: 800px;
+  height: 80%;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+  z-index: 600;
+}
+
+.cam-list-table{
+  height: 450px;      
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  border-radius: 20px;
+  background: var(--Main-Gray-Light---3, #EBEBEB);
+  margin-top: 20px;
+}
+
+
+.close-modal-btn{
+  background-color: none;
+  border: 1px solid var(--accent-color, #124076);
+  color: var(--accent-color, #124076);
+  padding: 10px ;
+  width: 20%;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  margin: 5px;
+}
+
+/* *********************************** */
+/* edit zone modal */
+.edit-form-modal {
+  display: none; 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.zone-edit-inputs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  margin-top:10px ;
+}
+
+.edit-form {
+  background: var(--Main-Gray-Light---2, #D7D7D7);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 30%;
+  max-width: 100%;
+  position: relative;
+  z-index: 1000;
+  height: 55%;
+}
+.edit-button-group{
+  display: flex;
+  align-content: center;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.edit-button-group button {
+  padding: 5px 20px;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+  background-color: var(--accent-color, #124076);
+  color: white;
+  border-radius: 5px;
+  width: 30%;
+}
+
+.zone-input-desc{
+  width: 100%;
+  padding: 10px;
+  height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  text-align: right;
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 16px;
+  background: var(--Main-Gray-Light---3, #EBEBEB);
+  resize: none;
+
+}
+
+.edit-button-group .cancel-edit-btn {
+  background-color: white;
+  border: 1px solid var(--accent-color, #124076);
+  color: var(--accent-color, #124076);
+}
+
+
+/* Input Fields */
+.zone-input {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 5px;
+font-size: 1.5rem;
+box-sizing: border-box;
+background: var(--Main-Gray-Light---3, #EBEBEB);
+text-align: right;
+}
+
+
+.zone-sidebar .cancel-btn{
+    background-color: var(--Main-Gray-light---2);
+    border: 1px solid var(--accent-color, #124076);
+    color: var(--accent-color, #124076);
+}

@@ -1,0 +1,49 @@
+<link
+rel="stylesheet"
+href="{{url_for('static' , filename='style/style.css')}}"
+/>
+<div class="main-full-screen">
+
+    <div class="full-screen-container">
+        <div class="full-grid-container layout-{{ layout }}">
+            <!-- Display online cameras first -->
+            {% for camera in cameras %}
+            <div class="full-grid-item">
+                <div class="overall-fullscreen-container">
+                    <div class="camera-header-overlay">
+                        <div class="camera-header-right">
+                            <span class="camera-header-zone">{{ camera.zone_name or "ناحیه مشخص نشده" }}</span> -
+                            <span class="camera-header-name">دوربین شماره {{ loop.index }}</span>
+                        </div>
+                        <div class="camera-header-left">
+                            <span class="camera-header-time">09:45:12</span>
+                        </div>
+                    </div>
+                    <img src="{{ url_for('camera.video_feed', camera_ip=camera.camera_ip) }}" alt="{{ camera.camera_name }}" />
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- Fill remaining slots with placeholders -->
+            {% for _ in range(placeholders_needed) %}
+            <div class="full-grid-item">
+                <div class="overall-fullscreen-container">
+                    <div class="camera-header-overlay">
+                        <div class="camera-header-right">
+                            <span class="camera-header-zone">ناحیه مشخص نشده</span> -
+                            <span class="camera-header-name">دوربین شماره {{ cameras|length + loop.index }}</span>
+                        </div>
+                        <div class="camera-header-left">
+                            <span class="camera-header-time">--:--:--</span>
+                        </div>
+                    </div>
+                    <div class="placeholder">
+                        <img src="{{ url_for('static', filename='images/image-not-found-1-scaled.svg') }}" alt="No Camera Connected" />
+                        <p>دوربینی متصل نشده است</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,19 +1,18 @@
-{% extends "base.html" %}
-{% block title %}ورود{% endblock title %}
-{% block content %}
-
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('static' , filename='style/authentication.css')}}">
+{% endblock styles %}
     <div class="login_container">
         <div class="first_page">
           <div class="right">
                 <div class="forms">
-                  <h2 class="form-title">ویزتک</h2>
+                  <h2 class="form-title">سپند</h2>
                     <div class="tabs">
                         <button class="tab-link active" onclick="openTab(event, 'login')">ورود</button>
                         <button class="tab-link" onclick="openTab(event, 'register')">ثبت نام</button>
                     </div>
                   <div id="login" class="tab-content active">
                       <form action="{{url_for('users.login')}}" method="POST">
-                          <input type="text" name="username" placeholder="نام کاربری" required>
+                          <input type="text" name="username"X placeholder="نام کاربری" required>
                           <input type="password" name="password" placeholder="رمز عبور" required>
                           <div class="checkbox-container">
                             <label>
@@ -43,33 +42,11 @@
             </div>
             <div class="left">
                 <div class="logo-container">
-                    <img src="{{url_for('static' , filename='images/viztechlogo.png')}}" alt="Logo" class="logo">
+                    <img src="{{url_for('static' , filename='images/sepand 4 (1).svg')}}" alt="Logo" class="logo">
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-      function openTab(event, tabName) {
-        let i, tabcontent, tablinks;
-
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-
-        tablinks = document.getElementsByClassName("tab-link");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-
-        document.getElementById(tabName).style.display = "block";
-        event.currentTarget.className += " active";
-    }
-
-    // Set default active tab
-    document.getElementById("login").style.display = "block";
-
-    </script>
-
-{% endblock content %}
+    {% block scripts %}
+      <script src="{{url_for('static' ,filename='scripts/authentication.js')}}"></script>
+    {% endblock scripts %}

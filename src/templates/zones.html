@@ -1,33 +1,108 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
+<!-- Main Content -->
 <div class="main-zone">
-    <div class="main-zone-list">
-        <h1>لیست مناطق </h1>
-        <div class="zone-list-container">
-            {%if error%}
-            <p>error : {{error}}</p>
-            {% else %} 
-
+  <div class="search-box">
+    <b>لیست مناطق</b>
+  </div>
+  <div class="zone-container">
+    <div class="zone-body">
+      <div class="zone-main-content">
+        <table class="zone-table" , id="zoneTable">
+          <thead>
+            <tr>
+              <th class="numbers-list"></th>
+              <th class="zone-name">نام منطقه</th>
+              <th class="zone-desc">توضیحات</th>
+              <th class="view-cameras-list">لیست دوربین‌ها</th>
+            </tr>
+          </thead>
+          <tbody>
             {% for zone in zones %}
-            <div class="single-zone-container">
-            
-                <div class="single-zone-list">
-                    <div class="single-zone">
-                        <p>نام منطقه:    {{zone.zone_name}}</p>
-                    </div>
-                    <div class="single-zone">
-                        <p> توضیحات:    {{zone.zone_desc}}</p>
-                    </div>
-                </div>
-            </div>
+            <tr class="zone-body-row" 
+                data-zone-id="{{ zone.zone_id }}" 
+                data-zone-name="{{ zone.zone_name }}" 
+                data-zone-description="{{ zone.zone_desc }}">
+              <td class="body-cell-number">
+                <span class="row-number" lang="fa">{{ loop.index }}</span>
+              </td>
+              <td>{{ zone.zone_name }}</td>
+              <td>{{ zone.zone_desc }}</td>
+              <td>
+                <button class="view-btn" data-zone-id="{{ zone.zone_id }}"></button>
+              </td>
+            </tr>
             {% endfor %}
+          </tbody>
+        </table>
 
-            <div class='add-zone'><a href="{{url_for('zone.add_zone')}}"><button class='btn'>افزودن منطقه</button></div></a>
-            
+        <!-- Pagination Controls -->
+        <div class="pagination">
+          <nav aria-label="Page navigation example">
+            <ul class="overall-pagination">
+                <!-- Previous Page Button -->
+                <li class="overall-page-item {% if not pagination.has_prev %}disabled{% endif %}">
+                    <a class="overall-page-link" href="{{ url_for('zone.zones') }}?page={{ pagination.prev_num }}"><i class="arrow-left-circle"></i>قبلی</a>
+                </li>
+                
+                <!-- Page Number Links -->
+                {% for p in range(1, pagination.pages + 1) %}
+                    <li class="overall-page-item {% if p == pagination.page %}active{% endif %}">
+                        <a class="overall-page-link" href="{{ url_for('zone.zones') }}?page={{ p }}">{{ p }}</a>
+                    </li>
+                {% endfor %}
+                
+                <!-- Next Page Button -->
+                <li class="overall-page-item {% if not pagination.has_next %}disabled{% endif %}">
+                    <a class="overall-page-link" href="{{ url_for('zone.zones') }}?page={{ pagination.next_num }}"><i class="arrow-right-circle"></i>بعدی</a>
+                </li>
+            </ul>
+        </nav>
         </div>
+</div>
 
+      <!-- Sidebar Form Section -->
+      <div class="zone-sidebar">
+        <h3 class="zone-title">افزودن منطقه جدید</h3>
+        <form id="zoneForm" action="#" method="post">
+          <input type="text" id="zoneName" class="zone-input" name="zone_name" placeholder="نام منطقه" />
+          <textarea id="zoneDescription" class="zone-description" name="zone_desc" placeholder="توضیحات"></textarea>
+          
+          <!-- Button Group -->
+          <div class="button-group" id="buttonGroup">
+            <button class="zone-add-btn">افزودن</button>
+          </div>
+        </form>
+      </div>
     </div>
-    {% endif %}
+  </div>
+</div>
+
+<!-- Backdrop and Modal -->
+<div class="backdrop-modal"></div>
+<div class="zone-camera-list camera-list-modal" style="display:none;">
+  <h4>منطقه شماره 5</h4>
+  <div class="cam-list-table">
+    <table class="zone-table">
+      <thead>
+        <tr>
+          <th class="numbers-list"></th>
+          <th>ادرس ip</th>
+          <th>نام دستگاه</th>
+          <th>نوع دستگاه</th>
+          <th>نام منطقه</th>
+          <th class="camera-list-view-btn"></th>
+        </tr>
+      </thead>
+      <tbody id="cameraListBody">
+      </tbody>
+    </table>
+  </div>
+  <div class="down-nav">
+    <button class="close-modal-btn">بازگشت</button>
+  </div>
+</div>
+
+<script src="{{url_for('static' ,filename='scripts/zones.js')}}"></script>
 
 
 {% endblock content %}
