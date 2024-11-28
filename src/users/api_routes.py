@@ -1,5 +1,5 @@
 from flask import  jsonify ,request
-from .controller import handle_login , handle_logout , handle_registration ,handle_add_users, handle_delete_user , handle_edit_user
+from .controller import handle_login , handle_logout , handle_registration ,handle_add_users, handle_delete_user , handle_edit_user , get_user_accesses
 from flask_login import login_user , logout_user
 from flask_jwt_extended import jwt_required
 from src.users import users_bp
@@ -80,3 +80,10 @@ def delete_users():
         return jsonify(message=message , status=status)
     return jsonify(message=message , status=status)
 
+
+@users_bp.route('/api/get')
+@jwt_required()
+def user_accesses():
+    user_id = request.args.get("user_id")
+    user_accesses = get_user_accesses(user_id)
+    return jsonify(user_accesses=user_accesses) , 200
