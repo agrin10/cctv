@@ -213,7 +213,7 @@ def camera_view():
             camera_ip = latest_camera.camera_ip
             zone_id = latest_camera.camera_zone
         else:
-            return render_template('camera-view.html', cameras=[], message="No cameras available", layout=layout)
+            return render_template('camera-view.html', cameras=[], message="No cameras available", layout=layout , total_pages=0)
 
     if camera_ip:
         camera = Camera.query.filter_by(camera_ip=camera_ip).first()
