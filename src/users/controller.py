@@ -144,17 +144,15 @@ def handle_edit_user(
     username, new_username, password, new_password, 
     new_permission_names, camera_ids, zone_ids
 ):
-    
     user = Users.query.filter_by(username=username).first()
 
-    if user and user.check_password(password):
+    if user:
         user.username = new_username
         user.name = firstname
         user.last_name = lastname
         if new_password:
             user.set_password(new_password)
 
-        # Clear current permissions and accesses
         UserAccess.query.filter_by(user_id=user.user_id).delete()
 
         # Assign new permissions

@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-document.getElementById('editUserForm').addEventListener('submit', function(event) {
+document.getElementById('editUserForm').addEventListener('submit', function (event) {
   event.preventDefault(); // Prevent default form submission
 
   // Disable the submit button to prevent double submission
@@ -82,7 +82,7 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
   const oldFirstName = document.querySelector('input[name="old_firstname"]').getAttribute('data-oldfirstname');
   const oldLastName = document.querySelector('input[name="old_lastname"]').getAttribute('data-oldlastname');
   const oldUsername = document.querySelector('input[name="old_username"]').getAttribute('data-oldusername');
-  const oldPassword = document.querySelector('input[name="old_password"]').getAttribute("data-oldpassword"); 
+  const oldPassword = document.querySelector('input[name="old_password"]').getAttribute('data-oldpassword');
 
   const newFirstName = document.getElementById('EditUserFirstName').value;
   const newLastName = document.getElementById('EditUserLastName').value;
@@ -92,8 +92,6 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
   const cameraAccess = Array.from(document.querySelectorAll('input[name="camera_access[]"]:checked')).map(input => input.value);
   const zoneAccess = Array.from(document.querySelectorAll('input[name="zone_access[]"]:checked')).map(input => input.value);
   const userAccess = Array.from(document.querySelectorAll('input[name="user_access[]"]:checked')).map(input => input.value);
-  const accessToCamera = Array.from(document.querySelectorAll('input[name="access_to_cameras[]"]:checked')).map(input => input.value);
-  const accessToZone = Array.from(document.querySelectorAll('input[name="access_to_zones[]"]:checked')).map(input => input.value);
 
   const data = {
     old_firstname: oldFirstName,
@@ -103,50 +101,68 @@ document.getElementById('editUserForm').addEventListener('submit', function(even
     old_username: oldUsername,
     new_username: newUsername || oldUsername,
     old_password: oldPassword,
-    password: newPassword || null , 
+    password: newPassword || null,
     camera_access: cameraAccess,
     zone_access: zoneAccess,
-    user_access: userAccess, 
-    access_to_cameras : accessToCamera,
-    access_to_zones :accessToZone
+    user_access: userAccess,
   };
 
   // Send PATCH request
   fetch('/users/edit', {
     method: 'PATCH',
     headers: {
-      'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data)
-  })
-    .then(response => response.json())
+    body: JSON.stringify(data),
+})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(responseData => {
-      if (responseData.success) {
-        closeEditModal();
-        console.log('User updated successfully!');
-      } else {
-        closeEditModal()
-        console.log('Error updating user: ' + responseData.message);
-      }
+        if (responseData.success) {
+          closeEditModal();
+          console.log('Searching for row with username:', data.old_username);
+          const updatedRow = document.querySelector(`tr[data-username="${data.old_username}"]`);
+          console.log('Found row:', updatedRow);
+          
+          if (updatedRow) {
+            updatedRow.querySelector('.body-cell:nth-child(2)').textContent = data.firstname;
+            updatedRow.querySelector('.body-cell:nth-child(3)').textContent = data.lastname;
+            updatedRow.querySelector('.body-cell:nth-child(4)').textContent = data.new_username || data.old_username;
+            
+            // Update the attributes
+            updatedRow.setAttribute('data-username', data.new_username || data.old_username);
+            updatedRow.setAttribute('data-password', data.password || data.old_password);
+            updatedRow.setAttribute('data-firstname', data.firstname);
+            updatedRow.setAttribute('data-lastname', data.lastname);
+            
+          } else {
+              console.error(`No row found for username: ${data.old_username}`);
+          }
+          
+            console.log('User updated successfully:', responseData.message);
+        } else {
+            console.error('Error updating user:', responseData.message);
+        }
     })
     .catch(error => {
-      console.error('Error:', error);
-      console.log('An error occurred while updating the user.');
+        console.error('Error:', error);
+        console.log('An error occurred while updating the user.');
     })
-    .finally(() => {      submitButton.disabled = false;
+    .finally(() => {
+        submitButton.disabled = false;
     });
 });
-document.getElementById('editUserForm').addEventListener('keydown', function(event) {
-  if (event.key === 'Enter') {
-    event.preventDefault(); 
-  }
-});
-
+// Close the modal
 function closeEditModal() {
   document.getElementById('editUserModal').style.display = 'none';
   document.getElementById('editUserBackdrop').style.display = 'none';
 }
 
+// Event listener for cancel button
 document.getElementById('cancelEditModal').addEventListener('click', closeEditModal);
 
 

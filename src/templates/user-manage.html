@@ -254,7 +254,7 @@
     <h2>ویرایش حساب کاربر</h2>  
     {% for user in users_list  %}
     <input type="hidden" name="old_username" data-oldusername="{{ user.username }}">
-    <input type="hidden" name="old_password" data-oldpassword="{{ user.password_hash.check_password }}">
+    <input type="hidden" name="old_password" data-oldpassword="{{ user.password_hash}}">
     <input type="hidden" name="old_firstname" data-oldfirstname="{{ user.name }}">
     <input type="hidden" name="old_lastname" data-oldlastname="{{ user.last_name }}">
         {% endfor %}
@@ -295,6 +295,7 @@
               placeholder="نام کاربری"
             />
           </div>
+          
 
           <div class="input-field">
             <label for="password" class="lable-input">رمز عبور</label>
@@ -306,6 +307,7 @@
             />
           </div>
         </div>
+        
           <div class="input-group">
             <!-- Accesses Section -->
             <label class="lable-input">دسترسی ها</label>

@@ -161,13 +161,10 @@ def edit_user():
         camera_ids=validated_data.get('access_to_cameras'),
         zone_ids=validated_data.get('access_to_zones'),
     )
-    if not success:
-        print("message", message)
+
     if success:
-        flash(message, 'success')
-        return {"message": message}, 200
+        return {"success": success, "message": message}, 200
     else:
-        flash(message, 'error')
-        return {'message': message}, 400
+        return {"success": success, "message": message }, 400
 
 
