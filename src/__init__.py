@@ -23,12 +23,13 @@ def create_app():
 
     
     
-    from src.users.seeder import seed_user_management
+    from src.users.seeder import seed_user_management , seed_admin_user
     from src.camera.seeder import seed_ai_properties
     with app.app_context():
         db.create_all()  
         seed_user_management()  
         seed_ai_properties()
+        seed_admin_user()
 
     register_blueprint(app)
 

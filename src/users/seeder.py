@@ -67,3 +67,49 @@ def seed_user_management():
     
     finally:
         session.close()
+
+
+def seed_admin_user():
+    from .model import Users, UserAccess, Permissions  ,Accesses
+    session = db.session
+
+    try:
+        existing_user = session.query(Users).filter_by(username="admin").first()
+        password = "admin"
+        if not existing_user:
+            admin_user = Users(
+                username="admin",
+                email="admin@example.com", 
+                name="Admin",                
+                last_name="User",           
+            )
+            # Set password
+            admin_user.set_password(password) 
+            
+            session.add(admin_user)
+            session.commit()  
+            
+            print("Admin user created.")
+
+            all_permissions = session.query(Permissions).all()
+            for permission in all_permissions:
+                access = session.query(Accesses).filter_by(permissions_id=permission.id).first()
+                if access:
+                    user_access = UserAccess(
+                        user_id=admin_user.user_id,
+                        access_id=access.id
+                    )
+                    session.add(user_access)
+
+            session.commit()  
+            print("All permissions granted to admin user.")
+
+        else:
+            print("Admin user already exists, skipping creation.")
+    
+    except Exception as e:
+        print(f"Error occurred while seeding admin user: {e}")
+        session.rollback()
+
+    finally:
+        session.close()
