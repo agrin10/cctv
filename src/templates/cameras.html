@@ -127,25 +127,23 @@
                   
                       <!-- Zone Dropdown -->
 
-
-                      <div class="select-location-box">
-                        <div class="custom-select">
-                            <div class="selected label-checkbox">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
-                                    <path d="m11.998 17 7-8h-14z"></path>
-                                </svg>  
-                                <select id="zoneSelect" name="zone_name">
-                                    <option value="" selected disabled class="options">انتخاب منطقه</option>
-                                    {% for zone in zones %}
-                                        <option value="{{ zone.zone_name }}">{{ zone.zone_name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-
+                    
+                    <div class="custom-dropdown">
+                        <div class="selected lable-cheekbox" id="selectedZones">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                            <path d="m11.998 17 7-8h-14z"></path>
+                        </svg> منطقه ها
+                        </div>
+                        <div class="options" id="zonesOptions">
+                            {% for zone in zones %}
+                            <label class="custom-radio-zones">
+                            <input type="radio" name="zone_name" value="{{ zone.zone_name }}" />
+                            <span style="">{{ zone.zone_name }}</span>
+                            </label>
+                            {% endfor %}
                         </div>
                     </div>
-        
-
+  
                   
                         <!-- Object Detection Section -->
                         <div class="bottom-options">
@@ -170,16 +168,31 @@
 
                           <!-- Recording Section -->
                           <div class="select-recording-box">
-                            <label for="recordingSelect"><h5>ضبط</h5></label>
-                            <div class="custom-select">
-                                <select id="recordingSelect" name="is_record">
-                                    <option value="" selected disabled>ضبط</option>
-                                    <option value="1">بله</option>
-                                    <option value="0">خیر</option>
-                                </select>
+                            <label for="recordingSelect">
+                              <h5>ضبط</h5>
+                            </label>
+                            <div id="selectedRecording" class="custom-select-label">
+                              <span>ضبط</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
+                                <path d="m11.998 17 7-8h-14z"></path>
+                            </svg>                          
                             </div>
-              
-                        </div>
+                            <div id="recordingOptions" class="custom-select-options">
+                              <div class="custom-radio-recording">
+                                <input type="radio" id="recordingYes" name="is_record" value="1" />
+                                <label for="recordingYes">
+                                  <span>بله</span>
+                                </label>
+                              </div>
+                              <div class="custom-radio-recording">
+                                <input type="radio" id="recordingNo" name="is_record" value="0" />
+                                <label for="recordingNo">
+                                  <span>خیر</span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                          
                                           
                       <!-- Form Actions -->
                         <div class="button-group" id="buttonGroup">

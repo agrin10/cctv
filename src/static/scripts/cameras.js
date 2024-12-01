@@ -40,6 +40,107 @@ setupDropdownToggle(
 
 setupCheckboxSelection(document.getElementById("ObjectCameraOptions"));
 
+const selectedZones = document.getElementById("selectedZones");
+const zonesOptions = document.getElementById("zonesOptions");
+
+// Toggle dropdown display
+selectedZones.addEventListener("click", () => {
+  const isDropdownVisible = zonesOptions.style.display === "block";
+  zonesOptions.style.display = isDropdownVisible ? "none" : "block";
+});
+
+// Close dropdown when clicking outside
+document.addEventListener("click", (event) => {
+  if (
+    !selectedZones.contains(event.target) &&
+    !zonesOptions.contains(event.target)
+  ) {
+    zonesOptions.style.display = "none";
+  }
+});
+
+// Handle radio selection
+zonesOptions.querySelectorAll(".custom-radio-camera").forEach((option) => {
+  option.addEventListener("click", (event) => {
+    const radio = option.querySelector("input[type='radio']");
+    if (!radio.checked) {
+      radio.checked = true; // Select the clicked radio
+      selectedZones.textContent = option.querySelector("span").textContent; 
+    }
+    zonesOptions.style.display = "none"; 
+    event.stopPropagation();
+  });
+});
+
+// Rotate the dropdown icon
+selectedZones.addEventListener("click", () => {
+  const svg = selectedZones.querySelector("svg");
+  const isRotated = svg.style.transform === "rotate(180deg)";
+  svg.style.transform = isRotated ? "rotate(0deg)" : "rotate(180deg)";
+});
+const selectedRecording = document.getElementById("selectedRecording");
+const recordingOptions = document.getElementById("recordingOptions");
+
+// Toggle dropdown display for recording
+selectedRecording.addEventListener("click", () => {
+const isDropdownVisible = recordingOptions.style.display === "block";
+recordingOptions.style.display = isDropdownVisible ? "none" : "block";
+
+// Rotate the dropdown icon
+const svg = selectedRecording.querySelector("svg");
+const isRotated = svg.style.transform === "rotate(180deg)";
+svg.style.transform = isRotated ? "rotate(0deg)" : "rotate(180deg)";
+});
+
+// Close dropdown when clicking outside
+document.addEventListener("click", (event) => {
+if (
+!selectedRecording.contains(event.target) &&
+!recordingOptions.contains(event.target)
+) {
+recordingOptions.style.display = "none";
+
+// Reset icon rotation
+const svg = selectedRecording.querySelector("svg");
+if (svg) svg.style.transform = "rotate(0deg)";
+}
+});
+
+// Handle radio selection for recording
+recordingOptions.querySelectorAll(".custom-radio-recording").forEach((option) => {
+option.addEventListener("click", (event) => {
+const radio = option.querySelector("input[type='radio']");
+if (!radio.checked) {
+  radio.checked = true; // Select the clicked radio
+  selectedRecording.querySelector("span").textContent =
+    option.querySelector("span").textContent; // Update dropdown label
+}
+recordingOptions.style.display = "none"; // Close dropdown immediately
+event.stopPropagation();
+});
+});
+
+// Delete camera functionality
+function deleteCamera(button) {
+    const cameraIp = button.getAttribute('data-camera-ip');
+    const cameraName = button.getAttribute('data-camera-name');
+    const url = `/camera/delete-camera/ip=${cameraIp}&name=${cameraName}`;
+
+    fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
+        .then(response => {
+            if (!response.ok) throw new Error(`Failed to delete camera: ${response.statusText}`);
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                button.closest('tr').remove();
+                console.log(`Camera ${cameraName} deleted successfully.`);
+            } else {
+                console.log(`Failed to delete camera: ${data.message}`);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
 
 
 const popup = document.getElementById("specific_camera_popup");
@@ -65,35 +166,6 @@ closeButton.addEventListener("click", closePopup);
 
 
 closeButton.addEventListener("click", closePopup);
-
-
-// Zone dropdown behavior with icon rotation
-const zoneSelect = document.getElementById("zoneSelect");
-const svgIcon = document.querySelector(".select-location-box svg");
-zoneSelect.addEventListener("focus", () => svgIcon.style.transform = "rotate(180deg)");
-zoneSelect.addEventListener("blur", () => svgIcon.style.transform = "rotate(0deg)");
-
-// Delete camera functionality
-function deleteCamera(button) {
-    const cameraIp = button.getAttribute('data-camera-ip');
-    const cameraName = button.getAttribute('data-camera-name');
-    const url = `/camera/delete-camera/ip=${cameraIp}&name=${cameraName}`;
-
-    fetch(url, { method: 'DELETE', headers: { 'Content-Type': 'application/json' } })
-        .then(response => {
-            if (!response.ok) throw new Error(`Failed to delete camera: ${response.statusText}`);
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                button.closest('tr').remove();
-                console.log(`Camera ${cameraName} deleted successfully.`);
-            } else {
-                console.log(`Failed to delete camera: ${data.message}`);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-}
 
 
 

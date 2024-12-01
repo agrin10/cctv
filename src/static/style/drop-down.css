@@ -15,7 +15,6 @@
   border-radius: 5px;
   cursor: pointer;
   background: var(--clr-font-light);
-  font-size: 14px;
 }
 
 .options {
@@ -115,4 +114,113 @@
   display: flex;
   margin-top: 40px;
   flex-direction: column;
+}
+
+.options {
+  display: none;
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  z-index: 100;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.custom-radio-zones {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.custom-radio-zones:hover {
+  background-color: #b1cef0;
+}
+
+.custom-radio-zones .selected svg {
+  transition: transform 0.3s ease;
+}
+
+.custom-radio-zones .options .custom-radio-zones input[type="radio"] {
+  display: none;
+}
+
+.custom-radio-zones .options .custom-radio-zones span {
+  margin-left: 10px;
+}
+
+.custom-radio-zones .custom-radio-zones input[type="radio"]:checked + span {
+  background-color: #e9f5ff;
+  border-radius: 3px;
+  padding: 2px 4px;
+}
+
+/* ////////////////////////////////////// */
+.select-recording-box {
+  position: relative;
+  width: 100%
+}
+
+.custom-select-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.custom-select-label span {
+  font-size: 14px;
+}
+
+.custom-select-options {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1000;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.custom-radio-recording {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.custom-radio-recording:hover {
+  background: #b1cef0;
+}
+
+.custom-radio-recording input[type="radio"] {
+  display: none;
+}
+
+.custom-radio-recording label {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.custom-radio-recording span {
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+.custom-select-options .selected {
+  background: #e6f7ff;
 }
