@@ -1,0 +1,60 @@
+version: '3.8'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: cctv
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: cctv-web
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+      - FLASK_RUN_PORT=8080
+      - FLASK_DEBUG=True
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    command: flask run --host=0.0.0.0 --port=8080
+    networks:
+      - app-network
+
+  migrate:
+    build: .
+    container_name: cctv-web-migrate
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:mysecretpassword@db:5432/cctv
+    volumes:
+      - .:/app
+    command: flask db upgrade
+    networks:
+      - app-network
+
+volumes:
+  postgres_data:
