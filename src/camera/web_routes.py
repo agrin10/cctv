@@ -333,4 +333,4 @@ def calendar():
     return render_template('calendar.html')
 # 2024-08-27 15:58:31
 
-
+# TODO: changing flow for specific camera in camera page

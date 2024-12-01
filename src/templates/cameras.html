@@ -129,7 +129,7 @@
 
                     
                     <div class="custom-dropdown">
-                        <div class="selected lable-cheekbox" id="selectedZones">
+                        <div class="selected lable-cheekbox" id="cameraSelectedZones">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1)">
                             <path d="m11.998 17 7-8h-14z"></path>
                         </svg> منطقه ها
@@ -271,8 +271,8 @@
     </div>
 </div>
 
-<script src="{{url_for('static' ,filename='scripts/cameras.js')}}"></script>
+{% block scripts %}<script src="{{url_for('static' ,filename='scripts/cameras.js')}}"></script>{% endblock scripts %}
 
-    
+
 
 {% endblock content %}

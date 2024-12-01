@@ -40,11 +40,12 @@ setupDropdownToggle(
 
 setupCheckboxSelection(document.getElementById("ObjectCameraOptions"));
 
-const selectedZones = document.getElementById("selectedZones");
+// drop downs for recording and zones
+const cameraSelectedZones = document.getElementById("cameraSelectedZones");
 const zonesOptions = document.getElementById("zonesOptions");
 
 // Toggle dropdown display
-selectedZones.addEventListener("click", () => {
+cameraSelectedZones.addEventListener("click", () => {
   const isDropdownVisible = zonesOptions.style.display === "block";
   zonesOptions.style.display = isDropdownVisible ? "none" : "block";
 });
@@ -52,7 +53,7 @@ selectedZones.addEventListener("click", () => {
 // Close dropdown when clicking outside
 document.addEventListener("click", (event) => {
   if (
-    !selectedZones.contains(event.target) &&
+    !cameraSelectedZones.contains(event.target) &&
     !zonesOptions.contains(event.target)
   ) {
     zonesOptions.style.display = "none";
@@ -65,7 +66,7 @@ zonesOptions.querySelectorAll(".custom-radio-camera").forEach((option) => {
     const radio = option.querySelector("input[type='radio']");
     if (!radio.checked) {
       radio.checked = true; // Select the clicked radio
-      selectedZones.textContent = option.querySelector("span").textContent; 
+      cameraSelectedZones.textContent = option.querySelector("span").textContent; 
     }
     zonesOptions.style.display = "none"; 
     event.stopPropagation();
@@ -73,8 +74,8 @@ zonesOptions.querySelectorAll(".custom-radio-camera").forEach((option) => {
 });
 
 // Rotate the dropdown icon
-selectedZones.addEventListener("click", () => {
-  const svg = selectedZones.querySelector("svg");
+cameraSelectedZones.addEventListener("click", () => {
+  const svg = cameraSelectedZones.querySelector("svg");
   const isRotated = svg.style.transform === "rotate(180deg)";
   svg.style.transform = isRotated ? "rotate(0deg)" : "rotate(180deg)";
 });
@@ -111,14 +112,15 @@ recordingOptions.querySelectorAll(".custom-radio-recording").forEach((option) =>
 option.addEventListener("click", (event) => {
 const radio = option.querySelector("input[type='radio']");
 if (!radio.checked) {
-  radio.checked = true; // Select the clicked radio
+  radio.checked = true; 
   selectedRecording.querySelector("span").textContent =
-    option.querySelector("span").textContent; // Update dropdown label
+    option.querySelector("span").textContent; 
 }
-recordingOptions.style.display = "none"; // Close dropdown immediately
+recordingOptions.style.display = "none"; 
 event.stopPropagation();
 });
 });
+
 
 // Delete camera functionality
 function deleteCamera(button) {
@@ -173,7 +175,7 @@ const formTitle = document.querySelector('.camera-title');
 const ipAddressInput = document.getElementById('ipAddress'); 
 const deviceNameInput = document.getElementById('deviceName'); 
 const deviceTypeInput = document.getElementById('deviceType'); 
-const zoneInput = document.getElementById('zoneSelect');
+const zoneInput = document.getElementById('cameraSelectedZones');
 const buttonGroup = document.getElementById('buttonGroup');
 
 // Fill form with selected row data
